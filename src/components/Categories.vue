@@ -147,7 +147,7 @@ top: 1%;
 }
 .wrapForm{
 font-family: 'Times New Roman', Times, serif;
-color: blue;
+color: black;
 border-style:groove;
 width: 30%;
  background-color: rgb(255, 255, 255);
