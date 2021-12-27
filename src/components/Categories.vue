@@ -1,7 +1,7 @@
 <template>
     <div id="wrapper">
 <h1 id="categoriesHeader">Categories</h1>
-{{latestRecord}}
+
     <table class="table">
     
      <thead>
@@ -57,7 +57,8 @@ export default {
             editName:'',
             editID:'',
             objecttest:[{name:'',id:'',index:''}],
-            saveIndex:''
+            saveIndex:'',
+            idArray:[]
         }
     }, mounted(){
     const url='http://localhost:3000/api/productCategory/';
@@ -71,19 +72,19 @@ export default {
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
-                     this.rerunData();
+                     this.rerunData(this.name);
                  })
                  .catch((error) => {
                      // error.response.status Check status code
                      console.log( error.response.status)
                  });
               
-        },removeCategory(id){
+        },removeCategory(id,index){
             axios.post('http://localhost:3000/api/productCategory/removecategory/'+id)
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
-                    this.rerunData();
+                        this.categories.splice(index, 1);
                  })
                  .catch((error) => {
                      // error.response.status Check status code
@@ -111,10 +112,12 @@ export default {
         // this.objecttest={name:name,id:id,index:index};
         this.saveIndex=index;
         },
-        rerunData(){
+        rerunData(name){
              const url='http://localhost:3000/api/productCategory/';
          axios.get(url).then((response) =>{
-          this.categories = response.data;
+          this.idArray=response.data;
+          var lastID=this.idArray[this.idArray.length-1].id;
+          this.categories.push({name:name,id:lastID})
       } );
         }
     }
