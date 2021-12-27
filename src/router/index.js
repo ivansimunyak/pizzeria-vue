@@ -1,0 +1,56 @@
+import { createRouter, createWebHashHistory } from "vue-router";
+import OrderPage from "../views/OrderPage.vue";
+import CheckDetails from "../views/CheckDetails.vue";
+import EditOneOrder from "../views/EditOneOrder.vue";
+import AdminHome from "../views/AdminHome.vue";
+import MessagesPage from "../views/MessagesPage.vue";
+import CategoriesPage from "../views/CategoriesPage.vue";
+const routes = [
+  {
+    path: "/orders",
+    name: "OrderPage",
+    component: OrderPage,
+  },
+  {
+    path:"/checkdetails/:id",
+    name:"Check Details",
+    component:CheckDetails,
+  },
+  {
+    path: "/about",
+    name: "About",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+  },
+  {
+    path:"/editorder/:id/:adress/:name/:phone/:orderStatus",
+    name:"Edit Order",
+    component:EditOneOrder,
+  },
+  {
+    path: "/",
+    name: "AdminHome",
+    component: AdminHome,
+  },
+  {
+    path: "/messages",
+    name: "Messages Page",
+    component: MessagesPage,
+  },
+  {
+    path: "/categories",
+    name: "Categories Page",
+    component: CategoriesPage,
+  },
+  
+];
+
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes,
+});
+
+export default router;
