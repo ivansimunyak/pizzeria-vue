@@ -11,5 +11,5 @@ library.add(faArrowLeftLong);
 
 
 const app=createApp(App).component("font-awesome-icon",FontAwesomeIcon).use(store).use(router).mount("#app");
-
 app.component('btn-styled',BtnStyled);
+

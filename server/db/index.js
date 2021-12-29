@@ -44,6 +44,17 @@ table.userType=()=>{
         });
     });
 };
+table.insertType=(name)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("INSERT INTO user_type VALUES (default,'"+name+"');",(err,results)=>{
+            if(err){
+                return reject(err)
+            }else{
+                return resolve(results)
+            }
+        })
+    })
+}
 table.productCategory=()=>{
     return new Promise((resolve,reject)=>{
         db.query('SELECT * FROM product_category',(err,results)=>{
@@ -220,6 +231,32 @@ table.editCategory=(name,id)=>{
         )
     })
 };
+table.editType=(name,id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("UPDATE user_type SET name= ? WHERE id=?;",[name,id],
+        (err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        }
+        
+        )
+    })
+};
+table.removeType=(id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("DELETE FROM user_type WHERE id=?",[id],(err,results)=>{
+            if(err){
+                return reject(err)
+
+            }else{
+                return resolve(results);
+            }
+        })
+    })
+}
 table.removeOrder=(id)=>{
     return new Promise((resolve,reject)=>{
         db.query("DELETE FROM orders WHERE id=?",[id],(err,results)=>{

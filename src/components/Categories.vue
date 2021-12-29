@@ -7,6 +7,7 @@
                 <th>Name</th>
                 <th>Edit</th>
                 <th>Remove</th>
+        
             </tr>
         </thead>
         <tbody>
@@ -36,8 +37,7 @@ export default {
   components: { BtnStyled },
     data(){
         return{
-              categories:[],
-            column:'name',         
+            categories:[],     
             editName:'',
             editID:'',
             saveIndex:'',    
@@ -78,7 +78,6 @@ export default {
         editCategory(id,name,index){
             this.editName=name;
             this.editID=id;
-        // this.objecttest={name:name,id:id,index:index};
         this.saveIndex=index;
         }
     }
@@ -131,6 +130,7 @@ color: black;
 border-style:groove;
 width: 30%;
  background-color: rgb(255, 255, 255);
+ border-color: #a80000;
 }
 .categoriesTable{
       border: 1px solid #999;
@@ -143,6 +143,7 @@ width: 30%;
     position: relative;
     top:30%;
     margin-left: 2.5%;
+    border-color: #a80000;
 }
     table {
         border-collapse: collapse;

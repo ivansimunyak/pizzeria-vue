@@ -4,7 +4,7 @@ import CheckDetails from "../views/CheckDetails.vue";
 import EditOneOrder from "../views/EditOneOrder.vue";
 import MessagesPage from "../views/MessagesPage.vue";
 import CategoriesPage from "../views/CategoriesPage.vue";
-import UserType from "../views/UserType.vue";
+import UserTypePage from "../views/UserTypePage.vue";
 const routes = [
   {
     path: "/orders",
@@ -43,7 +43,7 @@ const routes = [
   {
     path: "/usertypes",
     name: "User Types",
-    component: UserType,
+    component: UserTypePage,
   },
   
 ];
