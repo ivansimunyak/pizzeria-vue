@@ -5,7 +5,7 @@
     <router-link to="/about">Products</router-link>
     <router-link to="/categories">Categories</router-link>
     <router-link to="/usertypes">User Types</router-link>
-    <router-link to="/about">Locations</router-link>
+    <router-link to="/locations">Locations</router-link>
     <router-link to="/about">Cities</router-link>
     <router-link to="/about">Payment Methods</router-link>
     <router-link to="/about">Customer View </router-link>

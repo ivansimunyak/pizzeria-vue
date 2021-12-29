@@ -5,10 +5,11 @@ import EditOneOrder from "../views/EditOneOrder.vue";
 import MessagesPage from "../views/MessagesPage.vue";
 import CategoriesPage from "../views/CategoriesPage.vue";
 import UserTypePage from "../views/UserTypePage.vue";
+import LocationsPage from "../views/LocationsPage.vue";
 const routes = [
   {
     path: "/orders",
-    name: "OrderPage",
+    name: "Order Page",
     component: OrderPage,
   },
   {
@@ -44,6 +45,10 @@ const routes = [
     path: "/usertypes",
     name: "User Types",
     component: UserTypePage,
+  },  {
+    path: "/locations",
+    name: "Locations Page",
+    component: LocationsPage,
   },
   
 ];

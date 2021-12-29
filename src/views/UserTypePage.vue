@@ -87,6 +87,6 @@ input[type=text] {
   border-radius:10px;
   box-shadow: 5px;
   border-width:1px;
-  border-color: #a80000;
+ 
 }
 </style>
