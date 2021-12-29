@@ -141,7 +141,7 @@ width: 30%;
     height: 250px;
     width: 40%;
     position: relative;
-    top:40%;
+    top:30%;
     margin-left: 2.5%;
 }
     table {

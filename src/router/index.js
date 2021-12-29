@@ -2,9 +2,9 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import OrderPage from "../views/OrderPage.vue";
 import CheckDetails from "../views/CheckDetails.vue";
 import EditOneOrder from "../views/EditOneOrder.vue";
-import AdminHome from "../views/AdminHome.vue";
 import MessagesPage from "../views/MessagesPage.vue";
 import CategoriesPage from "../views/CategoriesPage.vue";
+import UserType from "../views/UserType.vue";
 const routes = [
   {
     path: "/orders",
@@ -31,11 +31,6 @@ const routes = [
     component:EditOneOrder,
   },
   {
-    path: "/",
-    name: "AdminHome",
-    component: AdminHome,
-  },
-  {
     path: "/messages",
     name: "Messages Page",
     component: MessagesPage,
@@ -44,6 +39,11 @@ const routes = [
     path: "/categories",
     name: "Categories Page",
     component: CategoriesPage,
+  },
+  {
+    path: "/usertypes",
+    name: "User Types",
+    component: UserType,
   },
   
 ];
