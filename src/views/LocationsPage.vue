@@ -1,7 +1,7 @@
 <template>
 <div id="wrapper">
     <locations/>
-  <h2 id="addNew">Add new type</h2>
+  <!-- <h2 id="addNew">Add new type</h2>
   <div class="addType">
     <form class="form" @submit.prevent="submitForm">
     <label for="fname">City ID:</label><br>
@@ -10,7 +10,7 @@
   <input type="text" ref="inputName" id="name" name="name" required v-model="addingName"><br>
  <btn-styled type="submit">Submit</btn-styled>
 </form>
-</div>
+</div> -->
     </div>
 </template>
 <script>

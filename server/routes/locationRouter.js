@@ -13,6 +13,7 @@ res.json(results);
 });
 router.get('/:id',async(req,res,next)=>{
     try{
+        console.log(req.params.id)
 let results=await db.locationOne(req.params.id);
 res.json(results);
     }catch(e){

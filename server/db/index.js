@@ -172,7 +172,7 @@ table.message=()=>{
 };
 table.location=()=>{
     return new Promise((resolve,reject)=>{
-        db.query('SELECT * FROM location',(err,results)=>{
+        db.query('SELECT location.id,location.name AS locationName,city.id AS cityID,city.name AS cityName  FROM location INNER JOIN city ON location.city_id=city.id;',(err,results)=>{
             if(err){
                 return reject(err);
             }else{
@@ -183,7 +183,7 @@ table.location=()=>{
 };
 table.locationOne=(id)=>{
     return new Promise((resolve,reject)=>{
-        db.query("SELECT * FROM location WHERE id=?;",[id],(err,results)=>{
+        db.query("SELECT * FROM location FULL JOIN city ON location.city_id=city.id WHERE location.id=?;",[id],(err,results)=>{
             if(err){
                 return reject(err);
             }else{
