@@ -38,7 +38,6 @@ table {
     font-family: sans-serif;
     min-width: 400px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-      font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
      text-align: center;
        margin-left:auto; 
     margin-right:auto;
@@ -49,9 +48,6 @@ tbody tr {
     padding: .25em;
     
     
-}
-tbody td{
-     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 }
 thead tr{
      background-color: #a80000;

@@ -77,6 +77,17 @@ table.insertCategory=(name)=>{
         })
     })
 }
+table.insertLocation=(name,cityID)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("INSERT INTO location VALUES (default,'"+cityID+"','"+name+"');",(err,results)=>{
+            if(err){
+                return reject(err)
+            }else{
+                return resolve(results)
+            }
+        })
+    })
+}
 table.paymentMethod=()=>{
     return new Promise((resolve,reject)=>{
         db.query('SELECT * FROM payment_method',(err,results)=>{

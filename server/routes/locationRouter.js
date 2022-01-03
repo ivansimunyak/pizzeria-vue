@@ -5,6 +5,7 @@ const db=require('../db');
 router.get('/',async(req,res,next)=>{
     try{
 let results=await db.location();
+console.log('happening')
 res.json(results);
     }catch(e){
         console.log(e);
@@ -16,6 +17,16 @@ router.get('/:id',async(req,res,next)=>{
         console.log(req.params.id)
 let results=await db.locationOne(req.params.id);
 res.json(results);
+    }catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+router.post('/addlocation',async(req,res,next)=>{
+    console.log("insert location "+req.body.name);
+    try{
+let results= db.insertLocation(req.body.name,req.body.city_id);
+ res.json(results);
     }catch(e){
         console.log(e);
         res.sendStatus(500);

@@ -95,7 +95,6 @@ h1{
 }
 .fa { transform: scale(1.5,1.5); }
 .form{
-   font-family:"Bookerly";
    top: 15%;
    position: relative;
 }

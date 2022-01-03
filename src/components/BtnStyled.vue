@@ -19,7 +19,6 @@ export default {
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
@@ -32,6 +31,7 @@ export default {
   touch-action: manipulation;
   vertical-align: middle;
   white-space: nowrap;
+  margin: 5px;
 }
 
 .button-3:focus:not(:focus-visible):not(.focus-visible) {

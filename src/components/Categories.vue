@@ -95,10 +95,6 @@ width: 30%;
 left: 30%;
 top: 1%; 
 }
-.form{
-   font-family:"Bookerly";
-  
-}
 input[type=text] {
   padding:5px;
   margin:5px 0;
@@ -125,7 +121,6 @@ input[type=number] {
     position: absolute;
     top: 55%;
     left:50%;
-    font-family: 'Times New Roman', Times, serif;
 color: black;
 border-style:groove;
 width: 30%;
@@ -163,5 +158,7 @@ width: 30%;
             padding: 5px 5px;
             text-align: center;
             z-index: 1;
+            font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+
         }
 </style>
