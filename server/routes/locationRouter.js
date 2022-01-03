@@ -32,4 +32,26 @@ let results= db.insertLocation(req.body.name,req.body.city_id);
         res.sendStatus(500);
     }
 });
+router.post('/editlocation',async(req,res,next)=>{
+    console.log("edit location "+req.body.name);
+    try{
+let results= db.editLocation(req.body.name,req.body.id,req.body.city_id);
+ res.json(results);
+
+    }catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+router.post('/removelocation/:id',async(req,res,next)=>{
+    console.log("remove location "+req.params.id);
+    try{
+let results= db.removeLocation(req.params.id);
+ res.json(results);
+
+    }catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
 module.exports=router;

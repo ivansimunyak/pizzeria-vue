@@ -76,8 +76,6 @@ export default {
                      // error.response.status Check status code
                      console.log( error.response.status)
                  });
-                 
-        
         }
     }
 }

@@ -16,7 +16,7 @@
                 <td>{{location.locationName}}</td>
                 <td>{{location.cityName}}</td>
                 <td><btn-styled class="btnEdit" @click="editLocation(location.id,location.locationName,location.cityID,location.cityName,index)">Edit</btn-styled> </td>
-                <td><btn-styled class="btnDelete" @click="removeType(type.id,index)">Remove</btn-styled> </td>
+                <td><btn-styled class="btnDelete" @click="removeLocation(location.id,index)">Remove</btn-styled> </td>
             </tr>
         </tbody>
     </table>
@@ -25,11 +25,13 @@
 <div class="edit">
      <form class="form" @submit.prevent="editLocationForm">
          <label for="id">ID:</label><br>
-         <input type="number" id="editID" name="editID" v-model="editID"><br>
-  <label for="fname">Name:</label><br>
-  <input type="text" id="editID" name="editName" v-model="editLocationName"><br>
-  <select id="selectForm" ref="setCity" name="city_name" value="0">
-            <option v-for="city in locations" :value="city" :key="city.cityID" >{{city.cityName}}</option>
+         <input required type="number" isd="editID" name="editID" v-model="editID"><br>
+  <label for="editName">Name:</label><br>
+  <input required type="text" id="editID" name="editName" v-model="editLocationName"><br>
+   <label for="selectCity">City:</label><br>
+  <select required id="selectCity" ref="setCity" name="city_name" v-model="editCity">
+        <option disabled value="">Choose a city...</option>
+   <option v-for="city in cities" :value="city.name" :key="city.id">{{city.name}}</option>
    </select><br><br>
  <btn-styled type="submit">Submit</btn-styled>
 </form>
@@ -51,7 +53,8 @@ export default {
          editCity:'',
          editCityID:'',
          editLocationName:'',
-         editID:''
+         editID:'',
+         cities:[]
         }
     },
     mounted(){
@@ -59,6 +62,12 @@ export default {
      axios.get(url).then((response) =>{
           this.locations = response.data;
       } );
+
+      const url1='http://localhost:3000/api/city/';
+     axios.get(url1).then((response) =>{
+          this.cities = response.data;
+      } );
+
 
     },methods:{
        editLocation(id,name,cityID,cityName,index){
@@ -68,6 +77,32 @@ export default {
             this.editCityID=cityID;
            this.saveIndex=index;
         },
+        editLocationForm(){
+                   axios.post('http://localhost:3000/api/location/editlocation',
+             {name:this.editLocationName,id:this.editID,city_id:this.editCityID}).then((res) => {
+                     //Perform Success Action
+                     console.log(res.data);  
+                     this.locations.splice(this.saveIndex,1,{locationName:this.editLocationName,id:this.editID,cityID:this.editCityID,cityName:this.editCity}) ;             
+                     
+                 })
+                 .catch((error) => {
+                     // error.response.status Check status code
+                     console.log( error.response.status)
+                 });
+                 
+        },
+        removeLocation(id,index){
+               axios.post('http://localhost:3000/api/location/removelocation/'+id)
+                 .then((res) => {
+                     //Perform Success Action
+                     console.log(res.data);  
+                        this.locations.splice(index, 1);
+                 })
+                 .catch((error) => {
+                     // error.response.status Check status code
+                     console.log( error.response.status)
+                 });
+        }
     }
 }
 </script>

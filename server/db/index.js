@@ -88,6 +88,20 @@ table.insertLocation=(name,cityID)=>{
         })
     })
 }
+table.editLocation=(name,id,city_id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("UPDATE location SET name= ?,city_id=? WHERE id=?;",[name,city_id,id],
+        (err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        }
+        
+        )
+    })
+};
 table.paymentMethod=()=>{
     return new Promise((resolve,reject)=>{
         db.query('SELECT * FROM payment_method',(err,results)=>{
@@ -295,6 +309,18 @@ table.removeMessage=(id)=>{
 table.removeCategory=(id)=>{
     return new Promise((resolve,reject)=>{
         db.query("DELETE FROM product_category WHERE id=?",[id],(err,results)=>{
+            if(err){
+                return reject(err)
+
+            }else{
+                return resolve(results);
+            }
+        })
+    })
+}
+table.removeLocation=(id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("DELETE FROM location WHERE id=?",[id],(err,results)=>{
             if(err){
                 return reject(err)
 
