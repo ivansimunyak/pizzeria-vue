@@ -228,6 +228,31 @@ table.city=()=>{
         });
     });
 };
+table.insertCity=(name)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("INSERT INTO city VALUES (default,'"+name+"');",(err,results)=>{
+            if(err){
+                return reject(err)
+            }else{
+                return resolve(results)
+            }
+        })
+    })
+}
+table.editCity=(name,id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("UPDATE city SET name= ? WHERE id=?;",[name,id],
+        (err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        }
+        
+        )
+    })
+};
 table.editOrders=(name,adress,phone_number,order_status,id)=>{
     return new Promise((resolve,reject)=>{
         db.query("UPDATE orders SET name=?, adress=?, phone_number=?, order_status=? WHERE id=?",[name,adress,phone_number,order_status,id],
@@ -321,6 +346,18 @@ table.removeCategory=(id)=>{
 table.removeLocation=(id)=>{
     return new Promise((resolve,reject)=>{
         db.query("DELETE FROM location WHERE id=?",[id],(err,results)=>{
+            if(err){
+                return reject(err)
+
+            }else{
+                return resolve(results);
+            }
+        })
+    })
+}
+table.removeCity=(id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("DELETE FROM city WHERE id=?",[id],(err,results)=>{
             if(err){
                 return reject(err)
 

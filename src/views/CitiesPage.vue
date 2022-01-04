@@ -1,9 +1,9 @@
 <template>
-<div id="wrapper">
-   <h1 id="head">User Types</h1>
-       <user-types :key="this.uniqueTypeKey"/>
-         <h2 id="addNew">Add new type</h2>
-    <div class="addType">
+   <div id="wrapper">
+   <h1 id="head">Cities</h1>
+       <cities :key="this.uniqueCityKey"/>
+         <h2 id="addNew">Add new city</h2>
+    <div class="addCity">
      <form class="form" @submit.prevent="submitForm">
   <label for="fname">Name:</label><br>
   <input type="text" ref="inputName" id="name" name="name" required v-model="addingName"><br>
@@ -15,22 +15,22 @@
 <script>
 import axios from 'axios'
 import BtnStyled from '../components/BtnStyled.vue'
-import UserTypes from '../components/UserTypes.vue'
+import Cities from '../components/Cities.vue'
 export default {
-  components: { BtnStyled,UserTypes },
-  data(){
-    return{
-      addingName:'',
-      uniqueTypeKey:0
-    }
-  },
-    methods:{
+    components: { BtnStyled,Cities },
+    data(){
+        return{
+            addingName:'',
+            uniqueCityKey:0
+        }
+    },
+       methods:{
           submitForm(){
-            axios.post('http://localhost:3000/api/userType/addtype', {name:this.addingName})
+            axios.post('http://localhost:3000/api/city/addcity', {name:this.addingName})
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
-                    this.uniqueTypeKey++;
+                    this.uniqueCityKey++;
                     this.addingName='';
                 
                  })
@@ -64,7 +64,7 @@ width: 30%;
 left: 30%;
 top: 1%; 
 }
-.addType{
+.addCity{
 font-family:"Bookerly";
 color: black;
 border-style:groove;

@@ -6,6 +6,7 @@ import MessagesPage from "../views/MessagesPage.vue";
 import CategoriesPage from "../views/CategoriesPage.vue";
 import UserTypePage from "../views/UserTypePage.vue";
 import LocationsPage from "../views/LocationsPage.vue";
+import CitiesPage from "../views/CitiesPage.vue";
 const routes = [
   {
     path: "/orders",
@@ -49,6 +50,11 @@ const routes = [
     path: "/locations",
     name: "Locations Page",
     component: LocationsPage,
+  },
+  {
+    path: "/cities",
+    name: "Cities Page",
+    component: CitiesPage,
   },
   
 ];
