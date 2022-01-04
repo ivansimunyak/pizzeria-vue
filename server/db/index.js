@@ -124,6 +124,17 @@ table.paymentMethodOne=(id)=>{
         });
     }); 
 };
+table.insertPaymentMethod=(name)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("INSERT INTO payment_method VALUES (default,'"+name+"');",(err,results)=>{
+            if(err){
+                return reject(err)
+            }else{
+                return resolve(results)
+            }
+        })
+    })
+}
 table.ordersProduct=()=>{
     return new Promise((resolve,reject)=>{
         db.query('SELECT * FROM orders_product',(err,results)=>{
@@ -295,6 +306,20 @@ table.editType=(name,id)=>{
         )
     })
 };
+table.editPaymentMethod=(name,id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("UPDATE payment_method SET name= ? WHERE id=?;",[name,id],
+        (err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        }
+        
+        )
+    })
+};
 table.removeType=(id)=>{
     return new Promise((resolve,reject)=>{
         db.query("DELETE FROM user_type WHERE id=?",[id],(err,results)=>{
@@ -358,6 +383,18 @@ table.removeLocation=(id)=>{
 table.removeCity=(id)=>{
     return new Promise((resolve,reject)=>{
         db.query("DELETE FROM city WHERE id=?",[id],(err,results)=>{
+            if(err){
+                return reject(err)
+
+            }else{
+                return resolve(results);
+            }
+        })
+    })
+}
+table.removePaymentMethod=(id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("DELETE FROM payment_method WHERE id=?",[id],(err,results)=>{
             if(err){
                 return reject(err)
 

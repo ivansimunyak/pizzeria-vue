@@ -7,6 +7,8 @@ import CategoriesPage from "../views/CategoriesPage.vue";
 import UserTypePage from "../views/UserTypePage.vue";
 import LocationsPage from "../views/LocationsPage.vue";
 import CitiesPage from "../views/CitiesPage.vue";
+import PaymentMethodPage from "../views/PaymentMethodPage.vue";
+
 const routes = [
   {
     path: "/orders",
@@ -46,7 +48,8 @@ const routes = [
     path: "/usertypes",
     name: "User Types",
     component: UserTypePage,
-  },  {
+  }, 
+  {
     path: "/locations",
     name: "Locations Page",
     component: LocationsPage,
@@ -56,7 +59,11 @@ const routes = [
     name: "Cities Page",
     component: CitiesPage,
   },
-  
+  {
+    path: "/paymentmethods",
+    name: "Payment Methods Page",
+    component: PaymentMethodPage,
+  }, 
 ];
 
 const router = createRouter({

@@ -1,5 +1,5 @@
 <template>
-<section class="typesTable">
+<section class="payMethodsTable">
     <table>
         <thead>
             <tr>
@@ -10,17 +10,17 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(type, index) in types" :key="index">
-                <td>{{type.name}}</td>
-                <td><btn-styled class="btnEdit" @click="editType(type.id,type.name,index)">Edit</btn-styled> </td>
-                <td><btn-styled class="btnDelete" @click="removeType(type.id,index)">Remove</btn-styled> </td>
+            <tr v-for="(paymethod, index) in paymethods" :key="index">
+                <td>{{paymethod.name}}</td>
+                <td><btn-styled class="btnEdit" @click="editPayMethod(paymethod.id,paymethod.name,index)">Edit</btn-styled> </td>
+                <td><btn-styled class="btnDelete" @click="removePayMethod(paymethod.id,index)">Remove</btn-styled> </td>
             </tr>
         </tbody>
     </table>
 </section>
-<h2 id="editType">Edit type</h2>
+<h2 id="editPayMethod">Edit payment method</h2>
 <div class="edit">
-     <form class="form" @submit.prevent="editTypeForm">
+     <form class="form" @submit.prevent="editPayMethodForm">
          <label for="id">ID:</label><br>
          <input type="number" id="editID" name="editID" v-model="editID"><br>
   <label for="fname">Name:</label><br>
@@ -36,23 +36,23 @@ export default {
     components:{BtnStyled},
     data(){
         return{
-    types:[],
+    paymethods:[],
     editName:'',
     editID:''
 }
     }, mounted(){
-    const url='http://localhost:3000/api/userType/';
+    const url='http://localhost:3000/api/paymentMethod/';
      axios.get(url).then((response) =>{
-          this.types = response.data;
+          this.paymethods = response.data;
       } );
     },
     methods:{
-            editTypeForm(){
-            axios.post('http://localhost:3000/api/userType/edittype',
+            editPayMethodForm(){
+            axios.post('http://localhost:3000/api/paymentMethod/editpaymentmethod',
              {name:this.editName,id:this.editID}).then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
-                     this.types.splice(this.saveIndex,1,{name:this.editName}) ;             
+                     this.paymethods.splice(this.saveIndex,1,{name:this.editName}) ;             
                      
                  })
                  .catch((error) => {
@@ -60,17 +60,17 @@ export default {
                      console.log( error.response.status)
                  });
                  
-        },    editType(id,name,index){
+        },    editPayMethod(id,name,index){
             this.editName=name;
             this.editID=id;
            this.saveIndex=index;
         },
-        removeType(id,index){
-            axios.post('http://localhost:3000/api/userType/removetype/'+id)
+        removePayMethod(id,index){
+            axios.post('http://localhost:3000/api/paymentMethod/removepaymentmethod/'+id)
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
-                        this.types.splice(index, 1);
+                        this.paymethods.splice(index, 1);
                  })
                  .catch((error) => {
                      // error.response.status Check status code
@@ -81,7 +81,7 @@ export default {
 }
 </script>
 <style scoped>
-.typesTable{
+.payMethodsTable{
       border: 1px solid #999;
     border-radius: 1px;
     color: #333;
@@ -113,7 +113,7 @@ export default {
             text-align: center;
             z-index: 1;
         }
-        #editType{
+        #editPayMethod{
     position: absolute;
     top: 45%;
     width: 30%;
@@ -131,12 +131,11 @@ width: 30%;
  background-color: rgb(255, 255, 255);
  border-color: #a80000;
 }
-input {
+input{
   padding:5px;
   margin:5px 0;
   border-radius:10px;
   box-shadow: 5px;
   border-width:1px;
 }
-
 </style>

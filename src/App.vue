@@ -7,7 +7,7 @@
     <router-link to="/usertypes">User Types</router-link>
     <router-link to="/locations">Locations</router-link>
     <router-link to="/cities">Cities</router-link>
-    <router-link to="/about">Payment Methods</router-link>
+    <router-link to="/paymentmethods">Payment Methods</router-link>
     <router-link to="/about">Customer View </router-link>
   </div>
   <router-view />

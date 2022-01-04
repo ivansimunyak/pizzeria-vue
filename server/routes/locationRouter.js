@@ -5,7 +5,7 @@ const db=require('../db');
 router.get('/',async(req,res,next)=>{
     try{
 let results=await db.location();
-console.log('happening')
+console.log('this is happening')
 res.json(results);
     }catch(e){
         console.log(e);
