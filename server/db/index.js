@@ -239,6 +239,17 @@ table.city=()=>{
         });
     });
 };
+table.getProducts=()=>{
+    return new Promise((resolve,reject)=>{
+        db.query('SELECT * FROM product',(err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        });
+    });
+};
 table.insertCity=(name)=>{
     return new Promise((resolve,reject)=>{
         db.query("INSERT INTO city VALUES (default,'"+name+"');",(err,results)=>{
@@ -397,9 +408,19 @@ table.removePaymentMethod=(id)=>{
         db.query("DELETE FROM payment_method WHERE id=?",[id],(err,results)=>{
             if(err){
                 return reject(err)
-
             }else{
                 return resolve(results);
+            }
+        })
+    })
+}
+table.insertProduct=(name,size,price,category_id,imagePath)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("INSERT INTO product VALUES (default,'"+name+"','"+size+"','"+price+"','"+category_id+"','"+imagePath+"');",(err,results)=>{
+            if(err){
+                return reject(err)
+            }else{
+                return resolve(results)
             }
         })
     })

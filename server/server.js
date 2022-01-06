@@ -8,14 +8,17 @@ const ordersProductRouter=require('./routes/ordersProductRouter');
 const ordersRouter=require('./routes/ordersRouter');
 const paymentMethodRouter=require('./routes/paymentMethodRouter');
 const productCategoryRouter=require('./routes/productCategoryRouter');
+const productRouter=require('./routes/productRouter');
 const app=express();
 const bodyParser= require('body-parser');
 const cors=require('cors');
 
-
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/uploads', express.static('uploads'));
 app.use('/api/user',userRouter);
 app.use('/api/userType',userTypeRouter);
 app.use('/api/city',cityRouter);
@@ -25,11 +28,11 @@ app.use('/api/ordersProduct',ordersProductRouter);
 app.use('/api/orders',ordersRouter);
 app.use('/api/paymentMethod',paymentMethodRouter);
 app.use('/api/productCategory',productCategoryRouter);
+app.use('/api/products',productRouter);
+
 
 
 app.listen(process.env.PORT || '3000', () =>{
 
     console.log(`Server is running on port: ${process.env.PORT || `3000`}`);
-
-
 });
