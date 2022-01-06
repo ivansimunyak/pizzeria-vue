@@ -28,7 +28,7 @@ res.json(results);
     }catch(e){
         console.log(e);
         res.sendStatus(500);
-    }
+    } 
 });
 router.post('/addproduct',upload.single('productImage'),async(req,res,next)=>{
     console.log("insert product "+req.body.name);

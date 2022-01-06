@@ -8,12 +8,18 @@ import UserTypePage from "../views/UserTypePage.vue";
 import LocationsPage from "../views/LocationsPage.vue";
 import CitiesPage from "../views/CitiesPage.vue";
 import PaymentMethodPage from "../views/PaymentMethodPage.vue";
+import ProductsPage from "../views/ProductsPage.vue";
 
 const routes = [
   {
     path: "/orders",
     name: "Order Page",
     component: OrderPage,
+  },
+  {
+    path: "/products",
+    name: "Products Page",
+    component: ProductsPage,
   },
   {
     path:"/checkdetails/:id",
