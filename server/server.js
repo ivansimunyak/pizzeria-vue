@@ -1,4 +1,5 @@
 const express=require('express');
+const path = require('path')
 const userRouter=require('./routes/userRouter');
 const userTypeRouter=require('./routes/userTypeRouter');
 const cityRouter=require('./routes/cityRouter');
@@ -18,7 +19,8 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/uploads', express.static('uploads'));
+
+
 app.use('/api/user',userRouter);
 app.use('/api/userType',userTypeRouter);
 app.use('/api/city',cityRouter);
@@ -30,7 +32,7 @@ app.use('/api/paymentMethod',paymentMethodRouter);
 app.use('/api/productCategory',productCategoryRouter);
 app.use('/api/products',productRouter);
 
-
+app.use(express.static(path.join(__dirname, 'assets')))
 app.listen(process.env.PORT || '3000', () =>{
 
     console.log(`Server is running on port: ${process.env.PORT || `3000`}`);

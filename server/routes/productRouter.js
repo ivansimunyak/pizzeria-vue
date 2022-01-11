@@ -5,7 +5,7 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-      cb(null, 'server/uploads');
+      cb(null, 'src/assets');
     },
     filename: function(req, file, cb) {
         cb(null, new Date().toISOString() + file.originalname);
@@ -33,7 +33,7 @@ res.json(results);
 router.post('/addproduct',upload.single('productImage'),async(req,res,next)=>{
     console.log("insert product "+req.body.name);
     try{
-let results= db.insertProduct(req.body.name,req.body.size,req.body.price,req.body.category_id,req.file.path);
+let results= db.insertProduct(req.body.name,req.body.size,req.body.price,req.body.category_id,req.file.filename);
  res.json(results);
     }catch(e){
         console.log(e);

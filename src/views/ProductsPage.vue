@@ -1,7 +1,7 @@
 <template>
 <div id="wrapper">
     <products :key="this.uniqueProductKey"></products>
-         <h2 id="addNew">Add new product{{formdata}}</h2>
+         <h2 id="addNew">Add new product</h2>
     <div class="addProductForm">
      <form class="form" @submit.prevent="submitForm">
   <label for="fname">Name:</label><br>
@@ -31,10 +31,12 @@
 </template>
 <script>
 import BtnStyled from "../components/BtnStyled.vue"
+import Products from "../components/Products.vue"
 import axios from 'axios'
 export default {
     components:{
         BtnStyled,
+        Products
         
     },data(){
         return{
@@ -60,7 +62,7 @@ export default {
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
-                    this.uniqueCatKey++;
+                    this.uniqueProductKey++;
                     this.addingName='';
                 
                  })
@@ -98,23 +100,23 @@ export default {
     border-color: #a80000;
 }
 
-.addCategoryForm{
+.addProductForm{
 font-family:"Bookerly";
 color: black;
 border-style:groove;
 width: 30%;
  background-color: rgb(255, 255, 255);
  position:absolute;
- left: 50%;
+ left: 55%;
  top: 30%;
  border-color: #a80000;
 }
 #addNew{
     position: absolute;
-    left: 55%;
+    left: 60%;
     top:19%;
 }
-input[type=text] {
+input{
   padding:5px;
   margin:5px 0;
   border-radius:10px;
