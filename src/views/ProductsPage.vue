@@ -1,7 +1,7 @@
 <template>
   <div id="wrapper">
     <h1 id="productsHeader">Products</h1>
-    <products :key="this.uniqueProductKey"></products>
+    <products :key="this.$store.state.uniqueProductKey"></products>
     <h2 id="addNew">Add new product</h2>
     <div class="addProductForm">
       <form class="form" @submit.prevent="submitForm">
@@ -54,7 +54,6 @@
           <br /><br />
         <label for="image">Image:</label><br />
         <input type="file" name="image" @change="handleFileUpload" />
-        <!-- ref="file" id="files"  -->
         <br />
         <btn-styled type="submit">Submit</btn-styled>
       </form>
@@ -95,7 +94,7 @@ export default {
           //Perform Success Action
           console.log(res.data);
           this.uniqueProductKey++;
-          this.addingName = "";
+          this.$store.commit('increment');
         })
         .catch((error) => {
           // error.response.status Check status code

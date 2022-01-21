@@ -250,6 +250,17 @@ table.getProducts=()=>{
         });
     });
 };
+table.productOne=(id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query('SELECT * FROM product WHERE id=?',[id],(err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        });
+    });
+};
 table.insertCity=(name)=>{
     return new Promise((resolve,reject)=>{
         db.query("INSERT INTO city VALUES (default,'"+name+"');",(err,results)=>{
@@ -414,6 +425,17 @@ table.removePaymentMethod=(id)=>{
         })
     })
 }
+table.removeProduct=(id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("DELETE FROM product WHERE id=?",[id],(err,results)=>{
+            if(err){
+                return reject(err)
+            }else{
+                return resolve(results);
+            }
+        })
+    })
+}
 table.insertProduct=(name,size,price,category_id,imagePath)=>{
     return new Promise((resolve,reject)=>{
         db.query("INSERT INTO product VALUES (default,'"+name+"','"+size+"','"+price+"','"+category_id+"','"+imagePath+"');",(err,results)=>{
@@ -425,4 +447,32 @@ table.insertProduct=(name,size,price,category_id,imagePath)=>{
         })
     })
 }
+table.editProductWithImage=(name,size,price,category_id,picture_path,id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("UPDATE product SET name=?,size=?,price=?,product_category_id=?,picture=? WHERE id=?;",[name,size,price,category_id,picture_path,id],
+        (err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        }
+        
+        )
+    })
+};
+table.editProduct=(name,size,price,category_id,id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("UPDATE product SET name=?,size=?,price=?,product_category_id=? WHERE id=?;",[name,size,price,category_id,id],
+        (err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        }
+        
+        )
+    })
+};
 module.exports=table;

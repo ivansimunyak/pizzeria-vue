@@ -1,4 +1,5 @@
 <template>
+
   <section class="productsTable">
     <table>
       <thead>
@@ -21,14 +22,14 @@
           <td>{{ product.size }}</td>
           <td>{{ product.price }}</td>
           <td><btn-styled class="btnEdit" @click="editProduct(product.id,product.name,product.price,product.product_category_id,product.size,index)">Edit</btn-styled></td>
-          <td><btn-styled class="btnDelete">Remove</btn-styled></td>
+          <td><btn-styled class="btnDelete" @click="removeProduct(product.id,product.picture,index)">Remove</btn-styled></td>
         </tr>
       </tbody>
     </table>
   </section>
   <h2 id="editProduct">Edit product</h2>
   <div class="edit">
-    <form class="form" @submit.prevent="editProductForm">
+    <form class="form" @submit.prevent="submitForm">
       <label for="edit_id">ID:</label><br />
       <input required type="number" name="edit_id" v-model="editID" /><br />
       <label for="edit_name">Name:</label><br />
@@ -49,7 +50,7 @@
             {{ category.name }}
           </option></select><br>
       <label for="image">Image:</label><br />
-      <input type="file" ref="file" id="files" name="image" @change="handleFileUpload"/>
+      <input type="file" name="image" @change="handleFileUpload($event)" />
       <btn-styled type="submit">Submit</btn-styled>
     </form>
   </div>
@@ -84,13 +85,13 @@ export default {
     });
   },
   methods: {
-    removeProduct(id, index) {
+    removeProduct(id,productImg, index) {
       axios
-        .post("http://localhost:3000/api/userType/removetype/" + id)
+        .post("http://localhost:3000/api/products/removeproduct/" + id+"/"+productImg)
         .then((res) => {
           //Perform Success Action
           console.log(res.data);
-          this.types.splice(index, 1);
+          this.products.splice(index, 1);
         })
         .catch((error) => {
           // error.response.status Check status code
@@ -104,52 +105,49 @@ export default {
             this.editSize=size;
             this.editPrice=price;
            this.saveIndex=index;
-        }
-  },
-     handleFileUpload(event) {
+           document.getElementById('editProduct').scrollIntoView();
+          
+        },
+          handleFileUpload(event) {
       this.editImage = event.target.files[0];
-    },    submitForm() {
-      if(this.editImage!=null){
+    },
+       submitForm() {
+        if(this.editImage!=null){
+        console.log("hey babe")
       const fd = new FormData();
       fd.append("name", this.editName);
       fd.append("size", this.editSize);
       fd.append("price", this.editPrice);
-      fd.append("category_id", this.editCategoryID);
+      fd.append("product_category_id", this.editCategoryID);
       fd.append("productImage", this.editImage);
+      fd.append("id",this.editID);
       axios
         .post("http://localhost:3000/api/products/editproductimg", fd)
         .then((res) => {
           //Perform Success Action
           console.log(res.data);
-          this.uniqueProductKey++;
-          this.addingName = "";
+           this.$store.commit('increment');
         })
         .catch((error) => {
           // error.response.status Check status code
           console.log(error.response.status);
         });
       }else{
-         const fd = new FormData();
-      fd.append("name", this.editName);
-      fd.append("size", this.editSize);
-      fd.append("price", this.editPrice);
-      fd.append("category_id", this.editCategoryID);
+        console.log("hey babezz" + this.editID + this.editName)
       axios
-        .post("http://localhost:3000/api/products/editproduct", fd)
+        .post("http://localhost:3000/api/products/editproduct", {name:this.editName,id:this.editID,size:this.editSize,price:this.editPrice,product_category_id:this.editCategoryID})
         .then((res) => {
           //Perform Success Action
           console.log(res.data);
-          this.uniqueProductKey++;
-          this.addingName = "";
-          this.products.splice(this.saveIndex,1,{name:this.editName,id:this.editID,price:this.editPrice,product_category_id:this.editCategoryID});
+          this.$store.commit('increment');
         })
         .catch((error) => {
           // error.response.status Check status code
           console.log(error.response.status);
         });
       }
-    },
-   
+      }
+  },
 }
 </script>
 
