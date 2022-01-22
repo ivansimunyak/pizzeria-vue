@@ -5,8 +5,8 @@
          <h2 id="addNew">Add new city</h2>
     <div class="addCity">
      <form class="form" @submit.prevent="submitForm">
-  <label for="fname">Name:</label><br>
-  <input type="text" ref="inputName" id="name" name="name" required v-model="addingName"><br>
+  <label>Name:</label><br>
+  <input type="text" required v-model="addingName"><br>
  <btn-styled type="submit">Submit</btn-styled>
 </form>
 </div>

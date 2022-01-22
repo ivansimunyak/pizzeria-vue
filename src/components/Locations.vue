@@ -25,11 +25,11 @@
 <div class="edit">
      <form class="form" @submit.prevent="editLocationForm">
          <label for="id">ID:</label><br>
-         <input required type="number" isd="editID" name="editID" v-model="editID"><br>
+         <input required type="number" name="editID" v-model="editID"><br>
   <label for="editName">Name:</label><br>
-  <input required type="text" id="editID" name="editName" v-model="editLocationName"><br>
+  <input required type="text" name="editName" v-model="editLocationName"><br>
    <label for="selectCity">City:</label><br>
-  <select required id="selectCity" ref="setCity" name="city_name" v-model="editCity">
+  <select required name="city_name" v-model="editCity">
         <option disabled value="">Choose a city...</option>
    <option v-for="city in cities" :value="city.name" :key="city.id">{{city.name}}</option>
    </select><br><br>

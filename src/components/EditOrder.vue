@@ -10,13 +10,13 @@
    <div class="form">
    <form @submit.prevent="submitForm">
   <label for="fname">Name:</label><br>
-  <input type="text" ref="inputName" id="name" name="name" v-model="forms.name"><br>
+  <input type="text" required name="name" v-model="forms.name"><br>
   <label for="lname">Adress:</label><br>
-  <input type="text" ref="inputAdress" id="userAdress" name="adress" v-model="forms.adress"><br>
+  <input type="text" required name="adress" v-model="forms.adress"><br>
  <label for="phone">Phone:</label><br>
-  <input type="number" ref="inputPhone" id="phone" name="phone_number" v-model="forms.phone_number"><br>
+  <input type="number" required name="phone_number" v-model="forms.phone_number"><br>
   <label for="orderState">Order status:</label><br>
-  <select id="selectForm" ref="inputStatus" name="order_status" v-model="forms.order_status">
+  <select id="selectForm" required name="order_status" v-model="forms.order_status">
             <option value="Delivered">Delivered</option>
             <option value="Canceled">Canceled</option>
             <option value="Processing">Processing</option>

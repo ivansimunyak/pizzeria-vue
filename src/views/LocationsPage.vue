@@ -4,10 +4,10 @@
   <h2 id="addNew">Add new location</h2>
   <div class="addLocation">
     <form class="form" @submit.prevent="submitForm">
-    <label for="fname">Location name:</label><br>
-  <input type="text" ref="inputName" id="name" name="name" required v-model="addingName"><br>
-  <label for="fname">City:</label><br>
-    <select required id="selectForm" ref="inputCity" name="city_name" v-model="addingCityID">
+    <label>Location name:</label><br>
+  <input type="text" required v-model="addingName"><br>
+  <label>City:</label><br>
+    <select required v-model="addingCityID">
       <option disabled value="">Choose a city...</option>
             <option v-for="city in cities" :key="city.id" :value="city.id" >{{city.name}}</option>
    </select><br><br>

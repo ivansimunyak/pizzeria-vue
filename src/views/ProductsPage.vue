@@ -5,20 +5,14 @@
     <h2 id="addNew">Add new product</h2>
     <div class="addProductForm">
       <form class="form" @submit.prevent="submitForm">
-        <label for="fname">Name:</label><br />
+        <label>Name:</label><br />
         <input
           type="text"
-          ref="inputName"
-          id="name"
-          name="name"
           required
           v-model="addingName"
         /><br />
-        <label for="product_size">Size:</label><br />
+        <label>Size:</label><br />
         <select
-          class="selectForm"
-          ref="productSize"
-          name="product_size"
           v-model="addingSize"
         >
           <option disabled value="">Select size...</option>
@@ -29,18 +23,12 @@
         <label for="price">Price:</label><br />
         <input
           type="number"
-          ref="inputPrice"
-          id="price"
-          name="price"
           required
           v-model="addingPrice"
         /><br />
-        <label for="category">Category:</label><br />
+        <label>Category:</label><br />
         <select
           required
-          class="selectForm"
-          ref="inputCategory"
-          name="category"
           v-model="addingCategoryID"
         >
           <option disabled value="">Select a category...</option>

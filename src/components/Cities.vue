@@ -21,10 +21,10 @@
 <h2 id="editCity">Edit city</h2>
 <div class="edit">
      <form class="form" @submit.prevent="editCityForm">
-         <label for="id">ID:</label><br>
-         <input required type="number" isd="editID" name="editID" v-model="editID"><br>
+         <label  for="id">ID:</label><br>
+         <input required type="number" name="editID" v-model="editID"><br>
   <label for="editName">Name:</label><br>
-  <input required type="text" id="editID" name="editName" v-model="editCityName"><br>
+  <input required type="text" name="editName" v-model="editCityName"><br>
  <btn-styled type="submit">Submit</btn-styled>
 </form>
 </div>

@@ -23,9 +23,9 @@
 <div class="edit">
      <form class="form" @submit.prevent="editCategoryForm">
          <label for="id">ID:</label><br>
-         <input type="number" id="editID" name="editID" v-model="editID"><br>
+         <input type="number" required name="editID" v-model="editID"><br>
   <label for="fname">Name:</label><br>
-  <input type="text" id="editID" name="editName" v-model="editName"><br>
+  <input type="text" required name="editName" v-model="editName"><br>
  <btn-styled type="submit">Submit</btn-styled>
 </form>
 </div>

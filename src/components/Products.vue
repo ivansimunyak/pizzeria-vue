@@ -21,7 +21,7 @@
           <td>{{ product.name }}</td>
           <td>{{ product.size }}</td>
           <td>{{ product.price }}</td>
-          <td><btn-styled class="btnEdit" @click="editProduct(product.id,product.name,product.price,product.product_category_id,product.size,index)">Edit</btn-styled></td>
+          <td><btn-styled class="btnEdit" @click="editProduct(product.id,product.name,product.price,product.product_category_id,product.size,index,product.picture)">Edit</btn-styled></td>
           <td><btn-styled class="btnDelete" @click="removeProduct(product.id,product.picture,index)">Remove</btn-styled></td>
         </tr>
       </tbody>
@@ -35,7 +35,7 @@
       <label for="edit_name">Name:</label><br />
       <input required type="text" name="edit_name" v-model="editName" /><br/>
         <label for="product_size">Size:</label><br />
-        <select class="selectForm" name="product_size" v-model="editSize">
+        <select required class="selectForm" name="product_size" v-model="editSize">
           <option disabled value="">Select size...</option>
           <option value="Large">Large</option>
           <option value="Medium">Medium</option>
@@ -70,7 +70,8 @@ export default {
       editPrice:'',
       editCategoryID:'',
       editImage:null,
-      saveIndex:''
+      saveIndex:'',
+      oldImage:''
 
     };
   },
@@ -98,13 +99,14 @@ export default {
           console.log(error.response.status);
         });
     },
-     editProduct(id,name,price,categoryID,size,index){
+     editProduct(id,name,price,categoryID,size,index,oldImg){
             this.editName=name;
             this.editID=id;
             this.editCategoryID=categoryID;
             this.editSize=size;
             this.editPrice=price;
            this.saveIndex=index;
+           this.oldImage=oldImg
            document.getElementById('editProduct').scrollIntoView();
           
         },
@@ -122,7 +124,7 @@ export default {
       fd.append("productImage", this.editImage);
       fd.append("id",this.editID);
       axios
-        .post("http://localhost:3000/api/products/editproductimg", fd)
+        .post("http://localhost:3000/api/products/editproductimg/"+this.oldImage, fd)
         .then((res) => {
           //Perform Success Action
           console.log(res.data);

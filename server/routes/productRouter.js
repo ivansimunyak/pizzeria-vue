@@ -54,9 +54,11 @@ let results= db.removeProduct(req.params.id);
         res.sendStatus(500);
     }
 });
-router.post('/editproductimg',upload.single('productImage'),async(req,res,next)=>{
+router.post('/editproductimg/:oldimg',upload.single('productImage'),async(req,res,next)=>{
     console.log("edit product bro "+req.body.name);
     try{
+        let path='src/assets/'+req.params.oldimg;
+    fs.unlinkSync(path)
 let results= db.editProductWithImage(req.body.name,req.body.size,req.body.price,req.body.product_category_id,req.file.filename,req.body.id);
  res.json(results);
     }catch(e){

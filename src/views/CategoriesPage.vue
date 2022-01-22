@@ -6,7 +6,7 @@
     <div class="addCategoryForm">
      <form class="form" @submit.prevent="submitForm">
   <label for="fname">Name:</label><br>
-  <input type="text" ref="inputName" id="name" name="name" required v-model="addingName"><br>
+  <input type="text" required v-model="addingName"><br>
  <btn-styled type="submit">Submit</btn-styled>
 </form>
 </div>
