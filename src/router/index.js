@@ -9,6 +9,7 @@ import LocationsPage from "../views/LocationsPage.vue";
 import CitiesPage from "../views/CitiesPage.vue";
 import PaymentMethodPage from "../views/PaymentMethodPage.vue";
 import ProductsPage from "../views/ProductsPage.vue";
+import Home from "../views/HomePage.vue"
 
 const routes = [
   {
@@ -70,6 +71,11 @@ const routes = [
     name: "Payment Methods Page",
     component: PaymentMethodPage,
   }, 
+  {
+    path: "/home",
+    name: "Home",
+    component: Home
+  }
 ];
 
 const router = createRouter({

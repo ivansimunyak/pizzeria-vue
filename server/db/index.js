@@ -195,6 +195,17 @@ table.getSumOrder=(id)=>{
         });
     }); 
 };
+table.productJoinCategory=(id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("SELECT product.id,product.name AS product_name,product.size,product.price,product.picture,product_category.name AS category_name FROM product LEFT JOIN product_category ON product_category_id=product_category.id",(err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        });
+    }); 
+};
 table.message=()=>{
     return new Promise((resolve,reject)=>{
         db.query('SELECT message.id,content,name,message.email FROM message LEFT JOIN user on message.user_id=user.id',(err,results)=>{
@@ -475,4 +486,5 @@ table.editProduct=(name,size,price,category_id,id)=>{
         )
     })
 };
+
 module.exports=table;
