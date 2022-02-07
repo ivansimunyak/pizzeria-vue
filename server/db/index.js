@@ -22,6 +22,7 @@ table.userAll=()=>{
         });
     });
 };
+
 table.userOne=(id)=>{
     return new Promise((resolve,reject)=>{
         db.query('SELECT * FROM user WHERE id=?',[id],(err,results)=>{
@@ -44,6 +45,17 @@ table.userType=()=>{
         });
     });
 };
+table.registerUser=(username,password,email,adress,name,phone_number,user_type_id,city_id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("INSERT INTO user VALUES (default,?,?,?,?,?,?,?,?);",[username,password,email,adress,name,phone_number,user_type_id,city_id],(err,results)=>{
+            if(err){
+                return reject(err)
+            }else{
+                return resolve(results)
+            }
+        })
+    })
+}
 table.insertType=(name)=>{
     return new Promise((resolve,reject)=>{
         db.query("INSERT INTO user_type VALUES (default,'"+name+"');",(err,results)=>{
@@ -105,6 +117,17 @@ table.editLocation=(name,id,city_id)=>{
 table.paymentMethod=()=>{
     return new Promise((resolve,reject)=>{
         db.query('SELECT * FROM payment_method',(err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        });
+    });
+};
+table.getCustomerType=()=>{
+    return new Promise((resolve,reject)=>{
+        db.query("SELECT * FROM user_type WHERE name='Customer';",(err,results)=>{
             if(err){
                 return reject(err);
             }else{

@@ -7,7 +7,6 @@
                 <th>Name</th>
                 <th>Edit</th>
                 <th>Remove</th>
-        
             </tr>
         </thead>
         <tbody>
@@ -30,6 +29,7 @@
 </form>
 </div>
 </template>
+
 <script>
 import axios from 'axios'
 import BtnStyled from './BtnStyled.vue';

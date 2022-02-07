@@ -31,7 +31,6 @@ export default {
                      console.log(res.data);  
                     this.uniquePayKey++;
                     this.addingName='';
-                
                  })
                  .catch((error) => {
                      // error.response.status Check status code

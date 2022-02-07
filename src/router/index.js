@@ -9,7 +9,9 @@ import LocationsPage from "../views/LocationsPage.vue";
 import CitiesPage from "../views/CitiesPage.vue";
 import PaymentMethodPage from "../views/PaymentMethodPage.vue";
 import ProductsPage from "../views/ProductsPage.vue";
-import Home from "../views/HomePage.vue"
+import Home from "../views/HomePage.vue";
+import LoginPage from "../views/LoginPage.vue";
+import RegisterPage from "../views/RegisterPage.vue";
 
 const routes = [
   {
@@ -75,6 +77,16 @@ const routes = [
     path: "/home",
     name: "Home",
     component: Home
+  },
+  {
+    path:"/login",
+    name:"Login",
+    component:LoginPage
+  },
+  {
+  path:"/register",
+  name:"Register",
+  component:RegisterPage
   }
 ];
 

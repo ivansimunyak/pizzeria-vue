@@ -24,7 +24,7 @@
 export default {
   data(){
     return{
-      isWorking:false
+      isWorking:true
     }
   }
 }
@@ -42,7 +42,6 @@ body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
 
 #navlist
@@ -79,7 +78,7 @@ body{
   left: 1500px;
   /* display: ; */
 }
- a:link,a:visited
+a:link,a:visited
 {
     border: 1px solid #a80000;
     padding: 1px 0.5em;
@@ -88,7 +87,7 @@ body{
     text-decoration: none;
      font-size: 13px;
 }
- a:hover, a:active, a:focus
+a:hover, a:active, a:focus
 {
     border: 1px solid #ffffff;
     padding: 1px 0.5em;
@@ -109,6 +108,6 @@ ul
     padding: 0;
     text-align: center;
 }
-a { background-color: #a80000; }
+ a { background-color: #a80000; }
 
 </style>

@@ -11,6 +11,16 @@ res.json(results);
         res.sendStatus(500);
     }
 });
+router.get('/customertype',async(req,res,next)=>{
+    try{
+let results=await db.getCustomerType();
+console.log("called mee")
+res.json(results);
+    }catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
 router.post('/addtype',async(req,res,next)=>{
     console.log("insert type "+req.body.name);
     try{
