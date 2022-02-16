@@ -34,6 +34,17 @@ table.userOne=(id)=>{
         });
     });
 };
+table.checkLogin=(username,password)=>{
+    return new Promise((resolve,reject)=>{
+        db.query('SELECT * FROM user WHERE username=? AND password=?;',[username,password],(err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results[0].username);
+            }
+        });
+    });
+};
 table.userType=()=>{
     return new Promise((resolve,reject)=>{
         db.query('SELECT * FROM user_type',(err,results)=>{

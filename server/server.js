@@ -1,3 +1,4 @@
+require('dotenv').config({ path: './.env' });
 const express=require('express');
 const path = require('path')
 const userRouter=require('./routes/userRouter');
@@ -13,6 +14,7 @@ const productRouter=require('./routes/productRouter');
 const app=express();
 const bodyParser= require('body-parser');
 const cors=require('cors');
+
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -35,5 +37,5 @@ app.use('/api/products',productRouter);
 app.use(express.static(path.join(__dirname, 'assets')))
 app.listen(process.env.PORT || '3000', () =>{
 
-    console.log(`Server is running on port: ${process.env.PORT || `3000`}`);
+    console.log(`Server is running on port: ${process.env.PORT || `3000`} `);
 });
