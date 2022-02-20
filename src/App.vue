@@ -1,31 +1,34 @@
 <template>
-  <div v-if="isWorking" id="navlist">
-    <router-link to="/orders" >Orders</router-link>
-    <router-link to="/messages">Messages</router-link>
-    <router-link to="/products">Products</router-link>
-    <router-link to="/categories">Categories</router-link>
-    <router-link to="/usertypes">User Types</router-link>
-    <router-link to="/locations">Locations</router-link>
-    <router-link to="/cities">Cities</router-link>
-    <router-link to="/paymentmethods">Payment Methods</router-link>
-    <router-link to="/about">Customer View </router-link>
-  </div>
-    <div v-if="!isWorking" id="navlistmortal">
-    <router-link to="/home" >Home</router-link>
-    <router-link to="/profile">Profile</router-link>
-    <router-link to="/messageus">Message Us</router-link>
+  <div id="navlist">
+    <router-link v-if="isAdmin" to="/orders" >Orders</router-link>
+    <router-link v-if="isAdmin" to="/messages">Messages</router-link>
+    <router-link v-if="isAdmin"  to="/products">Products</router-link>
+    <router-link v-if="isAdmin"  to="/categories">Categories</router-link>
+    <router-link v-if="isAdmin"  to="/usertypes">User Types</router-link>
+    <router-link v-if="isAdmin"  to="/locations">Locations</router-link>
+    <router-link v-if="isAdmin"  to="/cities">Cities</router-link>
+    <router-link v-if="isAdmin"  to="/paymentmethods">Payment Methods</router-link>
+    <router-link to="/" >Home</router-link>
     <router-link to="/about">About Us</router-link>
-    <router-link to="/login">Login</router-link>
-    <router-link to="/register">Register</router-link>
+    <router-link v-if="!isLoggedIn"  to="/login">Login</router-link>
+    <router-link v-if="!isLoggedIn"  to="/register">Register</router-link>
+    <router-link v-if="isLoggedIn"  to="/profile">Profile</router-link>
+    <router-link v-if="isLoggedIn"  to="/messageus">Message Us</router-link>
+    <router-link v-if="isAdmin"  to="/">Customer View </router-link>
+    <router-link v-if="isLoggedIn || isAdmin"  to="/logout">Logout</router-link>
   </div>
   <router-view />
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   data(){
     return{
       isWorking:true
     }
+  },
+    computed: {
+    ...mapGetters(["isLoggedIn","isAdmin"])
   }
 }
 </script>

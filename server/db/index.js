@@ -147,6 +147,20 @@ table.getCustomerType=()=>{
         });
     });
 };
+table.getAdmin=(user_type_id,user_id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("SELECT user_type.name FROM user LEFT JOIN user_type ON user.user_type_id=user_type.id WHERE user.user_type_id='"+user_type_id+"' AND user_type.name='Admin' AND user.id='"+user_id+"'",
+       (err,results)=>{
+            if(err){
+                console.log(err)
+                return reject(err);
+                
+            }else{
+                return resolve(results);
+            }
+        });
+    });
+};
 table.paymentMethodOne=(id)=>{
     return new Promise((resolve,reject)=>{
         db.query("SELECT * FROM payment_method WHERE id=?;",[id],(err,results)=>{

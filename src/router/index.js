@@ -12,6 +12,8 @@ import ProductsPage from "../views/ProductsPage.vue";
 import Home from "../views/HomePage.vue";
 import LoginPage from "../views/LoginPage.vue";
 import RegisterPage from "../views/RegisterPage.vue";
+import axios from "axios";
+import store from '../store/index.js';
 
 const routes = [
   {
@@ -74,7 +76,7 @@ const routes = [
     component: PaymentMethodPage,
   }, 
   {
-    path: "/home",
+    path: "/",
     name: "Home",
     component: Home
   },
@@ -95,4 +97,31 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to) => {
+  var isAdmin=store.getters.isAdmin;
+  if(to.name=="Order Page" || to.name=="Payment Methods Page" || to.name=="Cities Page" 
+  || to.name=="Locations Page"|| to.name=="User Types" || to.name=="Categories Page"
+  || to.name=="Messages Page" || to.name=="Payment Methods Page" || to.name=="Edit Order"
+  || to.name=="Check Details" || to.name=="Products Page"){   
+   const user_type_id=store.getters.user.user_type_id;
+   const user_id=store.getters.user.user_id;
+  //  axios.defaults.withCredentials = true
+   const url='http://localhost:3000/api/userType/getAdmin/'+user_type_id+'/'+user_id;
+   axios.get(url)
+  .then((res) => {
+      //Perform Success Action  
+      console.log(res.data)
+      store.state.isAdmin=res.data
+  })
+  .catch((error) => {
+      // error.response.status Check status code
+      console.log( error.response.status)
+  });
+  if(isAdmin){
+    return true
+  }else return false
+  }
+  console.log("im reached also")
+  
+})
 export default router;

@@ -1,8 +1,9 @@
 const express=require('express');
 const router=express.Router();
 const db=require('../db');
+const jwt=require('jsonwebtoken');
 
-router.get('/',async(req,res,next)=>{
+router.get('/',authenticateToken,async(req,res,next)=>{
     try{
 let results=await db.paymentMethod();
 res.json(results);
@@ -20,7 +21,7 @@ res.json(results);
         res.sendStatus(500);
     }
 });
-router.post('/addpaymentmethod',async(req,res,next)=>{
+router.post('/addpaymentmethod',authenticateToken,async(req,res,next)=>{
     console.log("insert payment method "+req.body.name);
     try{
 let results= db.insertPaymentMethod(req.body.name);
@@ -31,7 +32,7 @@ let results= db.insertPaymentMethod(req.body.name);
         res.sendStatus(500);
     }
 });
-router.post('/editpaymentmethod',async(req,res,next)=>{
+router.post('/editpaymentmethod',authenticateToken,async(req,res,next)=>{
     console.log("edit payment method "+req.body.id);
     try{
 let results= db.editPaymentMethod(req.body.name,req.body.id);
@@ -42,7 +43,7 @@ let results= db.editPaymentMethod(req.body.name,req.body.id);
         res.sendStatus(500);
     }
 });
-router.post('/removepaymentmethod/:id',async(req,res,next)=>{
+router.post('/removepaymentmethod/:id',authenticateToken,async(req,res,next)=>{
     console.log("remove payment method "+req.params.id);
     try{
 let results= db.removePaymentMethod(req.params.id);
@@ -53,4 +54,16 @@ let results= db.removePaymentMethod(req.params.id);
         res.sendStatus(500);
     }
 });
+function authenticateToken(req,res,next){
+    const authHeader=req.headers['authorization']
+    const token=authHeader && authHeader.split(" ")[1]
+    if(token==null) return res.sendStatus(401)
+
+    jwt.verify(token,process.env.ADMIN_ACCESS_TOKEN,(err,user)=>{
+        if(err) return res.sendStatus(403)
+        req.user=user
+        next()
+    })
+}
+
 module.exports=router;

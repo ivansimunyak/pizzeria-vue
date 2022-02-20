@@ -1,8 +1,9 @@
 const express=require('express');
 const router=express.Router();
 const db=require('../db');
+const jwt=require('jsonwebtoken');
 
-router.get('/',async(req,res,next)=>{
+router.get('/',authenticateToken,async(req,res,next)=>{
     try{
 let results=await db.ordersAll();
 console.log("All orders are happening");
@@ -44,7 +45,7 @@ console.log("Order for details is happening");
         res.sendStatus(500);
     }
 });
-    router.post('/editorder', function (req, res) {
+    router.post('/editorder',authenticateToken, function (req, res) {
         console.log("Insert "+req.body.name);
         try{
           
@@ -57,7 +58,7 @@ console.log("Order for details is happening");
         }
       });
 
-      router.post('/removeorder/:id',async(req,res,next)=>{
+      router.post('/removeorder/:id',authenticateToken,async(req,res,next)=>{
         try{
     let results= db.removeOrder(req.params.id);
      res.json(results);
@@ -67,4 +68,16 @@ console.log("Order for details is happening");
             res.sendStatus(500);
         }
     });
+    function authenticateToken(req,res,next){
+        const authHeader=req.headers['authorization']
+        const token=authHeader && authHeader.split(" ")[1]
+        if(token==null) return res.sendStatus(401)
+    
+        jwt.verify(token,process.env.ADMIN_ACCESS_TOKEN,(err,user)=>{
+            if(err) return res.sendStatus(403)
+            req.user=user
+            next()
+        })
+    }
+    
 module.exports=router;

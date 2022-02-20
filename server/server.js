@@ -18,7 +18,7 @@ const cors=require('cors');
 
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 

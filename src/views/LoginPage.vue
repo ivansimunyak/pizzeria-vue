@@ -1,26 +1,54 @@
 <template>
 <div id="wrapper">
     <h1>Login</h1>
+    <h2>{{user}}</h2>
     <h2 v-if="userRegistered">You registered successfully!</h2>
-<form class="HomepageLoginForm">
+<form class="HomepageLoginForm" @submit.prevent="submitForm">
     <b><label>Username:</label></b><br>
-    <input id="username" type="text" name="username" required><br>
+    <input id="username" type="text" name="username" v-model="username" required><br>
     <b><label>Password:</label></b><br>
-    <input id="password" type="password" name="password" required><br>
+    <input id="password" type="password" name="password" v-model="password" required><br>
     <btn-styled type="submit">Submit</btn-styled>
 </form>
 </div>
 </template>
 <script>
+import axios from 'axios'
+import { mapMutations } from "vuex";
 import BtnStyled from "../components/BtnStyled.vue"
 export default {
    components:{
        BtnStyled
    },data(){
      return{
-       userRegistered:this.$route.params.userAdded
+       userRegistered:this.$route.params.userAdded,
+       username:'',
+       password:'',
      }
-   }
+   },    methods:{
+     ...mapMutations(["setUser", "setToken","setAdmin"]),
+      submitForm(){   
+                 axios.defaults.withCredentials = true
+                  axios.post('http://localhost:3000/api/user/login',{username:this.username,password:this.password})
+                 .then((res) => {
+                     //Perform Success Action
+                     console.log(res.data); 
+                     const accessToken=res.data.accessToken;
+                     const user=res.data.user;
+                     const isAdmin=res.data.isAdmin;
+                      this.setUser(user);
+                      this.setToken(accessToken);
+                      this.setAdmin(isAdmin);
+                      this.$router.push("/");
+                 })
+                 .catch((error) => {
+                     // error.response.status Check status code
+                    //  console.log( error.response.status)
+                    console.log(error)
+                 });
+
+      }
+    }
 }
 </script>
 <style scoped>

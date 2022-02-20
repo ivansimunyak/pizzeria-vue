@@ -50,7 +50,7 @@ let results= db.insertProduct(req.body.name,req.body.size,req.body.price,req.bod
         res.sendStatus(500);
     }
 });
-router.post('/removeproduct/:id/:imgname',async(req,res,next)=>{
+router.post('/removeproduct/:id/:imgname',authenticateToken,async(req,res,next)=>{
     console.log("remove product "+req.params.imgname);
     let path='src/assets/'+req.params.imgname;
     fs.unlinkSync(path)
@@ -63,7 +63,7 @@ let results= db.removeProduct(req.params.id);
         res.sendStatus(500);
     }
 });
-router.post('/editproductimg/:oldimg',upload.single('productImage'),async(req,res,next)=>{
+router.post('/editproductimg/:oldimg',authenticateToken,upload.single('productImage'),async(req,res,next)=>{
     console.log("edit product bro "+req.body.name);
     try{
         let path='src/assets/'+req.params.oldimg;
@@ -85,7 +85,7 @@ res.json(results);
         res.sendStatus(500);
     }
 });
-router.post('/editproduct',async(req,res,next)=>{
+router.post('/editproduct',authenticateToken,async(req,res,next)=>{
     console.log("edit product "+req.body.name);
     try{
 let results= db.editProduct(req.body.name,req.body.size,req.body.price,req.body.product_category_id,req.body.id);
@@ -95,4 +95,16 @@ let results= db.editProduct(req.body.name,req.body.size,req.body.price,req.body.
         res.sendStatus(500);
     }
 });
+function authenticateToken(req,res,next){
+    const authHeader=req.headers['authorization']
+    const token=authHeader && authHeader.split(" ")[1]
+    if(token==null) return res.sendStatus(401)
+
+    jwt.verify(token,process.env.ADMIN_ACCESS_TOKEN,(err,user)=>{
+        if(err) return res.sendStatus(403)
+        req.user=user
+        next()
+    })
+}
+
 module.exports=router;
