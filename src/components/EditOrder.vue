@@ -48,7 +48,11 @@ export default {
          resetName:''
         
       }
-   },methods:{
+   }, computed: {
+    accessToken() {
+    return this.$store.getters.accessToken
+  },
+  },methods:{
       resetData(){
          this.forms={name:'',adress:'',phone_number:'',order_status:'Delivered',id:this.orderID}
       

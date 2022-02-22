@@ -22,10 +22,9 @@ table.userAll=()=>{
         });
     });
 };
-
-table.userOne=(id)=>{
+table.productCategory=()=>{
     return new Promise((resolve,reject)=>{
-        db.query('SELECT * FROM user WHERE id=?',[id],(err,results)=>{
+        db.query('SELECT * FROM product_category',(err,results)=>{
             if(err){
                 return reject(err);
             }else{
@@ -34,13 +33,14 @@ table.userOne=(id)=>{
         });
     });
 };
-table.checkLogin=(username,password)=>{
+
+table.userOne=(id)=>{
     return new Promise((resolve,reject)=>{
-        db.query('SELECT * FROM user WHERE username=? AND password=?;',[username,password],(err,results)=>{
+        db.query('SELECT * FROM user WHERE id=?',[id],(err,results)=>{
             if(err){
                 return reject(err);
             }else{
-                return resolve(results[0].username);
+                return resolve(results);
             }
         });
     });
@@ -56,89 +56,9 @@ table.userType=()=>{
         });
     });
 };
-table.registerUser=(username,password,email,adress,name,phone_number,user_type_id,city_id)=>{
-    return new Promise((resolve,reject)=>{
-        db.query("INSERT INTO user VALUES (default,?,?,?,?,?,?,?,?);",[username,password,email,adress,name,phone_number,user_type_id,city_id],(err,results)=>{
-            if(err){
-                return reject(err)
-            }else{
-                return resolve(results)
-            }
-        })
-    })
-}
-table.insertType=(name)=>{
-    return new Promise((resolve,reject)=>{
-        db.query("INSERT INTO user_type VALUES (default,'"+name+"');",(err,results)=>{
-            if(err){
-                return reject(err)
-            }else{
-                return resolve(results)
-            }
-        })
-    })
-}
-table.productCategory=()=>{
-    return new Promise((resolve,reject)=>{
-        db.query('SELECT * FROM product_category',(err,results)=>{
-            if(err){
-                return reject(err);
-            }else{
-                return resolve(results);
-            }
-        });
-    });
-};
-table.insertCategory=(name)=>{
-    return new Promise((resolve,reject)=>{
-        db.query("INSERT INTO product_category VALUES (default,'"+name+"');",(err,results)=>{
-            if(err){
-                return reject(err)
-            }else{
-                return resolve(results)
-            }
-        })
-    })
-}
-table.insertLocation=(name,cityID)=>{
-    return new Promise((resolve,reject)=>{
-        db.query("INSERT INTO location VALUES (default,'"+cityID+"','"+name+"');",(err,results)=>{
-            if(err){
-                return reject(err)
-            }else{
-                return resolve(results)
-            }
-        })
-    })
-}
-table.editLocation=(name,id,city_id)=>{
-    return new Promise((resolve,reject)=>{
-        db.query("UPDATE location SET name= ?,city_id=? WHERE id=?;",[name,city_id,id],
-        (err,results)=>{
-            if(err){
-                return reject(err);
-            }else{
-                return resolve(results);
-            }
-        }
-        
-        )
-    })
-};
 table.paymentMethod=()=>{
     return new Promise((resolve,reject)=>{
         db.query('SELECT * FROM payment_method',(err,results)=>{
-            if(err){
-                return reject(err);
-            }else{
-                return resolve(results);
-            }
-        });
-    });
-};
-table.getCustomerType=()=>{
-    return new Promise((resolve,reject)=>{
-        db.query("SELECT * FROM user_type WHERE name='Customer';",(err,results)=>{
             if(err){
                 return reject(err);
             }else{
@@ -161,6 +81,7 @@ table.getAdmin=(user_type_id,user_id)=>{
         });
     });
 };
+
 table.paymentMethodOne=(id)=>{
     return new Promise((resolve,reject)=>{
         db.query("SELECT * FROM payment_method WHERE id=?;",[id],(err,results)=>{
@@ -172,17 +93,17 @@ table.paymentMethodOne=(id)=>{
         });
     }); 
 };
-table.insertPaymentMethod=(name)=>{
+table.getCustomerType=()=>{
     return new Promise((resolve,reject)=>{
-        db.query("INSERT INTO payment_method VALUES (default,'"+name+"');",(err,results)=>{
+        db.query("SELECT * FROM user_type WHERE name='Customer';",(err,results)=>{
             if(err){
-                return reject(err)
+                return reject(err);
             }else{
-                return resolve(results)
+                return resolve(results);
             }
-        })
-    })
-}
+        });
+    });
+};
 table.ordersProduct=()=>{
     return new Promise((resolve,reject)=>{
         db.query('SELECT * FROM orders_product',(err,results)=>{
@@ -320,6 +241,77 @@ table.productOne=(id)=>{
         });
     });
 };
+table.checkLogin=(username,password)=>{
+    return new Promise((resolve,reject)=>{
+        db.query('SELECT * FROM user WHERE username=? AND password=?;',[username,password],(err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results[0].username);
+            }
+        });
+    });
+};
+
+table.registerUser=(username,password,email,adress,name,phone_number,user_type_id,city_id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("INSERT INTO user VALUES (default,?,?,?,?,?,?,?,?);",[username,password,email,adress,name,phone_number,user_type_id,city_id],(err,results)=>{
+            if(err){
+                return reject(err)
+            }else{
+                return resolve(results)
+            }
+        })
+    })
+}
+table.insertType=(name)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("INSERT INTO user_type VALUES (default,'"+name+"');",(err,results)=>{
+            if(err){
+                return reject(err)
+            }else{
+                return resolve(results)
+            }
+        })
+    })
+}
+
+table.insertCategory=(name)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("INSERT INTO product_category VALUES (default,'"+name+"');",(err,results)=>{
+            if(err){
+                return reject(err)
+            }else{
+                return resolve(results)
+            }
+        })
+    })
+}
+table.insertLocation=(name,cityID)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("INSERT INTO location VALUES (default,'"+cityID+"','"+name+"');",(err,results)=>{
+            if(err){
+                return reject(err)
+            }else{
+                return resolve(results)
+            }
+        })
+    })
+}
+
+
+table.insertPaymentMethod=(name)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("INSERT INTO payment_method VALUES (default,'"+name+"');",(err,results)=>{
+            if(err){
+                return reject(err)
+            }else{
+                return resolve(results)
+            }
+        })
+    })
+}
+
 table.insertCity=(name)=>{
     return new Promise((resolve,reject)=>{
         db.query("INSERT INTO city VALUES (default,'"+name+"');",(err,results)=>{
@@ -331,6 +323,17 @@ table.insertCity=(name)=>{
         })
     })
 }
+table.sendMessage=(content,user_id,email)=>{
+    return new Promise((resolve,reject)=>{
+        db.query('INSERT INTO message VALUES (default,?,?,?);',[content,user_id,email],(err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        });
+    });
+};
 table.editCity=(name,id)=>{
     return new Promise((resolve,reject)=>{
         db.query("UPDATE city SET name= ? WHERE id=?;",[name,id],
@@ -359,6 +362,22 @@ table.editOrders=(name,adress,phone_number,order_status,id)=>{
         )
     })
 };
+table.editLocation=(name,id,city_id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("UPDATE location SET name= ?,city_id=? WHERE id=?;",[name,city_id,id],
+        (err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        }
+        
+        )
+    })
+};
+
+
 table.editCategory=(name,id)=>{
     return new Promise((resolve,reject)=>{
         db.query("UPDATE product_category SET name= ? WHERE id=?;",[name,id],
@@ -387,9 +406,38 @@ table.editType=(name,id)=>{
         )
     })
 };
+table.editProduct=(name,size,price,category_id,id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("UPDATE product SET name=?,size=?,price=?,product_category_id=? WHERE id=?;",[name,size,price,category_id,id],
+        (err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        }
+        
+        )
+    })
+};
+
 table.editPaymentMethod=(name,id)=>{
     return new Promise((resolve,reject)=>{
         db.query("UPDATE payment_method SET name= ? WHERE id=?;",[name,id],
+        (err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        }
+        
+        )
+    })
+};
+table.editProductWithImage=(name,size,price,category_id,picture_path,id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("UPDATE product SET name=?,size=?,price=?,product_category_id=?,picture=? WHERE id=?;",[name,size,price,category_id,picture_path,id],
         (err,results)=>{
             if(err){
                 return reject(err);
@@ -425,6 +473,7 @@ table.removeOrder=(id)=>{
         })
     })
 }
+
 table.removeMessage=(id)=>{
     return new Promise((resolve,reject)=>{
         db.query("DELETE FROM message WHERE id=?",[id],(err,results)=>{
@@ -506,33 +555,6 @@ table.insertProduct=(name,size,price,category_id,imagePath)=>{
         })
     })
 }
-table.editProductWithImage=(name,size,price,category_id,picture_path,id)=>{
-    return new Promise((resolve,reject)=>{
-        db.query("UPDATE product SET name=?,size=?,price=?,product_category_id=?,picture=? WHERE id=?;",[name,size,price,category_id,picture_path,id],
-        (err,results)=>{
-            if(err){
-                return reject(err);
-            }else{
-                return resolve(results);
-            }
-        }
-        
-        )
-    })
-};
-table.editProduct=(name,size,price,category_id,id)=>{
-    return new Promise((resolve,reject)=>{
-        db.query("UPDATE product SET name=?,size=?,price=?,product_category_id=? WHERE id=?;",[name,size,price,category_id,id],
-        (err,results)=>{
-            if(err){
-                return reject(err);
-            }else{
-                return resolve(results);
-            }
-        }
-        
-        )
-    })
-};
+
 
 module.exports=table;

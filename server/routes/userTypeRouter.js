@@ -56,7 +56,7 @@ let results= db.removeType(req.params.id);
     }
 });
 router.get('/getadmin/:type_id/:user_id',async(req,res,next)=>{
-    console.log("get admin in usertyperouter typeid:"+ req.params.type_id+"user id : "+req.params.user_id)
+    console.log("get admin in usertype router type id:"+ req.params.type_id+"user id : "+req.params.user_id)
     try{
 let results= await db.getAdmin(req.params.type_id,req.params.user_id);
 if(results==""){

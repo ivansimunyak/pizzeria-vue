@@ -32,6 +32,9 @@ export default createStore({
       },
       isAdmin(state){
         return state.isAdmin;
+      },
+      accessToken(state){
+        return state.accessToken;
       }
  
 

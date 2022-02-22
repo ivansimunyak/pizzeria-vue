@@ -77,18 +77,28 @@ export default {
   },
   mounted() {
     const url = "http://localhost:3000/api/products/";
-    axios.get(url).then((response) => {
+    axios.get(url,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((response) => {
       this.products = response.data;
     });
         const url2 = "http://localhost:3000/api/productCategory/";
-    axios.get(url2).then((response) => {
+    axios.get(url2,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((response) => {
       this.categories = response.data;
     });
+  }, computed: {
+    accessToken() {
+    return this.$store.getters.accessToken
+  },
   },
   methods: {
     removeProduct(id,productImg, index) {
       axios
-        .post("http://localhost:3000/api/products/removeproduct/" + id+"/"+productImg)
+        .post("http://localhost:3000/api/products/removeproduct/" + id+"/"+productImg,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    })
         .then((res) => {
           //Perform Success Action
           console.log(res.data);
@@ -124,7 +134,9 @@ export default {
       fd.append("productImage", this.editImage);
       fd.append("id",this.editID);
       axios
-        .post("http://localhost:3000/api/products/editproductimg/"+this.oldImage, fd)
+        .post("http://localhost:3000/api/products/editproductimg/"+this.oldImage, fd,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    })
         .then((res) => {
           //Perform Success Action
           console.log(res.data);
@@ -137,7 +149,9 @@ export default {
       }else{
         console.log("hey babezz" + this.editID + this.editName)
       axios
-        .post("http://localhost:3000/api/products/editproduct", {name:this.editName,id:this.editID,size:this.editSize,price:this.editPrice,product_category_id:this.editCategoryID})
+        .post("http://localhost:3000/api/products/editproduct", {name:this.editName,id:this.editID,size:this.editSize,price:this.editPrice,product_category_id:this.editCategoryID},{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    })
         .then((res) => {
           //Perform Success Action
           console.log(res.data);

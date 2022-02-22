@@ -61,13 +61,22 @@ export default {
            orderStatus:''
         }
     },
+     computed: {
+    accessToken() {
+    return this.$store.getters.accessToken
+  },
+  },
     mounted(){
         const url='http://localhost:3000/api/orders/'+this.orderID;
-     axios.get(url).then((response) =>{
+     axios.get(url,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((response) =>{
           this.orderProducts = response.data;
       } );
      const url1='http://localhost:3000/api/orders/details/'+this.orderID;
-       axios.get(url1).then((response) =>{
+       axios.get(url1,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((response) =>{
           this.orderDetails=response.data;
           this.paymentMethodID=response.data[0].payment_method_id;
           this.locationID=response.data[0].location_id;
@@ -80,19 +89,27 @@ export default {
           
       } );
      const url2='http://localhost:3000/api/orders/sum/'+this.orderID;
-        axios.get(url2).then((response) =>{
+        axios.get(url2,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((response) =>{
           this.sum=response.data[0].sum;
       } );
       const url3="http://localhost:3000/api/paymentMethod/"+this.paymentMethodID;
-        axios.get(url3).then((response) =>{
+        axios.get(url3,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((response) =>{
           this.paymentMethodName=response.data[0].name;
       } );
             const url4="http://localhost:3000/api/location/"+this.locationID;
-        axios.get(url4).then((response) =>{
+        axios.get(url4,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((response) =>{
           this.locationName=response.data[0].name;
       } );
                   const url5="http://localhost:3000/api/employee/"+this.employeeID;
-        axios.get(url5).then((response) =>{
+        axios.get(url5,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((response) =>{
           this.employeeName=response.data[0].name;
       } );
       this.format_date(this.whenMade);

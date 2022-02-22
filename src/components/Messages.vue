@@ -28,17 +28,30 @@ export default {
         return{
             messages:[],
             headers:['ID','Name','Content','Email'],
-            columns:['id','name','content','email']
+            columns:['id','name','content','email'],
+            localToken:null
         }
-    }, mounted(){
+    },
+    computed: {
+    accessToken() {
+    return this.$store.getters.accessToken
+  },
+  },
+   mounted(){
+
     const url='http://localhost:3000/api/message/';
-     axios.get(url).then((response) =>{
+     axios.get(url,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((response) =>{
           this.messages = response.data;
       } );
     },
     methods:{
            removeMessage(id,index){
-            axios.post('http://localhost:3000/api/message/removemessage/'+id)
+   
+            axios.post('http://localhost:3000/api/message/removemessage/'+id,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    })
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  

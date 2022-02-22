@@ -59,17 +59,26 @@ export default {
     },
     mounted(){
     const url='http://localhost:3000/api/location/';
-     axios.get(url).then((response) =>{
+     axios.get(url,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((response) =>{
           this.locations = response.data;
       } );
 
       const url1='http://localhost:3000/api/city/';
-     axios.get(url1).then((response) =>{
+     axios.get(url1,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((response) =>{
           this.cities = response.data;
       } );
 
 
-    },methods:{
+    }, computed: {
+    accessToken() {
+    return this.$store.getters.accessToken
+  },
+  },
+    methods:{
        editLocation(id,name,cityID,cityName,index){
             this.editLocationName=name;
             this.editID=id;
@@ -79,7 +88,9 @@ export default {
         },
         editLocationForm(){
                    axios.post('http://localhost:3000/api/location/editlocation',
-             {name:this.editLocationName,id:this.editID,city_id:this.editCityID}).then((res) => {
+             {name:this.editLocationName,id:this.editID,city_id:this.editCityID},{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
                      this.locations.splice(this.saveIndex,1,{locationName:this.editLocationName,id:this.editID,cityID:this.editCityID,cityName:this.editCity}) ;             
@@ -92,7 +103,9 @@ export default {
                  
         },
         removeLocation(id,index){
-               axios.post('http://localhost:3000/api/location/removelocation/'+id)
+               axios.post('http://localhost:3000/api/location/removelocation/'+id,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    })
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  

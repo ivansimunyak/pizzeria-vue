@@ -6,7 +6,19 @@ const jwt=require('jsonwebtoken');
 router.get('/',authenticateToken,async(req,res,next)=>{
     try{
 let results=await db.message();
+console.log("working")
 res.json(results);
+    }catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+router.post('/sendmessage',async(req,res,next)=>{
+    console.log("message sent "+req.body.user_id);
+    try{
+let results= db.sendMessage(req.body.content,req.body.user_id,req.body.email);
+ res.json(results);
+
     }catch(e){
         console.log(e);
         res.sendStatus(500);

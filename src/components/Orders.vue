@@ -40,13 +40,23 @@ export default {
   },
  mounted(){
     const url='http://localhost:3000/api/orders/';
-     axios.get(url).then((response) =>{
+     axios.get(url,
+     {headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((response) =>{
           this.orders = response.data;
       
       } );
- },methods:{
+ }, computed: {
+    accessToken() {
+    return this.$store.getters.accessToken
+  },
+  },
+ methods:{
          removeOrder(id,index){
-            axios.post('http://localhost:3000/api/orders/removeorder/'+id)
+            axios.post('http://localhost:3000/api/orders/removeorder/'+id,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    })
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  

@@ -40,16 +40,24 @@ export default {
     editName:'',
     editID:''
 }
-    }, mounted(){
+    }, computed: {
+    accessToken() {
+    return this.$store.getters.accessToken
+  },
+  }, mounted(){
     const url='http://localhost:3000/api/userType/';
-     axios.get(url).then((response) =>{
+     axios.get(url,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((response) =>{
           this.types = response.data;
       } );
     },
     methods:{
             editTypeForm(){
             axios.post('http://localhost:3000/api/userType/edittype',
-             {name:this.editName,id:this.editID}).then((res) => {
+             {name:this.editName,id:this.editID},{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
                      this.types.splice(this.saveIndex,1,{name:this.editName}) ;             
@@ -66,7 +74,9 @@ export default {
            this.saveIndex=index;
         },
         removeType(id,index){
-            axios.post('http://localhost:3000/api/userType/removetype/'+id)
+            axios.post('http://localhost:3000/api/userType/removetype/'+id,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    })
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  

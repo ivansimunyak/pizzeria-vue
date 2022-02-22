@@ -42,14 +42,23 @@ export default {
             editID:'',
             saveIndex:'',    
         }
-    }, mounted(){
+    }, computed: {
+    accessToken() {
+    return this.$store.getters.accessToken
+  },
+  },
+     mounted(){
     const url='http://localhost:3000/api/productCategory/';
-     axios.get(url).then((response) =>{
+     axios.get(url,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((response) =>{
           this.categories = response.data;
       } );
     },methods:{
                 removeCategory(id,index){
-            axios.post('http://localhost:3000/api/productCategory/removecategory/'+id)
+            axios.post('http://localhost:3000/api/productCategory/removecategory/'+id,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    })
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
@@ -62,7 +71,9 @@ export default {
                  
         
         }, editCategoryForm(){
-            axios.post('http://localhost:3000/api/productCategory/editcategory', {name:this.editName,id:this.editID})
+            axios.post('http://localhost:3000/api/productCategory/editcategory', {name:this.editName,id:this.editID},{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    })
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
