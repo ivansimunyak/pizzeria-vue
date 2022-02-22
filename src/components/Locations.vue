@@ -58,6 +58,7 @@ export default {
         }
     },
     mounted(){
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.accessToken;
     const url='http://localhost:3000/api/location/';
      axios.get(url,{headers: {
       'Authorization': 'Bearer ' + this.accessToken}

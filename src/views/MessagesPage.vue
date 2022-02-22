@@ -19,9 +19,12 @@ export default {
   data(){
     return{
      msgRemoved:this.$route.params.removeSuccess,
-     happened:'',
-     happened1:'fsdf'
+    
     }
+  }, computed: {
+    accessToken() {
+    return this.$store.getters.accessToken
+  },
   },
   methods:{
     update(){

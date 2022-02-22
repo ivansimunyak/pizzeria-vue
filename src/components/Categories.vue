@@ -33,6 +33,7 @@
 <script>
 import axios from 'axios'
 import BtnStyled from './BtnStyled.vue';
+
 export default {
   components: { BtnStyled },
     data(){
@@ -77,7 +78,7 @@ export default {
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
-                     this.categories.splice(this.saveIndex,1,{name:this.editName}) ;             
+                     this.categories.splice(this.saveIndex,1,{name:this.editName,id:this.editID}) ;             
                      
                  })
                  .catch((error) => {

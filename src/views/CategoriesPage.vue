@@ -26,10 +26,16 @@ export default {
             addingName:''
 
         }
-    },
+    }, computed: {
+    accessToken() {
+    return this.$store.getters.accessToken
+  },
+  },
     methods:{
         submitForm(){
-            axios.post('http://localhost:3000/api/productCategory/addcategory', {name:this.addingName})
+            axios.post('http://localhost:3000/api/productCategory/addcategory', {name:this.addingName},{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    })
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  

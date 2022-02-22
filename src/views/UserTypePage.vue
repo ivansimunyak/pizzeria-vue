@@ -23,10 +23,16 @@ export default {
       addingName:'',
       uniqueTypeKey:0
     }
+  }, computed: {
+    accessToken() {
+    return this.$store.getters.accessToken
+  },
   },
     methods:{
           submitForm(){
-            axios.post('http://localhost:3000/api/userType/addtype', {name:this.addingName})
+            axios.post('http://localhost:3000/api/userType/addtype', {name:this.addingName},{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    })
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  

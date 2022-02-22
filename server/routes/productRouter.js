@@ -3,6 +3,7 @@ const router=express.Router();
 const db=require('../db');
 const multer = require('multer');
 const fs = require('fs');
+const jwt=require('jsonwebtoken');
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {

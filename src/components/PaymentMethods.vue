@@ -41,6 +41,7 @@ export default {
     editID:''
 }
     }, mounted(){
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.accessToken;
     const url='http://localhost:3000/api/paymentMethod/';
      axios.get(url,{headers: {
       'Authorization': 'Bearer ' + this.accessToken}
@@ -60,7 +61,7 @@ export default {
     }).then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
-                     this.paymethods.splice(this.saveIndex,1,{name:this.editName}) ;             
+                     this.paymethods.splice(this.saveIndex,1,{name:this.editName,id:this.editID}) ;             
                      
                  })
                  .catch((error) => {

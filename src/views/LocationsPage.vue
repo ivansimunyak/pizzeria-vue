@@ -30,10 +30,16 @@ export default {
         addingCityID:'',
         uniqueLocKey:0
       }
-    },
+    }, computed: {
+    accessToken() {
+    return this.$store.getters.accessToken
+  },
+  },
     methods:{
          submitForm(){
-            axios.post('http://localhost:3000/api/location/addlocation', {name:this.addingName,city_id:this.addingCityID})
+            axios.post('http://localhost:3000/api/location/addlocation', {name:this.addingName,city_id:this.addingCityID},{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    })
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
@@ -50,7 +56,9 @@ export default {
     },
     mounted(){
           const url='http://localhost:3000/api/city/';
-     axios.get(url).then((response) =>{
+     axios.get(url,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((response) =>{
           this.cities = response.data;
       } );
 

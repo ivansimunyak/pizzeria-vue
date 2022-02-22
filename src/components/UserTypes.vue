@@ -45,6 +45,7 @@ export default {
     return this.$store.getters.accessToken
   },
   }, mounted(){
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.accessToken;
     const url='http://localhost:3000/api/userType/';
      axios.get(url,{headers: {
       'Authorization': 'Bearer ' + this.accessToken}
@@ -60,7 +61,7 @@ export default {
     }).then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
-                     this.types.splice(this.saveIndex,1,{name:this.editName}) ;             
+                     this.types.splice(this.saveIndex,1,{name:this.editName,id:this.editID}) ;             
                      
                  })
                  .catch((error) => {

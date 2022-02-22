@@ -23,9 +23,16 @@ export default {
       addingName:'',
       uniquePayKey:0
     }
-  },    methods:{
+  }, computed: {
+    accessToken() {
+    return this.$store.getters.accessToken
+  },
+  },
+      methods:{
           submitForm(){
-            axios.post('http://localhost:3000/api/paymentMethod/addpaymentmethod', {name:this.addingName})
+            axios.post('http://localhost:3000/api/paymentMethod/addpaymentmethod', {name:this.addingName},{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    })
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
