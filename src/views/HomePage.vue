@@ -1,5 +1,5 @@
 <template>
-<h1>This is home {{user}}</h1>
+<h1>This is home {{user.user_id}}</h1>
 <h2>{{isAdmin}}</h2>
     <home/>
 </template>

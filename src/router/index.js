@@ -12,6 +12,9 @@ import ProductsPage from "../views/ProductsPage.vue";
 import Home from "../views/HomePage.vue";
 import LoginPage from "../views/LoginPage.vue";
 import RegisterPage from "../views/RegisterPage.vue";
+import MessageUsPage from "../views/MessageUsPage.vue";
+
+
 import axios from "axios";
 import store from '../store/index.js';
 
@@ -89,7 +92,12 @@ const routes = [
   path:"/register",
   name:"Register",
   component:RegisterPage
-  }
+  },
+  {
+    path:"/messageus",
+    name:"Message Us",
+    component:MessageUsPage
+    }
 ];
 
 const router = createRouter({
