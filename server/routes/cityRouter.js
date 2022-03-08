@@ -3,7 +3,7 @@ const router=express.Router();
 const db=require('../db');
 const jwt=require('jsonwebtoken');
 
-router.get('/',authenticateToken,async(req,res,next)=>{
+router.get('/',async(req,res,next)=>{
     try{
 let results=await db.city();
 res.json(results);

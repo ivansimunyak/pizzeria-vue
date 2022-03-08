@@ -41,7 +41,7 @@
           </option></select>
           <br /><br />
         <label for="image">Image:</label><br />
-        <input type="file" name="image" @change="handleFileUpload" />
+        <input required type="file" name="image" @change="handleFileUpload" />
         <br />
         <btn-styled type="submit">Submit</btn-styled>
       </form>

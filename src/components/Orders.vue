@@ -31,7 +31,7 @@ export default {
   data() {
     return {
        orders:[],
-      columns: [ 'name', 'order_status','adress','phone_number','employee'],
+      columns: [ 'name', 'order_status','adress','phone_number','employee_name'],
       headers:[ 'Name', 'Order Status','Adress','Phone','Employee'],
        error:'',
       checkDetails:true,

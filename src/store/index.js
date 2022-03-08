@@ -20,6 +20,11 @@ export default createStore({
     setAdmin(state, isAdmin) {
       state.isAdmin = isAdmin;
     },
+    logout(state){
+      state.user=null,
+      state.isAdmin=null,
+      state.accessToken=null
+    }
   },
   actions: {},
   modules: {},

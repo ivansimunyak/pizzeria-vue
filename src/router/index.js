@@ -13,7 +13,9 @@ import Home from "../views/HomePage.vue";
 import LoginPage from "../views/LoginPage.vue";
 import RegisterPage from "../views/RegisterPage.vue";
 import MessageUsPage from "../views/MessageUsPage.vue";
-
+import ProfilePage from "../views/ProfilePage.vue";
+import ProfileOrderDetails from "../components/ProfileOrderDetails.vue";
+import Logout from "../components/Logout.vue";
 
 import axios from "axios";
 import store from '../store/index.js';
@@ -97,6 +99,20 @@ const routes = [
     path:"/messageus",
     name:"Message Us",
     component:MessageUsPage
+    }, {
+      path:"/profile",
+      name:"Profile",
+      component:ProfilePage
+      },
+      {
+        path:"/profileorder/:id",
+        name:"Profile Order Details",
+        component:ProfileOrderDetails,
+        // props:true
+      },
+      {path:"/logout",
+      name:"Logout",
+      component:Logout
     }
 ];
 

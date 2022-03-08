@@ -2,20 +2,11 @@
   <div id="wrapper">
     <div id="header">
       <h1>Order Details</h1>
-      <h2>Order ID {{ orderID }}</h2>
+      <h2>Order ID {{this.$route.params.id}} </h2>
     </div>
-    <btn-styled class="btnDelete" @click="removeOrder">Delete Order</btn-styled>
-    <btn-styled
-      class="btnEdit"
-      @click="
-        $router.push({
-          path: `/editorder/${orderID}/${this.adress}/${this.name}/${this.phone_number}/${this.orderStatus}`,
-        })
-      "
-      >Edit Order</btn-styled
-    >
-    <btn-styled class="btnBack" @click="$router.push({ path: `/orders` })"
-      >Back to orders</btn-styled
+   
+    <btn-styled class="btnBack" @click="$router.push({ path: `/profile` })"
+      >Back to profile</btn-styled
     >
     <div class="left-list">
       <ul v-for="item in orderDetails" :key="item.id">
@@ -43,7 +34,7 @@
         <li>Comments: {{ item.comments }}</li>
       </ul>
     </div>
-   
+    
       <table-orders
         id="table"
         :columns="this.columns"
@@ -54,17 +45,15 @@
     
   </div>
 </template>
-
 <script>
 import TableOrders from "./TableOrders.vue";
 import axios from "axios";
 import BtnStyled from "./BtnStyled.vue";
 import moment from "moment";
 export default {
-  props: { orderID: Number },
-  components: { TableOrders, BtnStyled },
-  data() {
-    return {
+      components: { TableOrders, BtnStyled },
+    data(){
+          return {
       columns: ["name", "size", "quantity", "price"],
       headers: ["Product Name", "Product Size", "Quantity", "Price"],
       columnsX: ["quantity", "price"],
@@ -78,31 +67,22 @@ export default {
       employeeID: "",
       employeeName: "",
       whenMade: 0,
-      adress: "",
-      name: "",
-      phone_number: "",
-      orderStatus: "",
-      whenSent:""
-    };
-  },
-  computed: {
+      whenSent:"",
+      orderID:0
+    }
+    },  computed: {
     accessToken() {
       return this.$store.getters.accessToken;
     },
+  },  methods: {
+    format_date(value) {
+      if (value) {
+        return moment(String(value)).format("MMMM Do YYYY, h:mm:ss a");
+      }
+    },
   },
   mounted() {
-    axios.defaults.headers.common["Authorization"] =
-      "Bearer " + this.accessToken;
-    const url = "http://localhost:3000/api/orders/" + this.orderID;
-    axios
-      .get(url, {
-        headers: {
-          Authorization: "Bearer " + this.accessToken,
-        },
-      })
-      .then((response) => {
-        this.orderProducts = response.data;
-      });
+     this.orderID=this.$route.params.id
     const url1 = "http://localhost:3000/api/orders/details/" + this.orderID;
     axios
       .get(url1, {
@@ -122,28 +102,7 @@ export default {
         this.orderStatus = response.data[0].order_status;
         this.whenSent= new Date(response.data[0].when_sent)
       });
-    const url2 = "http://localhost:3000/api/orders/sum/" + this.orderID;
-    axios
-      .get(url2, {
-        headers: {
-          Authorization: "Bearer " + this.accessToken,
-        },
-      })
-      .then((response) => {
-        this.sum = response.data[0].sum;
-      });
-    const url3 =
-      "http://localhost:3000/api/paymentMethod/" + this.paymentMethodID;
-    axios
-      .get(url3, {
-        headers: {
-          Authorization: "Bearer " + this.accessToken,
-        },
-      })
-      .then((response) => {
-        this.paymentMethodName = response.data[0].name;
-      });
-    const url4 = "http://localhost:3000/api/location/" + this.locationID;
+        const url4 = "http://localhost:3000/api/location/" + this.locationID;
     axios
       .get(url4, {
         headers: {
@@ -154,7 +113,7 @@ export default {
         console.log(response.data)
         this.locationName = response.data[0].locationName;
       });
-    const url5 = "http://localhost:3000/api/user/" + this.employeeID;
+       const url5 = "http://localhost:3000/api/user/" + this.employeeID;
     axios
       .get(url5, {
         headers: {
@@ -164,33 +123,29 @@ export default {
       .then((response) => {
         this.employeeName = response.data[0].name;
       });
-    this.format_date(this.whenMade);
-  },
-  methods: {
-    format_date(value) {
-      if (value) {
-        return moment(String(value)).format("MMMM Do YYYY, h:mm:ss a");
-      }
-    },
-    removeOrder() {
-      axios
-        .post("http://localhost:3000/api/orders/removeorder/" + this.orderID)
-        .then((res) => {
-          //Perform Success Action
-          console.log(res.data);
-          this.$router.push({
-            name: "OrderPage",
-            params: { removeSuccess: true },
-          });
-        })
-        .catch((error) => {
-          // error.response.status Check status code
-          console.log(error.response.status);
-        });
-      this.resetData();
-    },
-  },
-};
+       const url3 =
+      "http://localhost:3000/api/paymentMethod/" + this.paymentMethodID;
+    axios
+      .get(url3, {
+        headers: {
+          Authorization: "Bearer " + this.accessToken,
+        },
+      })
+      .then((response) => {
+        this.paymentMethodName = response.data[0].name;
+      });
+       const url = "http://localhost:3000/api/orders/" + this.orderID;
+    axios
+      .get(url, {
+        headers: {
+          Authorization: "Bearer " + this.accessToken,
+        },
+      })
+      .then((response) => {
+        this.orderProducts = response.data;
+      });
+  }
+}
 </script>
 <style scoped>
 #header {
@@ -251,7 +206,7 @@ ul{
   height: 18%;
   width: 40%;
   top: 35%;
-  left: 10%;
+  left:5%;
   position: absolute;
   border-style: ridge;
   border-color: #a80000;
@@ -272,13 +227,13 @@ ul{
 }
 .right-list {
   top: 35%;
-  right: 11%;
+  right: 5%;
   position: absolute;
   background-color: white;
-  width: 35%;
+   height: 18%;
+  width: 40%;
   border-style: ridge;
   border-color: #a80000;
-  height: 18%;
    padding:5px;
   margin:5px 0;
   border-radius:15px;

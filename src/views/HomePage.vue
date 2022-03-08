@@ -1,6 +1,5 @@
 <template>
-<h1>This is home {{user.user_id}}</h1>
-<h2>{{isAdmin}}</h2>
+<h2>{{user}}</h2>
     <home/>
 </template>
 <script>

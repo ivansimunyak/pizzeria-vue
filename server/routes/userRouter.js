@@ -42,9 +42,11 @@ router.post('/token',async(req,res)=>{
 });
 
 
-router.get('/:id',authenticateToken,async(req,res,next)=>{
+router.get('/:id',authenticateUserToken,async(req,res,next)=>{
     try{
+    
 let results=await db.userOne(req.params.id);
+console.log("this is me"+req.user.user_id)
 res.json(results);
     }catch(e){
         console.log(e);
@@ -101,7 +103,31 @@ router.post('/login',async(req,res,next)=>{
         }
     });   
 });
-
+router.post('/deleteprofile',authenticateUserToken,async(req,res,next)=>{
+    db1.query('SELECT * FROM user WHERE id=? AND password=?;',[req.body.id,req.body.password],(err,results)=>{
+        if(err) return res.sendStatus(400)
+        if (!results.length) {
+            return res.status(401).send({
+              msg: 'id or password is incorrect!'
+            });
+          }
+          if(results){
+            //   let results=db.userOne(req.body.id);
+            //  res.json(results)
+            // console.log(req.body.id)
+            db1.query('DELETE FROM user WHERE id=?',[req.body.id],(err,results)=>{
+                if (err) {
+                    return res.status(400).send({
+                        msg: err
+                      });
+                }
+                if(results) return res.sendStatus(200)
+            })
+             
+          }
+        }); 
+    
+});
 function authenticateToken(req,res,next){
     const authHeader=req.headers['authorization']
     const token=authHeader && authHeader.split(" ")[1]
@@ -110,8 +136,30 @@ function authenticateToken(req,res,next){
     jwt.verify(token,process.env.ADMIN_ACCESS_TOKEN,(err,user)=>{
         if(err) return res.sendStatus(403)
         req.user=user
+        console.log("this is me"+user)
         next()
     })
+}
+function authenticateUserToken(req,res,next){
+    const authHeader=req.headers['authorization']
+    const token=authHeader && authHeader.split(" ")[1]
+    if(token==null) return res.sendStatus(401)
+
+    jwt.verify(token,process.env.ADMIN_ACCESS_TOKEN,(err,user)=>{
+        if(err) {
+            jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
+                if(err) return res.sendStatus(403)
+                req.user=user
+                console.log("this is me"+user)
+                next()
+            })
+        }else{
+        req.user=user
+        
+        next()
+        }
+    })
+  
 }
 
 module.exports=router;

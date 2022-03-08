@@ -31,12 +31,8 @@
 </template>
 <script>
 import axios from 'axios';
-import BtnStyled from './BtnStyled.vue';
 export default {
-    components:{
-        BtnStyled
 
-    },
     data(){
         return{
             cities:[],

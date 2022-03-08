@@ -29,9 +29,9 @@
 </template>
 <script>
 import axios from "axios";
-import BtnStyled from "../components/BtnStyled.vue"
+// import BtnStyled from "../components/BtnStyled.vue"
 export default {
-    components:{BtnStyled},
+    // components:{BtnStyled},
     data(){
         return{
             products:[]

@@ -2,11 +2,20 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import BaseDialog from "./components/UI/BaseDialog.vue"
+import BtnStyled from "./components/BtnStyled.vue"
 
-library.add(faArrowLeftLong);
-createApp(App).component("font-awesome-icon",FontAwesomeIcon).use(store).use(router).mount("#app");
+const app=createApp(App)
+
+app.use(store);
+app.use(router);
+
+app.component('btn-styled',BtnStyled);
+app.component('base-dialog',BaseDialog);
+
+app.mount('#app');
+
+
+// createApp(App).component("font-awesome-icon",FontAwesomeIcon).use(store).use(router).mount("#app");
 
 

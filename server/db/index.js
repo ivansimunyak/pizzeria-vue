@@ -36,7 +36,7 @@ table.productCategory=()=>{
 
 table.userOne=(id)=>{
     return new Promise((resolve,reject)=>{
-        db.query('SELECT * FROM user WHERE id=?',[id],(err,results)=>{
+        db.query('SELECT user.username,user.name AS user_name,user.email,user.adress,user.phone_number,city.name AS city_name FROM user LEFT JOIN city ON user.city_id=city.id WHERE user.id=?',[id],(err,results)=>{
             if(err){
                 return reject(err);
             }else{
@@ -117,7 +117,7 @@ table.ordersProduct=()=>{
 };
 table.ordersAll=()=>{
     return new Promise((resolve,reject)=>{
-        db.query('SELECT * FROM orders',(err,results)=>{
+        db.query('SELECT orders.name,orders.adress,user.name AS employee_name,orders.id,orders.phone_number,orders.order_status FROM orders INNER JOIN user ON orders.employee_id=user.id',(err,results)=>{
             if(err){
                 return reject(err);
             }else{
@@ -143,6 +143,17 @@ table.ordersJoinProducts=(id)=>{
 table.ordersForDetails=(id)=>{
     return new Promise((resolve,reject)=>{
         db.query("SELECT * FROM orders WHERE id=?;",[id],(err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        });
+    }); 
+};
+table.profileDetails=(id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("SELECT orders.id,orders.order_status,orders.adress,orders.phone_number,user.name FROM orders LEFT JOIN user ON orders.employee_id=user.id WHERE user_id=?",[id],(err,results)=>{
             if(err){
                 return reject(err);
             }else{
@@ -199,7 +210,7 @@ table.location=()=>{
 };
 table.locationOne=(id)=>{
     return new Promise((resolve,reject)=>{
-        db.query("SELECT * FROM location FULL JOIN city ON location.city_id=city.id WHERE location.id=?;",[id],(err,results)=>{
+        db.query("SELECT location.id,location.city_id,location.name,city.name AS cityName FROM location INNER JOIN city ON location.city_id=city.id WHERE location.id=?;",[id],(err,results)=>{
             if(err){
                 return reject(err);
             }else{
@@ -241,14 +252,14 @@ table.productOne=(id)=>{
         });
     });
 };
-table.checkLogin=(username,password)=>{
+table.checkLogin=(user_id,password)=>{
     return new Promise((resolve,reject)=>{
-        db.query('SELECT * FROM user WHERE username=? AND password=?;',[username,password],(err,results)=>{
+        db.query('SELECT * FROM user WHERE id=? AND password=?;',[user_id,password],(err,results)=>{
             if(err){
                 return reject(err);
-            }else{
-                return resolve(results[0].username);
             }
+                return resolve(results[0]);
+            
         });
     });
 };

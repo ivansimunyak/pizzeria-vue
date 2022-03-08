@@ -68,6 +68,17 @@ console.log("Order for details is happening");
             res.sendStatus(500);
         }
     });
+    router.get('/profile/:id',authenticateUserToken,async(req,res,next)=>{
+        try{
+        if(req.user.user_id!=req.params.id) return res.sendStatus(403)
+    let results=await db.profileDetails(req.params.id);
+    res.json(results);
+    console.log("Profile details is happening");
+        }catch(e){
+            console.log(e);
+            res.sendStatus(500);
+        }
+    });
     function authenticateToken(req,res,next){
         const authHeader=req.headers['authorization']
         const token=authHeader && authHeader.split(" ")[1]
@@ -78,6 +89,27 @@ console.log("Order for details is happening");
             req.user=user
             next()
         })
+    }
+    function authenticateUserToken(req,res,next){
+        const authHeader=req.headers['authorization']
+        const token=authHeader && authHeader.split(" ")[1]
+        if(token==null) return res.sendStatus(401)
+    
+        jwt.verify(token,process.env.ADMIN_ACCESS_TOKEN,(err,user)=>{
+            if(err) {
+                jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
+                    if(err) return res.sendStatus(403)
+                    req.user=user
+                    console.log("this is me"+user)
+                    next()
+                })
+            }else{
+            req.user=user
+            
+            next()
+            }
+        })
+      
     }
     
 module.exports=router;
