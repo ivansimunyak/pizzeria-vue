@@ -36,7 +36,7 @@ table.productCategory=()=>{
 
 table.userOne=(id)=>{
     return new Promise((resolve,reject)=>{
-        db.query('SELECT user.username,user.name AS user_name,user.email,user.adress,user.phone_number,city.name AS city_name FROM user LEFT JOIN city ON user.city_id=city.id WHERE user.id=?',[id],(err,results)=>{
+        db.query('SELECT user.username,user.name AS user_name,user.email,user.adress,user.phone_number,city.name AS city_name,city.id AS city_id FROM user LEFT JOIN city ON user.city_id=city.id WHERE user.id=?',[id],(err,results)=>{
             if(err){
                 return reject(err);
             }else{
@@ -387,7 +387,20 @@ table.editLocation=(name,id,city_id)=>{
         )
     })
 };
-
+table.editUser=(username,email,adress,name,phone_number,city_id,id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("UPDATE user SET username=?,email=?,adress=?,name=?,phone_number=?,city_id=? WHERE id=?;",[username,email,adress,name,phone_number,city_id,id],
+        (err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        }
+        
+        )
+    })
+};
 
 table.editCategory=(name,id)=>{
     return new Promise((resolve,reject)=>{

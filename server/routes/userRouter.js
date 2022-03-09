@@ -103,6 +103,17 @@ router.post('/login',async(req,res,next)=>{
         }
     });   
 });
+
+router.post('/editprofile',async(req,res,next)=>{
+    console.log("edit user "+req.body.name);
+    try{
+let results= db.editUser(req.body.username,req.body.email,req.body.adress,req.body.name,req.body.phone_number,req.body.city_id,req.body.id);
+ res.json(results);
+    }catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
 router.post('/deleteprofile',authenticateUserToken,async(req,res,next)=>{
     db1.query('SELECT * FROM user WHERE id=? AND password=?;',[req.body.id,req.body.password],(err,results)=>{
         if(err) return res.sendStatus(400)
@@ -112,9 +123,6 @@ router.post('/deleteprofile',authenticateUserToken,async(req,res,next)=>{
             });
           }
           if(results){
-            //   let results=db.userOne(req.body.id);
-            //  res.json(results)
-            // console.log(req.body.id)
             db1.query('DELETE FROM user WHERE id=?',[req.body.id],(err,results)=>{
                 if (err) {
                     return res.status(400).send({
@@ -126,7 +134,6 @@ router.post('/deleteprofile',authenticateUserToken,async(req,res,next)=>{
              
           }
         }); 
-    
 });
 function authenticateToken(req,res,next){
     const authHeader=req.headers['authorization']

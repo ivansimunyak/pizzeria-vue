@@ -1,17 +1,56 @@
 <template>
     <div id="wrapper">
-      <base-dialog  v-if="deleteUser" title="Delete Your Profile" @close="closeDialog">
-      <template #default>
-        <form @submit.prevent="submitData">
+      {{localUser}}
+      <base-dialog v-if="deleteUser" title="Delete Your Profile" @close="closeDialog">
+      <template  #default>
+        <!-- delete profile below -->
+        <form @submit.prevent="submitDelete">
         <label id="enter-password" for="password">Please enter your password</label><br>
-        <input type="password" name="password" v-model="password"><br>
+        <input type="password" name="password" placeholder="Password" v-model="password"><br>
         <btn-styled type=submit>Submit</btn-styled>
         </form>
       </template>
       </base-dialog>
-        <h1>Your Profile {{password}}</h1>
-   <div class="profile-list">
-      <ul v-for="(local,index) in localUser" :key="index" >
+        <base-dialog  v-if="editUser" title="Edit Your Profile" @close="closeDialog">
+      <template #default>
+        <div v-if="!choiceMade">
+        <btn-styled @click="makeChoice('pw')">Change Password</btn-styled>
+        <btn-styled @click="makeChoice('data')">Change Information</btn-styled>
+        </div>
+        <btn-styled id="back-btn" v-if="choiceMade" @click="resetChoice">Back</btn-styled>
+<!-- Below is edit form -->
+        <form v-if="editData" class="RegistrationPageForm" @submit.prevent="submitEdit">
+    <b><label>Username:</label></b><br>
+    <input ref="username" id="username" type="text" maxlength="25" name="username" placeholder="Username" :value="localUser[0].username" required><br>
+    <b><label>Name:</label></b><br>
+        <input ref="name" id="name" type="text" maxlength="25" name="name" placeholder="Name" pattern="[A-z]+" :value="localUser[0].user_name" required><br>
+     <b><label>Email:</label></b><br>
+    <input ref="email" id="email" type="email" maxlength="49" name="email" placeholder="Email" :value="localUser[0].email" required><br>
+    <b><label >Adress: </label></b><br>
+    <input ref="adress" id="adress" type="text" name="adress" maxlength="25" placeholder="Adress" :value="localUser[0].adress" required><br>
+    <b><label>Phone Number:(+381) </label></b><br>
+    <input ref="phone" id="phone" type="number" placeholder="Phone Number" name="phone" max="2147483645" min="0" :value="localUser[0].phone_number" required><br>
+    <b><label>City:  </label></b><br>
+      <select ref="city_id" required name="location_name" :value="localUser[0].city_id">
+        <option disabled value="">Choose a city...</option>
+   <option v-for="city in cities" :value="city.id" :key="city.id">{{city.name}}</option>
+   </select><br><br>
+   <btn-styled type="submit">Submit</btn-styled>
+</form>
+<!-- below is edit password -->
+    <form v-if="editPassword">
+      <b><label for="old-pw">Old password:</label></b><br>
+      <input type="password" name="old-pw" placeholder="Old Password"><br>
+      <b><label for="new-pw">New password:</label></b><br>
+      <input type="password" name="new-pw" placeholder="New Password"><br>
+      <btn-styled type="submit">Submit</btn-styled>
+    </form>
+      </template>
+      </base-dialog>
+      <!-- profile below -->
+        <h1>Your Profile</h1>
+   <div  class="profile-list">
+      <ul  v-for="(local,index) in localUser" :key="index" >
         <li>Username: {{localUser[index].username}}</li>
         <br />
         <li>Name:{{localUser[index].user_name}}</li>
@@ -25,6 +64,7 @@
         <li>City: {{localUser[index].city_name}} </li>
       </ul>
     </div>
+    <!-- below is table with orders -->
     <div v-if="profileOrders.length>0" class="wrap-table">
       <table class="table">
      <thead>
@@ -41,7 +81,7 @@
       </tbody>
     </table>
     </div>
-    <btn-styled id="edit-profile" >Edit Profile</btn-styled>
+    <btn-styled id="edit-profile" @click="editProfile" >Edit Profile</btn-styled>
     <btn-styled id="delete-profile" @click="deleteProfile">Delete Profile</btn-styled>
     </div>
 </template>
@@ -59,8 +99,16 @@ export default {
       headers:["Order ID","Order Status","Adress","Phone","Employee","Check Details"],
       profileOrders:[],
       localUser:[],
+      editingUser:[],
+      cities:[],
       deleteUser:false,
-      password:''
+      editUser:false,
+      editData:false,
+      editPassword:false,
+      choiceMade:false,
+      password:'',
+      localKey:0,
+      found:''
     }
   },  computed: {
     accessToken() {
@@ -69,6 +117,7 @@ export default {
     ...mapGetters(['user'])
   },
   mounted(){
+    
     axios.defaults.headers.common["Authorization"] =
       "Bearer " + this.accessToken;
     const url = "http://localhost:3000/api/orders/profile/" + this.user.user_id;
@@ -92,12 +141,35 @@ export default {
         response.status
         this.localUser = response.data;
       });
+         const url2='http://localhost:3000/api/city/';
+     axios.get(url2,{headers: {
+      'Authorization': 'Bearer ' + this.accessToken}
+    }).then((response) =>{
+          this.cities = response.data;
+      } );
+
   },
   methods:{
     deleteProfile(){
       this.deleteUser=true;
+    },editProfile(){
+      this.editUser=true;
+      this.editingUser=this.localUser
     },
-    submitData(){   
+    makeChoice(choice){
+      this.choiceMade=true;
+      if(choice=='pw'){
+        this.editPassword=true;
+      }else this.editData=true;
+
+    },
+    resetChoice(){
+      this.choiceMade=false;
+      this.editPassword=false;
+      this.editData=false;
+      
+    },
+    submitDelete(){   
       axios.defaults.headers.common["Authorization"] =
       "Bearer " + this.accessToken;
                   axios.post('http://localhost:3000/api/user/deleteprofile',{id:this.user.user_id,password:this.password})
@@ -114,14 +186,45 @@ export default {
                  });
 
       },
+      submitEdit(){   
+      axios.defaults.headers.common["Authorization"] =
+      "Bearer " + this.accessToken;
+                  axios.post('http://localhost:3000/api/user/editprofile',{username:this.$refs.username.value,email:this.$refs.email.value,adress:this.$refs.adress.value,name:this.$refs.name.value,phone_number:this.$refs.phone.value,city_id:this.$refs.city_id.value,id:this.user.user_id})
+                 .then((res) => {
+                     //Perform Success Action
+                     console.log(res.data); 
+                      const searchObject= this.cities.find((city) => city.id==this.$refs.city_id.value);
+                     this.localUser.splice(0,1,{username:this.$refs.username.value,email:this.$refs.email.value,adress:this.$refs.adress.value,user_name:this.$refs.name.value,phone_number:this.$refs.phone.value,city_id:this.$refs.city_id.value,city_name:searchObject.name});
+                      this.closeDialog();
+                 })
+                 .catch((error) => {
+                     // error.response.status Check status code
+                    //  console.log( error.response.status)
+                    console.log(error)
+                 });
+
+      },
     closeDialog(){
+      
       this.deleteUser=false;
+      this.editUser=false;
+      this.choiceMade=false;
+      this.editData=false;
+      this.editPassword=false;
+      
+    
     }
   }
 }
 </script>
 
 <style scoped>
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+.editBtn{
+  width: 30%;
+}
 #wrapper{
    background-color: #ffffffd9;
     position:absolute;
@@ -147,6 +250,11 @@ export default {
   margin:5px 0;
   border-radius:15px;
   box-shadow: 5px;
+}
+#back-btn{
+  position: absolute;
+  left: 1%;
+  width: 15%;
 }
 .profile-list ul {
     margin-top: 1%;
@@ -195,6 +303,7 @@ thead tr{
 
 }
 
+
 table th,
 table td {
     width: 15px ;
@@ -225,8 +334,22 @@ table th {
   top: 25%;
   left: 9%;
 }
-input[type=password]{
-  margin-top: 1%;
-  margin-bottom: 2%;
+form {
+  width: 100%;
+  text-align: center;
+}
+input{
+  padding:3px;
+  margin:3px 0;
+  border-radius:10px;
+  box-shadow: 5px;
+  border-width:1px;
+}
+select{
+  padding:3px;
+  margin:3px 0;
+  border-radius:10px;
+  box-shadow: 5px;
+  border-width:1px;
 }
 </style>
