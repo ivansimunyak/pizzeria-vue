@@ -473,6 +473,20 @@ table.editProductWithImage=(name,size,price,category_id,picture_path,id)=>{
         )
     })
 };
+table.newPassword=(password,id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("UPDATE user SET password= ? WHERE id=?;",[password,id],
+        (err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        }
+        
+        )
+    })
+};
 table.removeType=(id)=>{
     return new Promise((resolve,reject)=>{
         db.query("DELETE FROM user_type WHERE id=?",[id],(err,results)=>{

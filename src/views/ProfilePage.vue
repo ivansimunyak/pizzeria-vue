@@ -38,11 +38,11 @@
    <btn-styled type="submit">Submit</btn-styled>
 </form>
 <!-- below is edit password -->
-    <form v-if="editPassword">
+    <form v-if="editPassword" @submit.prevent="changePassword">
       <b><label for="old-pw">Old password:</label></b><br>
-      <input type="password" name="old-pw" placeholder="Old Password"><br>
+      <input type="password" name="old-pw" placeholder="Old Password" v-model="oldPassword"><br>
       <b><label for="new-pw">New password:</label></b><br>
-      <input type="password" name="new-pw" placeholder="New Password"><br>
+      <input type="password" name="new-pw" placeholder="New Password" v-model="newPassword"><br>
       <btn-styled type="submit">Submit</btn-styled>
     </form>
       </template>
@@ -97,6 +97,8 @@ export default {
     return{
       columns:["id","order_status","adress","phone_number","name"],
       headers:["Order ID","Order Status","Adress","Phone","Employee","Check Details"],
+      oldPassword:'',
+      newPassword:'',
       profileOrders:[],
       localUser:[],
       editingUser:[],
@@ -182,6 +184,24 @@ export default {
                  .catch((error) => {
                      // error.response.status Check status code
                     //  console.log( error.response.status)
+                    console.log(error)
+                 });
+
+      },
+       changePassword(){   
+         if(this.oldPassword==this.newPassword) return alert('Old password is the same as new password!')
+      axios.defaults.headers.common["Authorization"] =
+      "Bearer " + this.accessToken;
+                  axios.post('http://localhost:3000/api/user/changepassword',{id:this.user.user_id,password:this.oldPassword,newPassword:this.newPassword})
+                 .then((res) => {
+                     //Perform Success Action
+                     console.log(res.data); 
+                    this.closeDialog();
+                    alert('Password changed successfully! ')
+                 })
+                 .catch((error) => {
+                     // error.response.status Check status code
+                     console.log( error.response.status)
                     console.log(error)
                  });
 

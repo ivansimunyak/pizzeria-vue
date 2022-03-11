@@ -135,6 +135,26 @@ router.post('/deleteprofile',authenticateUserToken,async(req,res,next)=>{
           }
         }); 
 });
+
+router.post('/changepassword',async(req,res,next)=>{
+    db1.query('SELECT * FROM user WHERE password=? AND id=?;',[req.body.password,req.body.id],(err,results)=>{
+        if (err) {
+            return res.status(400).send({
+                msg: err
+              });
+        }
+        if (!results.length) {
+            return res.status(401).send({
+              msg: 'Password is incorrect!'
+            });
+          }
+          if(results){
+             let passwordResults= db.newPassword(req.body.newPassword,req.body.id);
+             if(passwordResults) return res.sendStatus(200)
+             else return res.sendStatus(404)
+          }
+    });
+})
 function authenticateToken(req,res,next){
     const authHeader=req.headers['authorization']
     const token=authHeader && authHeader.split(" ")[1]
