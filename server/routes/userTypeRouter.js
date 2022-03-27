@@ -55,34 +55,34 @@ let results= db.removeType(req.params.id);
         res.sendStatus(500);
     }
 });
-router.get('/getadmin/:type_id/:user_id',async(req,res,next)=>{
-    console.log("get admin in usertype router type id:"+ req.params.type_id+"user id : "+req.params.user_id)
-    try{
-let results= await db.getAdmin(req.params.type_id,req.params.user_id);
-if(results==""){
-    res.sendStatus(403);
-    return res.json(false)
-}
-const userType=results[0].name;
-var isAdmin=false;
-if(userType=='Admin'){
-    isAdmin=true
-}
- res.json(isAdmin);
-
- console.log(results)
-    }catch(e){
-        console.log(e);
-        res.sendStatus(500);
-    }
-});
+// router.get('/getadmin/:type_id/:user_id',async(req,res,next)=>{
+//     console.log("get admin in usertype router type id:"+ req.params.type_id+"user id : "+req.params.user_id)
+//     try{
+// let results= await db.getAdmin(req.params.type_id,req.params.user_id);
+// console.log(results)
+// if(results==""){
+//     res.sendStatus(403);    
+// }
+// if(results==undefined){
+//     res.sendStatus(500)
+// }
+// else if(results.length>0){
+// if(results[0].data=='Admin'){
+//     res.sendStatus(200)
+// }
+// }
+//  console.log(results)
+//     }catch(e){
+//         console.log(e);
+//         // res.sendStatus(500);
+//     }
+// });
 function authenticateToken(req,res,next){
     const authHeader=req.headers['authorization']
     const token=authHeader && authHeader.split(" ")[1]
-    if(token==null) return res.sendStatus(401)
-
+    if(token==null) return res.sendStatus(403)
     jwt.verify(token,process.env.ADMIN_ACCESS_TOKEN,(err,user)=>{
-        if(err) return res.sendStatus(403)
+        if(err) return res.sendStatus(401)
         req.user=user
         next()
     })

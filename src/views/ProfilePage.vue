@@ -1,6 +1,5 @@
 <template>
     <div id="wrapper">
-      {{localUser}}
       <base-dialog v-if="deleteUser" title="Delete Your Profile" @close="closeDialog">
       <template  #default>
         <!-- delete profile below -->
@@ -119,7 +118,6 @@ export default {
     ...mapGetters(['user'])
   },
   mounted(){
-    
     axios.defaults.headers.common["Authorization"] =
       "Bearer " + this.accessToken;
     const url = "http://localhost:3000/api/orders/profile/" + this.user.user_id;
@@ -143,13 +141,13 @@ export default {
         response.status
         this.localUser = response.data;
       });
-         const url2='http://localhost:3000/api/city/';
+         const url2='http://localhost:3000/api/city/foruser';
      axios.get(url2,{headers: {
       'Authorization': 'Bearer ' + this.accessToken}
     }).then((response) =>{
           this.cities = response.data;
       } );
-
+    
   },
   methods:{
     deleteProfile(){
@@ -225,14 +223,12 @@ export default {
 
       },
     closeDialog(){
-      
       this.deleteUser=false;
       this.editUser=false;
       this.choiceMade=false;
       this.editData=false;
       this.editPassword=false;
       
-    
     }
   }
 }
@@ -249,7 +245,7 @@ export default {
    background-color: #ffffffd9;
     position:absolute;
     width:80%;
-    height:110%;
+    height:120%;
     margin: 0px;
     top: 10%;
     margin-left: 10%;
@@ -287,59 +283,39 @@ li{
   margin-left: 15px;
 }
 .wrap-table{
+   border: 1px solid #999;
+  border-radius: 1px;
+  color: #333;
+  background: white;
+  overflow: auto;
+  height: 45%;
+  width: 80%;
   position: absolute;
-  bottom: 5%;
-  
-  
+  top: 40%;
+  margin:10%;
+  border-color: #a80000;
 }
 table {
-    border-collapse: collapse;
-    table-layout: fixed;
-    margin: 25px 0;
-    font-size: 0.9em;
-    padding: 0;
-    font-family: sans-serif;
-    width: 85%;
-    height:225px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    text-align: center;
-    margin-left:auto; 
-    margin-right:auto;
-   
+  border-collapse: collapse;
+  width: 100%;
     
 }
-tbody tr {
-    background-color: #f8f8f8;
-    border: 1px solid #ddd;
-    padding: .25em;
-    
-    
+th {
+  position: sticky;
+  top: 0;
+  background: #a80000;
+  padding: 10px 5px;
+  text-align: center;
+  border-bottom: 1px solid #a80000;
+  color: white;
+  z-index: 3;
 }
-thead tr{
-     background-color: #a80000;
-    color: #ffffff;
-    text-align: left;
-      font-weight: bold;
-
+td {
+  padding: 5px 5px;
+  text-align: center;
+  z-index: 1;
 }
 
-
-table th,
-table td {
-    width: 15px ;
-    padding: 12px 15px;
-    text-align: center;
-    
-    
-}
-
-table th {
-    
-    font-size: 12.5px;
-    letter-spacing: .1em;
-    
-    
-}
 #edit-profile{
   position: relative;
   width: 25%;

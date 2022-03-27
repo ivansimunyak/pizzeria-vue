@@ -4,7 +4,7 @@
    <h2>{{status}}</h2>
 <form class="contact-us " @submit.prevent="submitForm">
     <b><label>Enter your email: </label></b><br>
-    <input id="email" type="email" maxlength="49" v-model="email" required><br><br>
+    <input id="email" type="email" maxlength="49" v-model="email" placeholder="Email" required><br><br>
     <textarea v-model="message" maxlength="200" placeholder="Enter your message.." required></textarea>
     <br><br>
     <btn-styled type="submit">Submit</btn-styled>

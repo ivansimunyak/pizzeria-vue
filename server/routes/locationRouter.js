@@ -6,7 +6,24 @@ const jwt=require('jsonwebtoken');
 router.get('/',authenticateToken,async(req,res,next)=>{
     try{
 let results=await db.location();
-console.log('this is happening')
+res.json(results);
+    }catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+router.get('/foruser',authenticateUserToken,async(req,res,next)=>{
+    try{
+let results=await db.location();
+res.json(results);
+    }catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+router.get('/forall',async(req,res,next)=>{
+    try{
+let results=await db.location();
 res.json(results);
     }catch(e){
         console.log(e);
@@ -15,7 +32,6 @@ res.json(results);
 });
 router.get('/:id',async(req,res,next)=>{
     try{
-        console.log("HEllo this is the ogadfgasdasdgasdg")
 let results=await db.locationOne(req.params.id);
 res.json(results);
     }catch(e){
@@ -58,12 +74,30 @@ let results= db.removeLocation(req.params.id);
 function authenticateToken(req,res,next){
     const authHeader=req.headers['authorization']
     const token=authHeader && authHeader.split(" ")[1]
-    if(token==null) return res.sendStatus(401)
-
+    if(token==null) return res.sendStatus(403)
     jwt.verify(token,process.env.ADMIN_ACCESS_TOKEN,(err,user)=>{
-        if(err) return res.sendStatus(403)
+        if(err) return res.sendStatus(401)
         req.user=user
         next()
+    })
+}
+function authenticateUserToken(req,res,next){
+    const authHeader=req.headers['authorization']
+    const token=authHeader && authHeader.split(" ")[1]
+    if(token==null) return res.sendStatus(401)
+    jwt.verify(token,process.env.ADMIN_ACCESS_TOKEN,(err,user)=>{
+        if(err) {
+            jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
+                if(err) return res.sendStatus(403)
+                req.user=user
+                console.log("this is me"+user)
+                next()
+            })
+        }else{
+        req.user=user
+        
+        next()
+        }
     })
 }
 

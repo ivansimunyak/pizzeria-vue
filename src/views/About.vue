@@ -3,7 +3,7 @@
 
 <div id="wrapper">
    <h1>About us</h1>
-
+<div id="main">
 <p>Welcome to Big Pizza, your number one source for the tastiest pizza there is .
     We're dedicated to giving you the very best of authentic Italian pizza,<br>
     with a focus on authenticity, deliciousness, and reliability.<br>
@@ -18,6 +18,7 @@
     Sincerely,
     Steve Jobs, CEO</p>
 </div>
+</div>
 </template>
 <style scoped>
 #wrapper{
@@ -31,9 +32,15 @@
     margin-right: 10%;
     border-style: outset;
     border-color: #a80000;
+    
 }
 p{
   font-size: 20px;
+}
+#main{
+    position: relative;
+    top: 15%;
+    margin: 2%;
 }
 
 </style>

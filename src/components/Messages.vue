@@ -45,7 +45,10 @@ export default {
       'Authorization': 'Bearer ' + this.accessToken}
     }).then((response) =>{
           this.messages = response.data;
-      } );
+      } ).catch((error) => {
+                     // error.response.status Check status code
+                     console.log( error.response.status)
+                 });;
     },
     methods:{
            removeMessage(id,index){

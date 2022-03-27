@@ -1,7 +1,7 @@
 <template>
 <div id="wrapper">
     <h1>Login</h1>
-    <h2>{{user}}</h2>
+    <h2>{{errorMsg}}</h2>
     <h2 v-if="userRegistered">You registered successfully!</h2>
 <form class="HomepageLoginForm" @submit.prevent="submitForm">
     <b><label>Username:</label></b><br>
@@ -24,6 +24,7 @@ export default {
        userRegistered:this.$route.params.userAdded,
        username:'',
        password:'',
+       errorMsg:''
      }
    },    methods:{
      ...mapMutations(["setUser", "setToken","setAdmin"]),
@@ -43,7 +44,7 @@ export default {
                  })
                  .catch((error) => {
                      // error.response.status Check status code
-                    //  console.log( error.response.status)
+                     this.errorMsg="Wrong email or password!";
                     console.log(error)
                  });
 
@@ -68,8 +69,8 @@ h1{
    background-color: #ffffffd9;
     position:absolute;
     width:40%;
-    height:99%;
-    margin: 0px;
+    height:105%;
+    margin: 5px;
     top: 7.5%;
     right: 2.5%;
     border-style: outset;

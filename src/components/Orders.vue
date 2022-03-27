@@ -1,6 +1,5 @@
 <template>
 <p class="error" v-if="error">{{error}}</p>
-<h1>{{orders.when_sent}}</h1>
 <table class="table">
 
      <thead>
@@ -31,8 +30,8 @@ export default {
   data() {
     return {
        orders:[],
-      columns: [ 'name', 'order_status','adress','phone_number','employee_name'],
-      headers:[ 'Name', 'Order Status','Adress','Phone','Employee'],
+      columns: [ 'name', 'order_status','adress','phone_number'],
+      headers:[ 'Name', 'Order Status','Adress','Phone'],
        error:'',
       checkDetails:true,
 
@@ -41,13 +40,15 @@ export default {
  mounted(){
    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.accessToken;
     const url='http://localhost:3000/api/orders/';
-     axios.get(url,
-     {headers: {
-      'Authorization': 'Bearer ' + this.accessToken}
-    }).then((response) =>{
+     axios.get(url).then((response) =>{
           this.orders = response.data;
+          console.log("Im executed")
       
-      } );
+      } ).catch((error) => {
+                     // error.response.status Check status code
+                     console.log( error.response.status)
+                     
+                 });;
  }, computed: {
     accessToken() {
     return this.$store.getters.accessToken

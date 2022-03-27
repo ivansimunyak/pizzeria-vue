@@ -27,19 +27,21 @@ res.json(results);
     }
 });
 router.delete('/logout',(req,res)=>{
-    res.clearCookie('refreshToken');
+    // res.clearCookie('refreshToken');
     return res.sendStatus(200);
 })
-router.post('/token',async(req,res)=>{
-    if(req.headers.cookie==null) return res.sendStatus(403)
-    const refreshToken=req.headers.cookie.split("=")[1];
-    if(refreshToken==null) return res.sendStatus(401)
-    jwt.verify(refreshToken,process.env.REFRESH_TOKEN_SECRET,(err,user)=>{
-        if(err) return res.sendStatus(403)
-        const accessToken= jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{expiresIn:'1h'})
-        res.json({accessToken:accessToken})
-    })
-});
+// router.post('/token',async(req,res)=>{
+//     if(req.headers.cookie==null) return res.sendStatus(403)
+//     const refreshToken=req.headers.cookie.split("=")[1];
+//     if(refreshToken==null) return res.sendStatus(401)
+//     console.log("refresh token here"+refreshToken)
+//     jwt.verify(refreshToken,process.env.REFRESH_TOKEN_SECRET,(err,user)=>{
+//         if(err) return res.sendStatus(403)
+//         const accessToken= jwt.sign(user,process.env.ADMIN_ACCESS_TOKEN,{expiresIn:(Date.now())})
+//         res.json({accessToken:accessToken})
+        
+//     })
+// });
 
 
 router.get('/:id',authenticateUserToken,async(req,res,next)=>{
@@ -78,21 +80,21 @@ router.post('/login',async(req,res,next)=>{
           }
           if(results){
               const user={username:results[0].username,user_id:results[0].id,user_type:results[0].userType,user_type_id:results[0].user_type_id}
-              const refreshToken=jwt.sign(user,process.env.REFRESH_TOKEN_SECRET)
+            //   const refreshToken=jwt.sign(user,process.env.REFRESH_TOKEN_SECRET)
               let accessToken=null;
               let isAdmin=false;
             if(user.user_type=='Admin'){
                 isAdmin=true;
-                 accessToken= jwt.sign(user,process.env.ADMIN_ACCESS_TOKEN,{expiresIn:'1h'})
+                 accessToken= jwt.sign(user,process.env.ADMIN_ACCESS_TOKEN,{expiresIn:'10s'})
                  console.log("accessed admin jwt")
             }else{
                  accessToken= jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{expiresIn:'1h'})
                  console.log("accessed user jwt")
             }
-            res.cookie("refreshToken", refreshToken, {
-                httpOnly: true,
-                sameSite: "strict",
-      });
+    //         res.cookie("refreshToken", refreshToken, {
+    //             httpOnly: true,
+    //             sameSite: "strict",
+    //   });
           return res.status(200).send({
             msg: 'Logged in!',
             accessToken,
@@ -158,12 +160,10 @@ router.post('/changepassword',async(req,res,next)=>{
 function authenticateToken(req,res,next){
     const authHeader=req.headers['authorization']
     const token=authHeader && authHeader.split(" ")[1]
-    if(token==null) return res.sendStatus(401)
-
+    if(token==null) return res.sendStatus(403)
     jwt.verify(token,process.env.ADMIN_ACCESS_TOKEN,(err,user)=>{
-        if(err) return res.sendStatus(403)
+        if(err) return res.sendStatus(401)
         req.user=user
-        console.log("this is me"+user)
         next()
     })
 }
@@ -171,7 +171,6 @@ function authenticateUserToken(req,res,next){
     const authHeader=req.headers['authorization']
     const token=authHeader && authHeader.split(" ")[1]
     if(token==null) return res.sendStatus(401)
-
     jwt.verify(token,process.env.ADMIN_ACCESS_TOKEN,(err,user)=>{
         if(err) {
             jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
@@ -186,7 +185,6 @@ function authenticateUserToken(req,res,next){
         next()
         }
     })
-  
 }
 
 module.exports=router;

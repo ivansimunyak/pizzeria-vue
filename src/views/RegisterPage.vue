@@ -87,11 +87,12 @@ export default {
 </script>
 <style scoped>
 #wrapper{
+
    background-color: #ffffffd9;
     position:absolute;
     width:40%;
-    height:100%;
-    margin: 0px;
+    height:105%;
+    margin: 5px;
     top: 7.5%;
     right: 2.5%;
     border-style: outset;
@@ -108,6 +109,13 @@ position: absolute;
   text-align: center;
 }
 input{
+  padding:5px;
+  margin:5px 0;
+  border-radius:10px;
+  box-shadow: 5px;
+  border-width:1px;
+}
+select{
   padding:5px;
   margin:5px 0;
   border-radius:10px;

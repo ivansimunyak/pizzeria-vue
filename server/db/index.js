@@ -81,7 +81,74 @@ table.getAdmin=(user_type_id,user_id)=>{
         });
     });
 };
-
+table.orderProductInformation=(product_id,user_id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query('SELECT * FROM orders_product WHERE product_id=? AND order_id IN (SELECT id FROM orders WHERE user_id=? AND adress IS NULL)',[product_id,user_id],(err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        });
+    });
+};
+table.getIncompleteOrder=(user_id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("SELECT id FROM orders WHERE order_status='Incomplete' AND user_id=? ORDER BY when_made DESC LIMIT 1;",[user_id],(err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        });
+    });
+};
+table.addNewOrder=(user_id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("INSERT INTO orders(user_id) VALUES (?);",[user_id],(err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        });
+    });
+};
+table.incrementProductQuantity=(quantity,product_id,user_id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("UPDATE orders_product SET quantity='"+quantity+"' WHERE product_id='"+product_id+"' AND order_id IN (SELECT id FROM orders WHERE user_id='"+user_id+"' AND adress IS NULL);",(err,results)=>{
+            if(err){
+                console.log("error friend")
+                return reject(err);
+            }else{
+                console.log("im EXECUTED")
+                return resolve(results);
+            }
+        });
+    });
+};
+table.addNewProduct=(order_id,product_id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query('INSERT INTO orders_product(order_id,product_id,quantity) VALUES (?,?,1);',[order_id,product_id],(err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        });
+    });
+};
+table.insertIncompleteOrder=(user_id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query('INSERT INTO orders(user_id) VALUES (?);',[user_id],(err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        });
+    });
+};
 table.paymentMethodOne=(id)=>{
     return new Promise((resolve,reject)=>{
         db.query("SELECT * FROM payment_method WHERE id=?;",[id],(err,results)=>{
@@ -233,6 +300,17 @@ table.city=()=>{
 table.getProducts=()=>{
     return new Promise((resolve,reject)=>{
         db.query('SELECT * FROM product',(err,results)=>{
+            if(err){
+                return reject(err);
+            }else{
+                return resolve(results);
+            }
+        });
+    });
+};
+table.getLatestOrder=(id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("",[id],(err,results)=>{
             if(err){
                 return reject(err);
             }else{

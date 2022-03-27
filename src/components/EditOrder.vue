@@ -2,11 +2,10 @@
   <div class="wrapper">
      <div class="header">
         <h1>Edit Order ID {{orderID}}</h1>
-   
-  
      </div>
-     <btn-styled @click="$router.push({ path: `/checkDetails/${orderID}`})" id="backBtn"><font-awesome-icon class="fa" icon="arrow-left-long" />
+     <btn-styled @click="$router.push({ path: `/checkDetails/${orderID}`})" class="backBtn"><font-awesome-icon class="fa" icon="arrow-left-long" />   
 </btn-styled>
+<btn-styled @click="$router.push({ path: `/`})" class="homeBtn">Home</btn-styled>
    <div class="form">
    <form @submit.prevent="submitForm">
   <label for="fname">Name:</label><br>
@@ -123,11 +122,16 @@ select{
   border-radius:10px;
   border-width:1px;
 }
-#backBtn{
+.backBtn{
+   position: absolute;
+   left: 5%;
+   top:10%;
+  width: 12.5%;
+} 
+.homeBtn{
    position: absolute;
    left: 5%;
    top:20%;
-   width: 12.5%;
-
-}
+  width: 12.5%;
+} 
 </style>

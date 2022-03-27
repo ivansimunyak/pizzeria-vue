@@ -99,10 +99,9 @@ let results= db.editProduct(req.body.name,req.body.size,req.body.price,req.body.
 function authenticateToken(req,res,next){
     const authHeader=req.headers['authorization']
     const token=authHeader && authHeader.split(" ")[1]
-    if(token==null) return res.sendStatus(401)
-
+    if(token==null) return res.sendStatus(403)
     jwt.verify(token,process.env.ADMIN_ACCESS_TOKEN,(err,user)=>{
-        if(err) return res.sendStatus(403)
+        if(err) return res.sendStatus(401)
         req.user=user
         next()
     })

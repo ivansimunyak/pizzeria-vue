@@ -1,21 +1,21 @@
 <template>
   <div id="navlist">
-    <router-link v-if="isAdmin" to="/orders" >Orders</router-link>
-    <router-link v-if="isAdmin" to="/messages">Messages</router-link>
-    <router-link v-if="isAdmin"  to="/products">Products</router-link>
-    <router-link v-if="isAdmin"  to="/categories">Categories</router-link>
-    <router-link v-if="isAdmin"  to="/usertypes">User Types</router-link>
-    <router-link v-if="isAdmin"  to="/locations">Locations</router-link>
-    <router-link v-if="isAdmin"  to="/cities">Cities</router-link>
-    <router-link v-if="isAdmin"  to="/paymentmethods">Payment Methods</router-link>
-    <router-link to="/" >Home</router-link>
-    <router-link to="/about">About Us</router-link>
-    <router-link v-if="!isLoggedIn"  to="/login">Login</router-link>
-    <router-link v-if="!isLoggedIn"  to="/register">Register</router-link>
-    <router-link v-if="isLoggedIn"  to="/profile">Profile</router-link>
-    <router-link v-if="isLoggedIn"  to="/messageus">Message Us</router-link>
-    <router-link v-if="isAdmin"  to="/">Customer View </router-link>
-    <router-link v-if="isLoggedIn || isAdmin"  to="/logout">Logout</router-link>
+    <router-link v-if="isAdmin" to="/orders" ><font-awesome-icon :icon="['fas', 'list']"/> Orders</router-link>
+    <router-link v-if="isAdmin" to="/messages"><font-awesome-icon :icon="['fas', 'inbox']"/> Messages</router-link>
+    <router-link v-if="isAdmin"  to="/products"><font-awesome-icon :icon="['fas', 'list']"/> Products</router-link>
+    <router-link v-if="isAdmin"  to="/categories"><font-awesome-icon :icon="['fas', 'list']"/> Categories</router-link>
+    <router-link v-if="isAdmin"  to="/usertypes"><font-awesome-icon :icon="['fas', 'users']"/> User Types</router-link>
+    <router-link v-if="isAdmin"  to="/locations"><font-awesome-icon :icon="['fas', 'location-arrow']"/> Locations</router-link>
+    <router-link v-if="isAdmin"  to="/cities"><font-awesome-icon :icon="['fas', 'building']"/> Cities</router-link>
+    <router-link v-if="isAdmin"  to="/paymentmethods"><font-awesome-icon :icon="['fas', 'wallet']"/> Payment Methods</router-link>
+    <router-link to="/" ><font-awesome-icon :icon="['fas', 'house']"/> Home</router-link>
+    <router-link to="/about"><font-awesome-icon :icon="['fas', 'users']"/> About Us</router-link>
+    <router-link v-if="isLoggedIn"  to="/profile"><font-awesome-icon :icon="['fas', 'user']"/> Profile</router-link>
+    <router-link v-if="isLoggedIn"  to="/messageus"><font-awesome-icon :icon="['fas', 'message']"/> Message Us</router-link>
+    <router-link to="/cart"><font-awesome-icon :icon="['fas', 'cart-shopping']"/> Cart ({{cartCount}})</router-link>
+    <router-link v-if="isLoggedIn || isAdmin"  to="/logout"><font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']"/> Logout</router-link>
+        <router-link v-if="!isLoggedIn"  to="/login"><font-awesome-icon :icon="['fas', 'arrow-right-to-bracket']"/> Login</router-link>
+    <router-link v-if="!isLoggedIn"  to="/register"><font-awesome-icon :icon="['fas', 'clipboard-list']"/> Register</router-link>
   </div>
   <router-view />
 </template>
@@ -28,7 +28,7 @@ export default {
     }
   },
     computed: {
-    ...mapGetters(["isLoggedIn","isAdmin"])
+    ...mapGetters(["isLoggedIn","isAdmin","cartCount"])
   }
 }
 </script>
@@ -58,8 +58,8 @@ body{
     text-align: justify-all;
     background-color: #a80000;
     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-    padding-bottom: 3px;
-    padding-top: 3px;
+    padding-bottom: 13px;
+    padding-top: 13px;
 }
 #navlistmortal  
 {
