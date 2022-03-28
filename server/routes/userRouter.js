@@ -14,10 +14,10 @@ host:'localhost',
 port:'3306'
 });
 
-router.get('/',authenticateToken,async(req,res,next)=>{
+router.get('/',authenticateEmployeeToken,async(req,res,next)=>{
     try{
 let results=await db.userAll();
-console.log(req.headers.cookie);
+console.log("this is whats executed");
 res.json(results);
 
 
@@ -44,12 +44,11 @@ router.delete('/logout',(req,res)=>{
 // });
 
 
-router.get('/:id',authenticateUserToken,async(req,res,next)=>{
+router.get('/oneuser/:id',authenticateEmployeeToken,async(req,res,next)=>{
     try{
-    
-let results=await db.userOne(req.params.id);
-console.log("this is me"+req.user.user_id)
-res.json(results);
+    let results=await db.userOne(req.params.id);
+console.log("this is me"+ req.query.id+"params"+req.params.id)
+    res.json(results);
     }catch(e){
         console.log(e);
         res.sendStatus(500);
@@ -83,11 +82,16 @@ router.post('/login',async(req,res,next)=>{
             //   const refreshToken=jwt.sign(user,process.env.REFRESH_TOKEN_SECRET)
               let accessToken=null;
               let isAdmin=false;
+              let isEmployee=false;
             if(user.user_type=='Admin'){
                 isAdmin=true;
-                 accessToken= jwt.sign(user,process.env.ADMIN_ACCESS_TOKEN,{expiresIn:'10s'})
+                 accessToken= jwt.sign(user,process.env.ADMIN_ACCESS_TOKEN,{expiresIn:'12h'})
                  console.log("accessed admin jwt")
-            }else{
+            }else if(user.user_type=='Employee'){
+                isEmployee=true;
+                accessToken= jwt.sign(user,process.env.EMPLOYEE_ACCESS_TOKEN,{expiresIn:'12h'})
+            }
+            else{
                  accessToken= jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{expiresIn:'1h'})
                  console.log("accessed user jwt")
             }
@@ -99,7 +103,8 @@ router.post('/login',async(req,res,next)=>{
             msg: 'Logged in!',
             accessToken,
             user: user,
-            isAdmin: isAdmin
+            isAdmin: isAdmin,
+            isEmployee:isEmployee,
           });
           
         }
@@ -170,18 +175,43 @@ function authenticateToken(req,res,next){
 function authenticateUserToken(req,res,next){
     const authHeader=req.headers['authorization']
     const token=authHeader && authHeader.split(" ")[1]
-    if(token==null) return res.sendStatus(401)
+    if(token==null) return res.sendStatus(403)
     jwt.verify(token,process.env.ADMIN_ACCESS_TOKEN,(err,user)=>{
         if(err) {
             jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
-                if(err) return res.sendStatus(403)
+                if(err) {
+                    jwt.verify(token,process.env.EMPLOYEE_ACCESS_TOKEN,(err,user)=>{
+                        if(err) return res.sendStatus(401)
+                        req.user=user
+                        console.log("this is me"+user)
+                        next()
+                    })
+                }else{
+                req.user=user
+                console.log("this is me"+user)
+                next()
+                }
+            })
+        }else{
+        req.user=user
+        next()
+        }
+    })
+}
+function authenticateEmployeeToken(req,res,next){
+    const authHeader=req.headers['authorization']
+    const token=authHeader && authHeader.split(" ")[1]
+    if(token==null) return res.sendStatus(403)
+    jwt.verify(token,process.env.ADMIN_ACCESS_TOKEN,(err,user)=>{
+        if(err) {
+            jwt.verify(token,process.env.EMPLOYEE_ACCESS_TOKEN,(err,user)=>{
+                if(err) return res.sendStatus(401)
                 req.user=user
                 console.log("this is me"+user)
                 next()
             })
         }else{
         req.user=user
-        
         next()
         }
     })

@@ -14,7 +14,7 @@ const db1=mysql.createPool({
     port:'3306'
     });
 
-router.get('/',authenticateToken,async(req,res,next)=>{
+router.get('/',authenticateEmployeeToken,async(req,res,next)=>{
     db1.query("SELECT * FROM orders",(err,results)=>{
         if (err) {
             return res.status(400).send({
@@ -57,7 +57,7 @@ console.log("Order for details is happening");
         res.sendStatus(500);
     }
 });
-    router.post('/editorder',authenticateToken, function (req, res) {
+    router.post('/editorder',authenticateEmployeeToken, function (req, res) {
         console.log("Insert "+req.body.name);
         try{
           
@@ -70,7 +70,7 @@ console.log("Order for details is happening");
         }
       });
 
-      router.post('/removeorder/:id',authenticateToken,async(req,res,next)=>{
+      router.post('/removeorder/:id',authenticateEmployeeToken,async(req,res,next)=>{
         try{
     let results= db.removeOrder(req.params.id);
      res.json(results);
@@ -80,7 +80,7 @@ console.log("Order for details is happening");
             res.sendStatus(500);
         }
     });
-    router.get('/profile/:id',authenticateUserToken,async(req,res,next)=>{
+    router.get('/profile/:id',authenticateEmployeeToken,async(req,res,next)=>{
         try{
         if(req.user.user_id!=req.params.id) return res.sendStatus(403)
     let results=await db.profileDetails(req.params.id);
@@ -167,7 +167,35 @@ console.log("Order for details is happening");
            console.log(e)
        }
    });
+   router.post('/setorderdelivered',authenticateEmployeeToken,async(req,res,next)=>{
+    try{
+let results= db.setOrderDelivered(req.body.id,req.body.user_id);
+ res.json(results);
+    }catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+router.post('/setorderprocessing',authenticateEmployeeToken,async(req,res,next)=>{
+    try{
+let results= db.setOrderProcessing(req.body.id,req.body.user_id);
 
+ res.json(results);
+    }catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+router.post('/setordercanceled',authenticateEmployeeToken,async(req,res,next)=>{
+    try{
+let results= db.setOrderCanceled(req.body.id,req.body.user_id);
+console.log(results)
+ res.json(results);
+    }catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
 
     function authenticateToken(req,res,next){
         const authHeader=req.headers['authorization']
@@ -179,26 +207,23 @@ console.log("Order for details is happening");
             next()
         })
     }
-    function authenticateUserToken(req,res,next){
+    function authenticateEmployeeToken(req,res,next){
         const authHeader=req.headers['authorization']
         const token=authHeader && authHeader.split(" ")[1]
-        if(token==null) return res.sendStatus(401)
-    
+        if(token==null) return res.sendStatus(403)
         jwt.verify(token,process.env.ADMIN_ACCESS_TOKEN,(err,user)=>{
             if(err) {
-                jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
-                    if(err) return res.sendStatus(403)
+                jwt.verify(token,process.env.EMPLOYEE_ACCESS_TOKEN,(err,user)=>{
+                    if(err) return res.sendStatus(401)
                     req.user=user
                     console.log("this is me"+user)
                     next()
                 })
             }else{
             req.user=user
-            
             next()
             }
         })
-      
     }
     
 module.exports=router;

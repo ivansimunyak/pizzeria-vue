@@ -42,13 +42,11 @@ export default {
     const url='http://localhost:3000/api/orders/';
      axios.get(url).then((response) =>{
           this.orders = response.data;
-          console.log("Im executed")
-      
+          console.log("Im executed")     
       } ).catch((error) => {
                      // error.response.status Check status code
-                     console.log( error.response.status)
-                     
-                 });;
+                     console.log( error.response.status)             
+                 });
  }, computed: {
     accessToken() {
     return this.$store.getters.accessToken

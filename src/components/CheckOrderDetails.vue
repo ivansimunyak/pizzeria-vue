@@ -5,18 +5,12 @@
       <h2>Order ID {{ orderID }}</h2>
     </div>
     <btn-styled class="btnDelete" @click="removeOrder">Delete Order</btn-styled>
-    <btn-styled
-      class="btnEdit"
-      @click="
-        $router.push({
-          path: `/editorder/${orderID}/${this.adress}/${this.name}/${this.phone_number}/${this.orderStatus}`,
-        })
-      "
-      >Edit Order</btn-styled
-    >
-    <btn-styled class="btnBack" @click="$router.push({ path: `/orders` })"
-      >Back to orders</btn-styled
-    >
+    <btn-styled class="btnEdit" @click="$router.push({path: `/editorder/${orderID}/${this.adress}/${this.name}/${this.phone_number}/${this.orderStatus}`,})">
+    Edit Order</btn-styled>
+    <btn-styled class="btnBack" @click="$router.push({ path: `/orders` })">Back to orders</btn-styled>
+    <btn-styled id="btnCancel" @click="setToCanceled">Set to canceled</btn-styled>
+    <btn-styled id="btnProcessing" @click="setToProcessing">Set to processing</btn-styled>
+    <btn-styled id="btnDelivered" @click="setToDelivered">Set to delivered</btn-styled>
     <div class="left-list">
       <ul v-for="item in orderDetails" :key="item.id">
         <li>Name: {{ item.name }}</li>
@@ -89,6 +83,9 @@ export default {
     accessToken() {
       return this.$store.getters.accessToken;
     },
+    user(){
+      return this.$store.getters.user;
+    }
   },
   mounted() {
     axios.defaults.headers.common["Authorization"] =
@@ -121,6 +118,11 @@ export default {
         this.phone_number = response.data[0].phone_number;
         this.orderStatus = response.data[0].order_status;
         this.whenSent= new Date(response.data[0].when_sent)
+        const url5 = "http://localhost:3000/api/user/oneuser/"+this.employeeID;
+    axios.get(url5).then((response) => {
+        this.employeeName = response.data[0].user_name;
+      });
+      
       });
     const url2 = "http://localhost:3000/api/orders/sum/" + this.orderID;
     axios
@@ -154,16 +156,8 @@ export default {
         console.log(response.data)
         this.locationName = response.data[0].locationName;
       });
-    const url5 = "http://localhost:3000/api/user/" + this.employeeID;
-    axios
-      .get(url5, {
-        headers: {
-          Authorization: "Bearer " + this.accessToken,
-        },
-      })
-      .then((response) => {
-        this.employeeName = response.data[0].name;
-      });
+        console.log("bitch"+this.employeeID)
+    
     this.format_date(this.whenMade);
   },
   methods: {
@@ -179,16 +173,61 @@ export default {
           //Perform Success Action
           console.log(res.data);
           this.$router.push({
-            name: "OrderPage",
+            name: "Order Page",
             params: { removeSuccess: true },
           });
         })
         .catch((error) => {
           // error.response.status Check status code
-          console.log(error.response.status);
+          console.log(error);
         });
-      this.resetData();
-    },
+    },setToDelivered(){
+ axios
+        .post("http://localhost:3000/api/orders/setorderdelivered/",{id:this.orderID,user_id:this.user.user_id})
+        .then((res) => {
+          //Perform Success Action
+          console.log(res.data);
+          this.$router.push({
+            name: "Order Page",
+            statusEdited:true
+          });
+        })
+        .catch((error) => {
+          // error.response.status Check status code
+          console.log(error);
+        });
+
+    },setToCanceled(){
+axios
+        .post("http://localhost:3000/api/orders/setordercanceled/",{id:this.orderID,user_id:this.user.user_id})
+        .then((res) => {
+          //Perform Success Action
+          console.log(res.data);
+          this.$router.push({
+            name: "Order Page",
+            statusEdited:true
+          });
+        })
+        .catch((error) => {
+          // error.response.status Check status code
+          console.log(error);
+        });
+    },setToProcessing(){
+axios
+        .post("http://localhost:3000/api/orders/setorderprocessing/",{id:this.orderID,user_id:this.user.user_id})
+        .then((res) => {
+          //Perform Success Action
+          console.log(res.data);
+          this.$router.push({
+            name: "Order Page",
+            statusEdited:true
+          });
+        })
+        .catch((error) => {
+          // error.response.status Check status code
+          console.log(error);
+        });
+    }
   },
 };
 </script>
@@ -203,6 +242,29 @@ export default {
   top: 1%;
   background-color: rgb(255, 255, 255);
 }
+#btnDelivered{
+  position:absolute;
+  top: 5.5%;
+  right:10%;
+  width: 15%;
+  height: 5%;
+}
+#btnProcessing{
+  position:absolute;
+  top: 12%;
+  right:10%;
+  width: 15%;
+  height: 5%;
+}
+#btnCancel{
+  position:absolute;
+  top: 18%;
+  right:10%;
+  width: 15%;
+  height: 5%;
+}
+
+
 .btnBack {
   position: absolute;
   left: 6%;
@@ -211,14 +273,14 @@ export default {
 }
 .btnEdit {
   position: absolute;
-  left: 55%;
+  left: 35%;
   top: 5%;
   width: 30%;
   height: 7.5%;
 }
 .btnDelete {
   position: absolute;
-  left: 55%;
+  left: 35%;
   top: 15%;
   width: 30%;
   height: 7.5%;

@@ -1,6 +1,6 @@
 <template>
   <div id="navlist">
-    <router-link v-if="isAdmin" to="/orders" ><font-awesome-icon :icon="['fas', 'list']"/> Orders</router-link>
+    <router-link v-if="isAdmin || isEmployee" to="/orders" ><font-awesome-icon :icon="['fas', 'list']"/> Orders</router-link>
     <router-link v-if="isAdmin" to="/messages"><font-awesome-icon :icon="['fas', 'inbox']"/> Messages</router-link>
     <router-link v-if="isAdmin"  to="/products"><font-awesome-icon :icon="['fas', 'list']"/> Products</router-link>
     <router-link v-if="isAdmin"  to="/categories"><font-awesome-icon :icon="['fas', 'list']"/> Categories</router-link>
@@ -28,7 +28,7 @@ export default {
     }
   },
     computed: {
-    ...mapGetters(["isLoggedIn","isAdmin","cartCount"])
+    ...mapGetters(["isLoggedIn","isAdmin","cartCount","isEmployee"])
   }
 }
 </script>

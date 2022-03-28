@@ -671,6 +671,42 @@ table.insertProduct=(name,size,price,category_id,imagePath)=>{
         })
     })
 }
+table.setOrderDelivered=(id,employee_id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("UPDATE orders SET order_status='Delivered',employee_id=? WHERE id=?;",[employee_id,id],(err,results)=>{
+            if(err){
+                return reject(err)
+
+            }else{
+                return resolve(results);
+            }
+        })
+    })
+}
+table.setOrderProcessing=(id,employee_id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("UPDATE orders SET order_status='Processing',employee_id=? WHERE id=?;",[employee_id,id],(err,results)=>{
+            if(err){
+                return reject(err)
+
+            }else{
+                return resolve(results);
+            }
+        })
+    })
+}
+table.setOrderCanceled=(id,employee_id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("UPDATE orders SET order_status='Canceled',employee_id=? WHERE id=?;",[employee_id,id],(err,results)=>{
+            if(err){
+                return reject(err)
+
+            }else{
+                return resolve(results);
+            }
+        })
+    })
+}
 
 
 module.exports=table;

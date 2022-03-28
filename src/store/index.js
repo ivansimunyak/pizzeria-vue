@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 import createPersistedState from 'vuex-persistedstate'
-import axios from 'axios'
+// import axios from 'axios'
 
 export default createStore({
   plugins: [createPersistedState({
@@ -11,6 +11,7 @@ export default createStore({
     user:null,
     accessToken:null,
     isAdmin:null,
+    isEmployee:null,
     cart:[],
     cartCount:0
     
@@ -18,6 +19,10 @@ export default createStore({
   mutations: {
     increment(state){
       state.uniqueProductKey++;
+    },
+    resetCart(state){
+      state.cartCount=0,
+      state.cart=[]
     },
     setUser(state, user) {
       state.user = user;
@@ -29,10 +34,15 @@ export default createStore({
     setAdmin(state, isAdmin) {
       state.isAdmin = isAdmin;
     },
+    setEmployee(state, isEmployee) {
+      state.isEmployee = isEmployee;
+    },
     logout(state){
       state.user=null,
       state.isAdmin=null,
-      state.accessToken=null
+      state.isEmployee=null,
+      state.accessToken=null,
+      state.cartCount=0,
       state.cart=[]
     },
     addProduct: (state, product) => {
@@ -53,6 +63,7 @@ export default createStore({
     decreaseQuantity(state, item) {
       const record = state.cart.find(element => element.id == item.id);
       record.quantity--;
+      state.cartCount--;
       if(record.quantity==0){
         state.cart.splice(state.cart.indexOf(record), 1);
       }
@@ -63,20 +74,20 @@ export default createStore({
     }
   },
   actions: {
-    REFRESH_TOKEN: (context) => {
-      return new Promise((resolve, reject) => {
-        axios
-          .post(`http://localhost:3000/api/user/token`)
-          .then(response => {
-            console.log("Response access token: "+response.data.accessToken)
-            context.commit('setToken',response.data.accessToken)
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    }
+    // REFRESH_TOKEN: (context) => {
+    //   return new Promise((resolve, reject) => {
+    //     axios
+    //       .post(`http://localhost:3000/api/user/token`)
+    //       .then(response => {
+    //         console.log("Response access token: "+response.data.accessToken)
+    //         context.commit('setToken',response.data.accessToken)
+    //         resolve(response);
+    //       })
+    //       .catch(error => {
+    //         reject(error);
+    //       });
+    //   });
+    // }
   },
   modules: {},
     getters: {
@@ -88,6 +99,8 @@ export default createStore({
       },
       isAdmin(state){
         return state.isAdmin;
+      },isEmployee(state){
+        return state.isEmployee;
       },
       accessToken(state){
         return state.accessToken;

@@ -34,6 +34,7 @@ axios.interceptors.response.use(
     console.log(originalRequest.url)
     if (status === 403) {
         console.log("This is mission apolon")
+        store.commit('logout')
       router.push({ name: "Login" });
       return Promise.reject(false);
     }

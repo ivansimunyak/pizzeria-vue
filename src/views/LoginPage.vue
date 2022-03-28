@@ -27,7 +27,7 @@ export default {
        errorMsg:''
      }
    },    methods:{
-     ...mapMutations(["setUser", "setToken","setAdmin"]),
+     ...mapMutations(["setUser", "setToken","setAdmin","setEmployee"]),
       submitForm(){   
                  axios.defaults.withCredentials = true
                   axios.post('http://localhost:3000/api/user/login',{username:this.username,password:this.password})
@@ -37,9 +37,11 @@ export default {
                      const accessToken=res.data.accessToken;
                      const user=res.data.user;
                      const isAdmin=res.data.isAdmin;
+                     const isEmployee=res.data.isEmployee;
                       this.setUser(user);
                       this.setToken(accessToken);
                       this.setAdmin(isAdmin);
+                      this.setEmployee(isEmployee);
                       this.$router.push("/");
                  })
                  .catch((error) => {

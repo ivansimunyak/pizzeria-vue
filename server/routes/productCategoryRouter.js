@@ -13,6 +13,16 @@ console.log("All good g")
         res.sendStatus(500);
     }
 });
+router.get('/foruser',async(req,res,next)=>{
+    try{
+let results=await db.productCategory();
+res.json(results);
+// console.log("All good g")
+    }catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
 router.post('/addcategory',authenticateToken,async(req,res,next)=>{
     console.log("insert category "+req.body.name);
     try{

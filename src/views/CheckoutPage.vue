@@ -87,6 +87,7 @@ export default {
   }
    
 }, mounted(){
+  if(this.products.length>0){
   this.orderID=this.products[0].order_id;
   axios.defaults.headers.common["Authorization"] =
       "Bearer " + this.accessToken;
@@ -101,7 +102,7 @@ export default {
           this.locations = response.data;
       } );
       if(this.$store.getters.user!=null){
-         const url2='http://localhost:3000/api/user/'+this.$store.getters.user.user_id;
+         const url2='http://localhost:3000/api/user/oneuser/'+this.$store.getters.user.user_id;
      axios.get(url2,
     ).then((response) =>{
           this.userAdress=response.data[0].adress;
@@ -109,6 +110,9 @@ export default {
           this.userName=response.data[0].user_name;
       } );
       }
+  }else{
+    this.$router.push('/')
+  }
     },
     methods:{
       submitForm(){
@@ -143,6 +147,7 @@ for (var i = 0; i < this.products.length; i++) {
 return axios.post('http://localhost:3000/api/orders/insertorderproducts',{array:this.cartProducts});
   }).then(response=>{
     if(response.status==200){
+      this.$store.commit('resetCart')
 this.$router.push({ path: `/profileorder/${this.orderID}`})
     }
   }

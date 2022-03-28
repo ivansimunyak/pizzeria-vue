@@ -1,6 +1,13 @@
 <template>
-<h1><btn-styled @click="testingMethod">Click me</btn-styled></h1>
-<h1>access token: {{accessToken}}</h1>
+<div v-if="showTitle" class="title-header">
+<h1>Welcome to our pizzeria</h1>
+<h2>Home to your favorite Italian pizza!</h2>
+</div>
+<btn-styled v-if="!orderProduct" id="orderHereBtn" @click="choiceMade">Press here to order</btn-styled>
+<ul v-if="selectCategory" class="category-ul" >
+ <li v-for="(category, index) in categories" :key="index" class="category-li"> <btn-styled  @click="chooseProductCategory(category.name)" class="category-btns" >{{category.name}}</btn-styled></li>
+</ul>
+<btn-styled v-if="productCategorySelected" @click="backToChoice" id="back-category">Back to categories</btn-styled>
     <div @click="closeDialog" v-if="addedProduct"></div>
     <dialog v-if="addedProduct" open>
         <header>
@@ -13,10 +20,9 @@
             <btn-styled @click="closeDialog">Okay</btn-styled>
         </section>
     </dialog>
-<section class="productsTable">
+<section v-if="productCategorySelected" class="productsTable">
     <table>
       <thead>
-        
         <tr>
           <th>Image</th>
           <th>Name</th>
@@ -28,15 +34,15 @@
       </thead>
       <tbody>
         <tr v-for="(product, index) in products" :key="index">
-          <td>
+          <td v-if="product.category_name==selectedCategory">
             <img id="product-image" :src="require(`../assets/${product.picture}`)"
             />
           </td>
-          <td>{{ product.product_name }}</td>
-          <td>{{ product.size }}</td>
-          <td>{{ product.category_name }}</td>
-          <td>{{product.price}}</td>
-          <td><btn-styled class="btnDelete" @click="addToCart(product)">Add to cart</btn-styled></td>
+          <td v-if="product.category_name==selectedCategory">{{ product.product_name }}</td>
+          <td v-if="product.category_name==selectedCategory">{{ product.size }}</td>
+          <td v-if="product.category_name==selectedCategory">{{ product.category_name }}</td>
+          <td v-if="product.category_name==selectedCategory">{{product.price}}</td>
+          <td v-if="product.category_name==selectedCategory"><btn-styled class="btnDelete" @click="addToCart(product)">Add to cart</btn-styled></td>
         </tr>
       </tbody>
     </table>
@@ -45,12 +51,20 @@
 <script>
 import axios from "axios";
 import {mapMutations} from 'vuex'
-import { mapGetters } from 'vuex'
+import BtnStyled from './BtnStyled.vue';
+
 export default {
+  components: { BtnStyled },
     data(){
         return{
             products:[],
+            categories:[],
             addedProduct:false,
+            orderProduct:false,
+            selectCategory:false,
+            showTitle:true,
+            productCategorySelected:false,
+            selectedCategory:""
         }
     },
     mounted(){
@@ -58,9 +72,19 @@ export default {
     axios.get(url).then((response) => {
       this.products = response.data;
     });
+    const url1='http://localhost:3000/api/productCategory/foruser';
+     axios.get(url1).then((response) =>{
+          this.categories = response.data;
+      } );
     },
     methods:{
       ...mapMutations(["addProduct"]),
+      chooseProductCategory(categoryName){
+        this.selectedCategory=categoryName;
+        this.selectCategory=false;
+        this.productCategorySelected=true;
+
+      },
       addToCart(product){
         console.log('clicked'+product);
         this.addProduct(product);
@@ -70,12 +94,16 @@ export default {
         console.log("im executed")
         this.addedProduct=false;
       },
-      testingMethod(){
-        this.$store.dispatch("REFRESH_TOKEN")
+      choiceMade(){
+        this.showTitle=false;
+       this.orderProduct=true;
+       this.selectCategory=true;
+      },
+      backToChoice(){
+        this.productCategorySelected=false;
+        this.selectCategory=true;
       }
-    },computed: {
-    ...mapGetters(['accessToken'])
-}
+    }
 }
 </script>
 <style scoped>
@@ -169,4 +197,46 @@ td {
 img {
   width: 125px;
 }
+#orderHereBtn{
+  position: absolute;
+  left: 35%;
+  top: 45%;
+  width:30%;
+  height:5em;
+  font-size: 16px;
+
+}
+.title-header{
+  -webkit-text-stroke-width: 0.75px;
+  -webkit-text-stroke-color: white;
+  position: relative;
+  height: 20%;
+}
+.category-ul{
+position: absolute;
+float:left;
+  top: 30%;
+  left: 37.5%;
+  width:30%;
+  height:5em;
+  font-size: 16px;
+ line-height:180%;
+ list-style:none
+  
+}
+.category-li{
+   display:block;
+   float:left;
+   width:350px; /* adjust */
+   height:50px; /* adjust */
+   padding: 5px; /*adjust*/
+}
+.category-btns{
+  width:100%
+}
+#back-category{
+  position: relative;
+  margin-right:70%;
+}
+
 </style>

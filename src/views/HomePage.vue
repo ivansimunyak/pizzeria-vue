@@ -1,5 +1,5 @@
 <template>
-<h2>{{user}}</h2>
+<!-- <h2>{{user}}</h2> -->
     <home/>
 </template>
 <script>
@@ -9,7 +9,7 @@ export default {
     components:{
         Home
     },computed: {
-    ...mapGetters(['user','isAdmin'])
+    ...mapGetters(['user','isAdmin','isEmployee'])
 }
 
 }

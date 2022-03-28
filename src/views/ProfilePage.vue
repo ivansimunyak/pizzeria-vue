@@ -130,7 +130,7 @@ export default {
       .then((response) => {
         this.profileOrders = response.data;
       });
-      const url1 = "http://localhost:3000/api/user/" + this.user.user_id;
+      const url1 = "http://localhost:3000/api/user/oneuser/" + this.user.user_id;
     axios
       .get(url1, {
         headers: {
