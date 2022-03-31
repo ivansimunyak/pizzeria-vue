@@ -89,6 +89,7 @@ export default {
           console.log(res.data);
           this.uniqueProductKey++;
           this.$store.commit('increment');
+          alert('Product added!');
         })
         .catch((error) => {
           // error.response.status Check status code

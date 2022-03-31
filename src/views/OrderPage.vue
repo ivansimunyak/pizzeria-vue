@@ -1,6 +1,5 @@
 <template>
   <div class="orders">
-    <h1 v-if="statusMessage">Order removed successfully! </h1>
     <orders></orders>
   </div>
   
@@ -17,7 +16,6 @@ export default {
   },
   data(){
     return{
-      statusMessage:this.$route.params.removeSuccess
 
     }
   }

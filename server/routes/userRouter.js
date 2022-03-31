@@ -14,13 +14,11 @@ host:'localhost',
 port:'3306'
 });
 
-router.get('/',authenticateEmployeeToken,async(req,res,next)=>{
+router.get('/',authenticateToken,async(req,res,next)=>{
     try{
 let results=await db.userAll();
 console.log("this is whats executed");
 res.json(results);
-
-
     }catch(e){
         console.log(e);
         res.sendStatus(500);
@@ -44,7 +42,7 @@ router.delete('/logout',(req,res)=>{
 // });
 
 
-router.get('/oneuser/:id',authenticateEmployeeToken,async(req,res,next)=>{
+router.get('/oneuser/:id',authenticateUserToken,async(req,res,next)=>{
     try{
     let results=await db.userOne(req.params.id);
 console.log("this is me"+ req.query.id+"params"+req.params.id)
@@ -54,19 +52,33 @@ console.log("this is me"+ req.query.id+"params"+req.params.id)
         res.sendStatus(500);
     }
 });
+// let results= db.registerUser(req.body.username,req.body.password,req.body.email,req.body.adress,req.body.name,req.body.phone_number,req.body.user_type_id,req.body.city_id);
 router.post('/register',async(req,res,next)=>{
-    console.log("register user "+req.body.username);
-    try{
-let results= db.registerUser(req.body.username,req.body.password,req.body.email,req.body.adress,req.body.name,req.body.phone_number,req.body.user_type_id,req.body.city_id);
- res.json(results);
-
-    }catch(e){
-        console.log(e);
-        res.sendStatus(500);
-    }
+    console.log(req.body.username+"hiyyy")
+    db1.query('SELECT * FROM user WHERE username=? OR email=?',[req.body.username,req.body.email],(err,results)=>{
+        if (err) {
+            console.log("response 400 sent")
+            return res.status(400).send({
+                msg: err
+              });
+        }
+        if(!results.length){
+            console.log("EXECUTED")
+             db.registerUser(req.body.username,req.body.password,req.body.email,req.body.adress,req.body.name,req.body.phone_number,req.body.user_type_id,req.body.city_id);
+             return res.status(200).send({
+                msg: 'Register success!'
+              });
+        }
+        if(results){
+            console.log("response 401 sent")
+            return res.status(200).send({
+                msg: 'Username or email taken!'
+            });
+        }
+    }) 
 });
 router.post('/login',async(req,res,next)=>{
-    db1.query('SELECT username,user.id,user_type.name AS userType,user_type_id FROM user LEFT JOIN user_type ON user.user_type_id=user_type.id  WHERE username=? AND password=?;',[req.body.username,req.body.password],(err,results)=>{
+    db1.query('SELECT username,user.id,user_type.name AS userType,user_type_id,email FROM user LEFT JOIN user_type ON user.user_type_id=user_type.id  WHERE username=? AND password=?;',[req.body.username,req.body.password],(err,results)=>{
         if (err) {
             return res.status(400).send({
                 msg: err
@@ -78,7 +90,7 @@ router.post('/login',async(req,res,next)=>{
             });
           }
           if(results){
-              const user={username:results[0].username,user_id:results[0].id,user_type:results[0].userType,user_type_id:results[0].user_type_id}
+              const user={username:results[0].username,user_id:results[0].id,user_type:results[0].userType,user_type_id:results[0].user_type_id,email:results[0].email}
             //   const refreshToken=jwt.sign(user,process.env.REFRESH_TOKEN_SECRET)
               let accessToken=null;
               let isAdmin=false;
@@ -110,16 +122,63 @@ router.post('/login',async(req,res,next)=>{
         }
     });   
 });
-
-router.post('/editprofile',async(req,res,next)=>{
-    console.log("edit user "+req.body.name);
+router.post('/updateusertype',async(req,res,next)=>{
     try{
-let results= db.editUser(req.body.username,req.body.email,req.body.adress,req.body.name,req.body.phone_number,req.body.city_id,req.body.id);
+let results= db.updateUserType(req.body.user_id,req.body.user_type_id);
  res.json(results);
     }catch(e){
         console.log(e);
         res.sendStatus(500);
     }
+});
+router.post('/deleteuser',authenticateToken,async(req,res,next)=>{
+    console.log(req.body.id+"hiyyy")
+            db1.query('DELETE FROM user WHERE id=?',[req.body.id],(err,results)=>{
+                if (err) {
+                    return res.status(400).send({
+                        msg: err
+                      });
+                }
+                if(results.affectedRows>0) return res.sendStatus(200)
+            }) 
+});
+// let results= db.editUser(req.body.username,req.body.email,req.body.adress,req.body.name,req.body.phone_number,req.body.city_id,req.body.id);
+router.post('/editprofile',authenticateUserToken,async(req,res,next)=>{
+    console.log(req.user.email)
+    console.log(req.body.email+"hiyyy")
+    if(req.user.email!=req.body.email){
+        console.log("done")
+    db1.query('SELECT * FROM user WHERE email=?',[req.body.email],(err,results)=>{
+        if (err) {
+            console.log("response 400 sent")
+            return res.status(400).send({
+                msg: err
+              });
+        }
+        if(!results.length){
+            console.log("EXECUTED")
+            db.editUser(req.body.email,req.body.adress,req.body.name,req.body.phone_number,req.body.city_id,req.body.id);
+             return res.status(200).send({
+                msg: 'Edited profile successfully!'
+              });
+        }
+        if(results){
+            console.log("response 401 sent")
+            return res.status(200).send({
+                msg: 'Username or email taken!'
+            });
+        }
+    }) 
+}else{
+    console.log('heyyyegasdgsdga')
+    try{
+        
+        db.editUser(req.body.email,req.body.adress,req.body.name,req.body.phone_number,req.body.city_id,req.body.id);
+        res.status(200).send({msg:"Edited profile successfully!"})
+    }catch(e){
+        console.log(e)
+    }
+}
 });
 router.post('/deleteprofile',authenticateUserToken,async(req,res,next)=>{
     db1.query('SELECT * FROM user WHERE id=? AND password=?;',[req.body.id,req.body.password],(err,results)=>{

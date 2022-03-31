@@ -5,12 +5,12 @@ import store from "./store";
 import BaseDialog from "./components/UI/BaseDialog.vue"
 import BtnStyled from "./components/BtnStyled.vue"
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faHome,faList,faArrowRight,faUser,faInbox,faUsers,faPlusCircle,faMinusCircle,faBuilding,faWallet,faLocationArrow,faMessage,faArrowRightToBracket,faArrowRightFromBracket,faClipboardList,faCartShopping, faArrowLeftLong} from '@fortawesome/free-solid-svg-icons'
+import { faHome,faList,faArrowRight,faUser,faInbox,faUsers,faPlusCircle,faMinusCircle,faBuilding,faWallet,faLocationArrow,faMessage,faArrowRightToBracket,faArrowRightFromBracket,faClipboardList,faCartShopping, faArrowLeftLong, faUserGear} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import axios from 'axios'
 
 const app=createApp(App)
-library.add(faHome,faList,faArrowLeftLong,faArrowRight,faUser,faInbox,faUsers,faPlusCircle,faMinusCircle,faWallet,faBuilding,faLocationArrow,faMessage,faArrowRightToBracket,faArrowRightFromBracket,faClipboardList,faCartShopping )
+library.add(faHome,faUserGear,faList,faArrowLeftLong,faArrowRight,faUser,faInbox,faUsers,faPlusCircle,faMinusCircle,faWallet,faBuilding,faLocationArrow,faMessage,faArrowRightToBracket,faArrowRightFromBracket,faClipboardList,faCartShopping )
 app.use(store);
 app.use(router);
 app.component('FontAwesomeIcon', FontAwesomeIcon)

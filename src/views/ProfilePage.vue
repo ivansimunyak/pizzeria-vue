@@ -12,6 +12,7 @@
       </base-dialog>
         <base-dialog  v-if="editUser" title="Edit Your Profile" @close="closeDialog">
       <template #default>
+        <h1>{{errorMessage}}</h1>
         <div v-if="!choiceMade">
         <btn-styled @click="makeChoice('pw')">Change Password</btn-styled>
         <btn-styled @click="makeChoice('data')">Change Information</btn-styled>
@@ -19,8 +20,6 @@
         <btn-styled id="back-btn" v-if="choiceMade" @click="resetChoice">Back</btn-styled>
 <!-- Below is edit form -->
         <form v-if="editData" class="RegistrationPageForm" @submit.prevent="submitEdit">
-    <b><label>Username:</label></b><br>
-    <input ref="username" id="username" type="text" maxlength="25" name="username" placeholder="Username" :value="localUser[0].username" required><br>
     <b><label>Name:</label></b><br>
         <input ref="name" id="name" type="text" maxlength="25" name="name" placeholder="Name" pattern="[A-z]+" :value="localUser[0].user_name" required><br>
      <b><label>Email:</label></b><br>
@@ -109,11 +108,15 @@ export default {
       choiceMade:false,
       password:'',
       localKey:0,
-      found:''
+      found:'',
+      errorMessage:''
     }
   },  computed: {
     accessToken() {
       return this.$store.getters.accessToken;
+    },
+    user(){
+      return this.$store.getters.user;
     },
     ...mapGetters(['user'])
   },
@@ -207,13 +210,19 @@ export default {
       submitEdit(){   
       axios.defaults.headers.common["Authorization"] =
       "Bearer " + this.accessToken;
-                  axios.post('http://localhost:3000/api/user/editprofile',{username:this.$refs.username.value,email:this.$refs.email.value,adress:this.$refs.adress.value,name:this.$refs.name.value,phone_number:this.$refs.phone.value,city_id:this.$refs.city_id.value,id:this.user.user_id})
+                  axios.post('http://localhost:3000/api/user/editprofile',{email:this.$refs.email.value,adress:this.$refs.adress.value,name:this.$refs.name.value,phone_number:this.$refs.phone.value,city_id:this.$refs.city_id.value,id:this.user.user_id})
                  .then((res) => {
                      //Perform Success Action
-                     console.log(res.data); 
+                     console.log(res.data.msg); 
+                     if(res.data.msg=="Edited profile successfully!"){
                       const searchObject= this.cities.find((city) => city.id==this.$refs.city_id.value);
-                     this.localUser.splice(0,1,{username:this.$refs.username.value,email:this.$refs.email.value,adress:this.$refs.adress.value,user_name:this.$refs.name.value,phone_number:this.$refs.phone.value,city_id:this.$refs.city_id.value,city_name:searchObject.name});
+                      this.localUser.splice(0,1,{username:this.user.username,email:this.$refs.email.value,adress:this.$refs.adress.value,user_name:this.$refs.name.value,phone_number:this.$refs.phone.value,city_id:this.$refs.city_id.value,city_name:searchObject.name});
                       this.closeDialog();
+                     }
+                     else if(res.data.msg=="Username or email taken!"){
+                       this.errorMessage=res.data.msg;
+                     }
+                     
                  })
                  .catch((error) => {
                      // error.response.status Check status code

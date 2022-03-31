@@ -80,7 +80,7 @@ console.log("Order for details is happening");
             res.sendStatus(500);
         }
     });
-    router.get('/profile/:id',authenticateEmployeeToken,async(req,res,next)=>{
+    router.get('/profile/:id',authenticateUserToken,async(req,res,next)=>{
         try{
         if(req.user.user_id!=req.params.id) return res.sendStatus(403)
     let results=await db.profileDetails(req.params.id);
@@ -103,7 +103,7 @@ console.log("Order for details is happening");
     });
    router.get('/getlatestorder/:id',async(req,res,next)=>{
        console.log("latest order called")
-    db1.query("SELECT id FROM orders WHERE order_status='Incomplete' AND user_id=? ORDER BY when_made DESC LIMIT 1;",[req.params.id],(err,results)=>{
+    db1.query("SELECT id FROM orders WHERE order_status='Processing' AND user_id=? ORDER BY when_made DESC LIMIT 1;",[req.params.id],(err,results)=>{
         if (err) {
             return res.status(400).send({
                 msg: err
@@ -120,8 +120,8 @@ console.log("Order for details is happening");
     });
    });
    router.post('/insertorder',async(req,res,next)=>{
-       console.log("insert order "+req.body.id)
-    db1.query("UPDATE orders SET location_id=?,order_status='Processing',adress=?,phone_number=?,when_made=current_timestamp(),comments=?,payment_method_id=?,name=? WHERE id=?",[req.body.location_id,req.body.adress,req.body.phone_number,req.body.comments,req.body.payment_method_id,req.body.name,req.body.id],(err,results)=>{
+       console.log("insert order "+req.body.user_id)
+    db1.query("INSERT INTO orders(location_id,user_id,when_made,order_status,adress,phone_number,comments,payment_method_id,name) VALUES (?,?,current_timestamp(),'Processing',?,?,?,?,?);",[req.body.location_id,req.body.user_id,req.body.adress,req.body.phone_number,req.body.comments,req.body.payment_method_id,req.body.name],(err,results)=>{
         if (err) {
             return res.status(400).send({
                 msg: err
@@ -196,7 +196,32 @@ console.log(results)
         res.sendStatus(500);
     }
 });
-
+function authenticateUserToken(req,res,next){
+    const authHeader=req.headers['authorization']
+    const token=authHeader && authHeader.split(" ")[1]
+    if(token==null) return res.sendStatus(403)
+    jwt.verify(token,process.env.ADMIN_ACCESS_TOKEN,(err,user)=>{
+        if(err) {
+            jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
+                if(err) {
+                    jwt.verify(token,process.env.EMPLOYEE_ACCESS_TOKEN,(err,user)=>{
+                        if(err) return res.sendStatus(401)
+                        req.user=user
+                        console.log("this is me"+user)
+                        next()
+                    })
+                }else{
+                req.user=user
+                console.log("this is me"+user)
+                next()
+                }
+            })
+        }else{
+        req.user=user
+        next()
+        }
+    })
+}
     function authenticateToken(req,res,next){
         const authHeader=req.headers['authorization']
         const token=authHeader && authHeader.split(" ")[1]

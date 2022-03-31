@@ -172,10 +172,8 @@ export default {
         .then((res) => {
           //Perform Success Action
           console.log(res.data);
-          this.$router.push({
-            name: "Order Page",
-            params: { removeSuccess: true },
-          });
+          alert('Order removed successfully! ')
+         this.$router.push('/orders')
         })
         .catch((error) => {
           // error.response.status Check status code

@@ -1,6 +1,7 @@
 <template>
 <div id="wrapper">
     <h1>Register</h1>
+    <h2>{{errorMessage}}</h2>
     <form class="RegistrationPageForm" @submit.prevent="submitForm">
     <b><label>Enter your username:</label></b><br>
     <input id="username" type="text" maxlength="25" name="username" v-model="addingUsername" required><br>
@@ -50,29 +51,37 @@ export default {
     },
     methods:{
       submitForm(){
+        if(this.addingPassword.length>=8){
         if(this.rptPassword==this.addingPassword){
                   axios.post('http://localhost:3000/api/user/register', {username:this.addingUsername,password:this.addingPassword,email:this.addingEmail,adress:this.addingAdress,name:this.addingName,phone_number:this.addingPhone,user_type_id:this.userType,city_id:this.addingCity})
                  .then((res) => {
                      //Perform Success Action
-                     console.log(res.data); 
+                     console.log(res.data.msg);
+                     if(res.data.msg=="Register success!"){
                           this.$router.push({
                          name:'Login',
                          params:{userAdded:true}
                      });
+                     }
+                     else if(res.data.msg=="Username or email taken!"){
+                       this.errorMessage=res.data.msg;
+                     }
                  })
                  .catch((error) => {
                      // error.response.status Check status code
-                     console.log( error.response.status)
+                     console.log(error)
                  });
               
         }else{
           this.errorMessage="Passwords do not match";
-
+        }
+        }else{
+          this.errorMessage="Password needs to be over 8 characters"
         }
 
       }
     },mounted(){
-          const url='http://localhost:3000/api/city/';
+          const url='http://localhost:3000/api/city/foruser';
      axios.get(url).then((response) =>{
           this.cities = response.data;
       } );

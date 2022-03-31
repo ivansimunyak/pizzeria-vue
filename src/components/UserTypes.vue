@@ -62,7 +62,7 @@ export default {
                      //Perform Success Action
                      console.log(res.data);  
                      this.types.splice(this.saveIndex,1,{name:this.editName,id:this.editID}) ;             
-                     
+                      alert('Type edited successfully!');
                  })
                  .catch((error) => {
                      // error.response.status Check status code
@@ -82,6 +82,7 @@ export default {
                      //Perform Success Action
                      console.log(res.data);  
                         this.types.splice(index, 1);
+                         alert('Type removed!');
                  })
                  .catch((error) => {
                      // error.response.status Check status code

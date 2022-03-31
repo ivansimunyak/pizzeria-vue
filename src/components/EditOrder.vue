@@ -5,7 +5,7 @@
      </div>
      <btn-styled @click="$router.push({ path: `/checkDetails/${orderID}`})" class="backBtn"><font-awesome-icon class="fa" icon="arrow-left-long" />   
 </btn-styled>
-<btn-styled @click="$router.push({ path: `/`})" class="homeBtn">Home</btn-styled>
+<btn-styled @click="$router.push({ path: `/orders`})" class="homeBtn">Orders</btn-styled>
    <div class="form">
    <form @submit.prevent="submitForm">
   <label for="fname">Name:</label><br>

@@ -62,7 +62,7 @@ export default {
                      //Perform Success Action
                      console.log(res.data);  
                      this.paymethods.splice(this.saveIndex,1,{name:this.editName,id:this.editID}) ;             
-                     
+                      alert('Payment method edited successfully!');
                  })
                  .catch((error) => {
                      // error.response.status Check status code
@@ -82,6 +82,7 @@ export default {
                      //Perform Success Action
                      console.log(res.data);  
                         this.paymethods.splice(index, 1);
+                         alert('Payment method removed!');
                  })
                  .catch((error) => {
                      // error.response.status Check status code

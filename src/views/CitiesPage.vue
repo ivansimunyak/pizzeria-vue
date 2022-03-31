@@ -38,7 +38,7 @@ export default {
                      console.log(res.data);  
                     this.uniqueCityKey++;
                     this.addingName='';
-                
+                alert('City added!');
                  })
                  .catch((error) => {
                      // error.response.status Check status code

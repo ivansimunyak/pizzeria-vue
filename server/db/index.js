@@ -13,7 +13,7 @@ let table={};
 
 table.userAll=()=>{
     return new Promise((resolve,reject)=>{
-        db.query('SELECT * FROM user',(err,results)=>{
+        db.query('SELECT user.id AS user_id,user.username,user.email,user.phone_number,user.user_type_id,user_type.name AS user_type_name FROM user LEFT JOIN user_type ON user.user_type_id=user_type.id',(err,results)=>{
             if(err){
                 return reject(err);
             }else{
@@ -465,9 +465,10 @@ table.editLocation=(name,id,city_id)=>{
         )
     })
 };
-table.editUser=(username,email,adress,name,phone_number,city_id,id)=>{
+table.editUser=(email,adress,name,phone_number,city_id,id)=>{
     return new Promise((resolve,reject)=>{
-        db.query("UPDATE user SET username=?,email=?,adress=?,name=?,phone_number=?,city_id=? WHERE id=?;",[username,email,adress,name,phone_number,city_id,id],
+        console.log("call db dbdbd")
+        db.query("UPDATE user SET email=?,adress=?,name=?,phone_number=?,city_id=? WHERE id=?;",[email,adress,name,phone_number,city_id,id],
         (err,results)=>{
             if(err){
                 return reject(err);
@@ -479,7 +480,19 @@ table.editUser=(username,email,adress,name,phone_number,city_id,id)=>{
         )
     })
 };
-
+table.updateUserType=(user_id,user_type_id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("UPDATE user SET user_type_id=? WHERE id=?;",[user_type_id,user_id],(err,results)=>{
+            if(err){
+                console.log("error friend")
+                return reject(err);
+            }else{
+                console.log("im EXECUTED")
+                return resolve(results);
+            }
+        });
+    });
+};
 table.editCategory=(name,id)=>{
     return new Promise((resolve,reject)=>{
         db.query("UPDATE product_category SET name= ? WHERE id=?;",[name,id],
@@ -568,6 +581,18 @@ table.newPassword=(password,id)=>{
 table.removeType=(id)=>{
     return new Promise((resolve,reject)=>{
         db.query("DELETE FROM user_type WHERE id=?",[id],(err,results)=>{
+            if(err){
+                return reject(err)
+
+            }else{
+                return resolve(results);
+            }
+        })
+    })
+}
+table.removeUser=(id)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("DELETE FROM user WHERE id=?",[id],(err,results)=>{
             if(err){
                 return reject(err)
 
@@ -673,7 +698,7 @@ table.insertProduct=(name,size,price,category_id,imagePath)=>{
 }
 table.setOrderDelivered=(id,employee_id)=>{
     return new Promise((resolve,reject)=>{
-        db.query("UPDATE orders SET order_status='Delivered',employee_id=? WHERE id=?;",[employee_id,id],(err,results)=>{
+        db.query("UPDATE orders SET order_status='Delivered',employee_id=?,when_sent=current_timestamp() WHERE id=?;",[employee_id,id],(err,results)=>{
             if(err){
                 return reject(err)
 
@@ -685,7 +710,7 @@ table.setOrderDelivered=(id,employee_id)=>{
 }
 table.setOrderProcessing=(id,employee_id)=>{
     return new Promise((resolve,reject)=>{
-        db.query("UPDATE orders SET order_status='Processing',employee_id=? WHERE id=?;",[employee_id,id],(err,results)=>{
+        db.query("UPDATE orders SET order_status='Processing',employee_id=?,when_sent=current_timestamp() WHERE id=?;",[employee_id,id],(err,results)=>{
             if(err){
                 return reject(err)
 
@@ -697,7 +722,7 @@ table.setOrderProcessing=(id,employee_id)=>{
 }
 table.setOrderCanceled=(id,employee_id)=>{
     return new Promise((resolve,reject)=>{
-        db.query("UPDATE orders SET order_status='Canceled',employee_id=? WHERE id=?;",[employee_id,id],(err,results)=>{
+        db.query("UPDATE orders SET order_status='Canceled',employee_id=?,when_sent=current_timestamp() WHERE id=?;",[employee_id,id],(err,results)=>{
             if(err){
                 return reject(err)
 

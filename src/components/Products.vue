@@ -1,5 +1,4 @@
 <template>
-
   <section class="productsTable">
     <table>
       <thead>
@@ -71,7 +70,7 @@ export default {
       editCategoryID:'',
       editImage:null,
       saveIndex:'',
-      oldImage:''
+      oldImage:'',
 
     };
   },
@@ -104,6 +103,7 @@ export default {
           //Perform Success Action
           console.log(res.data);
           this.products.splice(index, 1);
+          alert('Product removed!')
         })
         .catch((error) => {
           // error.response.status Check status code
@@ -126,7 +126,6 @@ export default {
     },
        submitForm() {
         if(this.editImage!=null){
-        console.log("hey babe")
       const fd = new FormData();
       fd.append("name", this.editName);
       fd.append("size", this.editSize);
@@ -139,6 +138,7 @@ export default {
       'Authorization': 'Bearer ' + this.accessToken}
     })
         .then((res) => {
+           alert('Product edited successfully!')
           //Perform Success Action
           console.log(res.data);
            this.$store.commit('increment');
@@ -157,6 +157,7 @@ export default {
           //Perform Success Action
           console.log(res.data);
           this.$store.commit('increment');
+          alert('Product edited successfully!')
         })
         .catch((error) => {
           // error.response.status Check status code

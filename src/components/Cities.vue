@@ -66,6 +66,7 @@ export default {
                      //Perform Success Action
                      console.log(res.data);  
                      this.cities.splice(this.saveIndex,1,{name:this.editCityName,id:this.editID});
+                      alert('City edited successfully!');
                  })
                  .catch((error) => {
                      // error.response.status Check status code
@@ -80,6 +81,7 @@ export default {
                      //Perform Success Action
                      console.log(res.data);  
                         this.cities.splice(index, 1);
+                         alert('City removed!');
                  })
                  .catch((error) => {
                      // error.response.status Check status code

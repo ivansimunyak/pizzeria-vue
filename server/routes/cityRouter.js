@@ -12,7 +12,7 @@ res.json(results);
         res.sendStatus(500);
     }
 });
-router.get('/foruser',authenticateUserToken,async(req,res,next)=>{
+router.get('/foruser',async(req,res,next)=>{
     try{
 let results=await db.city();
 res.json(results);

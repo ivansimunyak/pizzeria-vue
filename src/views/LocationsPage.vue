@@ -45,7 +45,7 @@ export default {
                      console.log(res.data);  
                     this.uniqueLocKey++;
                     this.addingName='';
-                
+                alert('Location added!');
                  })
                  .catch((error) => {
                      // error.response.status Check status code
@@ -70,7 +70,7 @@ export default {
    background-color: #ffffffd9;
     position:absolute;
     width:80%;
-    height:100%;
+    height:110%;
     margin: 0px;
     top: 10%;
     margin-left: 10%;

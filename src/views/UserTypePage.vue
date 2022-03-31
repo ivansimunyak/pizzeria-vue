@@ -38,7 +38,7 @@ export default {
                      console.log(res.data);  
                     this.uniqueTypeKey++;
                     this.addingName='';
-                
+                alert('User type added!');
                  })
                  .catch((error) => {
                      // error.response.status Check status code

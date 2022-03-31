@@ -41,6 +41,7 @@ export default {
                      console.log(res.data);  
                     this.uniqueCatKey++;
                     this.addingName='';
+                    alert('Category added!');
                 
                  })
                  .catch((error) => {

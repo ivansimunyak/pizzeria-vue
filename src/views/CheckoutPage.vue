@@ -3,9 +3,9 @@
 <h1>Checkout{{orderID}}</h1>
       <form @submit.prevent="submitForm">
       <div id="left-form">
-      <input type="text" placeholder="Adress" v-model="userAdress" name="adress"><br>
-      <input type="text" placeholder="Phone Number" v-model="userPhone" name="phone"><br>
-      <input type="text" placeholder="Name" v-model="userName" name="name"><br>
+      <input type="text" placeholder="Adress" v-model="userAdress" name="adress" maxlength="44"><br>
+      <input type="number" placeholder="Phone Number" v-model="userPhone" name="phone" max="2147483645" min="0"><br>
+      <input type="text" placeholder="Name" v-model="userName" name="name" maxlength="44"><br>
       <select name="location" required v-model="orderLocation"><br>
       <option value="" disabled >Select your location...</option>
       <option v-for="location in locations" :key="location.id" :value="location.id" >{{location.locationName}}</option>
@@ -16,7 +16,7 @@
    </select><br>
       </div>
       <div id="right-form">
-   <textarea v-model="userComments" placeholder="Enter additional information" name="comments"></textarea>
+   <textarea v-model="userComments" placeholder="Enter additional information" name="comments" maxlength="144"></textarea>
    </div>
    <btn-styled id="order-btn">Order</btn-styled>
   </form>
@@ -122,71 +122,67 @@ export default {
       "Bearer " + this.accessToken;
 axios
 
-  .post('http://localhost:3000/api/orders/addincompleteorder',{id:this.$store.getters.user.user_id})
+  .post('http://localhost:3000/api/orders/insertorder',{location_id:this.orderLocation,user_id:this.$store.getters.user.user_id,adress:this.userAdress,phone_number:this.userPhone,comments:this.userComments,payment_method_id:this.paymentMethod,name:this.userName})
   .then(response => {
-    console.log("this is meeee"+response)
+    console.log("this is meeee"+response.status)
     return axios.get('http://localhost:3000/api/orders/getlatestorder/' + this.$store.getters.user.user_id);
   })
-  .then(response => {
-    console.log("im executed")
+   .then(response => {
+    console.log("this is was done"+response.status)
     this.orderID=response.data[0].id;
     this.products.forEach(product => {
  product['order_id'] = response.data[0].id;
 });
-    return axios.post('http://localhost:3000/api/orders/insertorder',{location_id:this.orderLocation,adress:this.userAdress,phone_number:this.userPhone,comments:this.userComments,payment_method_id:this.paymentMethod,name:this.userName,id:this.orderID});
-  })
-  .then(response => {
 for (var i = 0; i < this.products.length; i++) {
         this.cartProducts.push({
             "order_id": this.products[i].order_id,
             "product_id": this.products[i].id,
             "quantity": this.products[i].quantity,
         });
-        console.log(response.status)
 }
 return axios.post('http://localhost:3000/api/orders/insertorderproducts',{array:this.cartProducts});
-  }).then(response=>{
-    if(response.status==200){
+  })
+  .then(response=> {
+if(response.status==200){
       this.$store.commit('resetCart')
 this.$router.push({ path: `/profileorder/${this.orderID}`})
     }
-  }
-    
-    ).catch(error => console.log(error.response));
-      }else{
-        let guestID=9999
+console.log("Hello markusssgfeg")
+  }).catch(error => console.log(error));
+      }
+      else{
+        let guestID=9999;
+        axios.defaults.headers.common["Authorization"] =
+      "Bearer " + this.accessToken;
 axios
-  .post('http://localhost:3000/api/orders/addincompleteorder',{id:guestID})
+
+  .post('http://localhost:3000/api/orders/insertorder',{location_id:this.orderLocation,user_id:guestID,adress:this.userAdress,phone_number:this.userPhone,comments:this.userComments,payment_method_id:this.paymentMethod,name:this.userName})
   .then(response => {
-    console.log("this is meeee"+response)
+    console.log("this is meeee"+response.status)
     return axios.get('http://localhost:3000/api/orders/getlatestorder/' + guestID);
   })
-  .then(response => {
-    console.log("im executed")
+   .then(response => {
+    console.log("this is was done"+response.status)
     this.orderID=response.data[0].id;
     this.products.forEach(product => {
  product['order_id'] = response.data[0].id;
 });
-    return axios.post('http://localhost:3000/api/orders/insertorder',{location_id:this.orderLocation,adress:this.userAdress,phone_number:this.userPhone,comments:this.userComments,payment_method_id:this.paymentMethod,name:this.userName,id:this.orderID});
-  })
-  .then(response => {
 for (var i = 0; i < this.products.length; i++) {
         this.cartProducts.push({
             "order_id": this.products[i].order_id,
             "product_id": this.products[i].id,
             "quantity": this.products[i].quantity,
         });
-        console.log(response.status)
 }
 return axios.post('http://localhost:3000/api/orders/insertorderproducts',{array:this.cartProducts});
-  }).then(response=>{
-    if(response.status==200){
+  })
+  .then(response=> {
+if(response.status==200){
+      this.$store.commit('resetCart')
 this.$router.push({ path: `/`})
     }
-  }
-    
-    ).catch(error => console.log(error.response));
-      
+console.log("Hello markusssgfeg")
+  }).catch(error => console.log(error));
       }
       }
     }

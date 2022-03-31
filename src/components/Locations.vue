@@ -95,7 +95,7 @@ export default {
                      //Perform Success Action
                      console.log(res.data);  
                      this.locations.splice(this.saveIndex,1,{locationName:this.editLocationName,id:this.editID,cityID:this.editCityID,cityName:this.editCity}) ;             
-                     
+                      alert('Location edited!');
                  })
                  .catch((error) => {
                      // error.response.status Check status code
@@ -111,6 +111,7 @@ export default {
                      //Perform Success Action
                      console.log(res.data);  
                         this.locations.splice(index, 1);
+                         alert('Location removed!');
                  })
                  .catch((error) => {
                      // error.response.status Check status code

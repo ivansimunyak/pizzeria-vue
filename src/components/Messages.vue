@@ -1,5 +1,5 @@
 <template>
-
+<h1>{{statusMessage}}</h1>
     <table class="table">
      <thead>
           <tr>
@@ -29,7 +29,7 @@ export default {
             messages:[],
             headers:['ID','Name','Content','Email'],
             columns:['id','name','content','email'],
-            localToken:null
+            statusMessage:''
         }
     },
     computed: {
@@ -39,7 +39,6 @@ export default {
   },
    mounted(){
        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.accessToken;
-
     const url='http://localhost:3000/api/message/';
      axios.get(url,{headers: {
       'Authorization': 'Bearer ' + this.accessToken}
@@ -48,7 +47,7 @@ export default {
       } ).catch((error) => {
                      // error.response.status Check status code
                      console.log( error.response.status)
-                 });;
+                 });
     },
     methods:{
            removeMessage(id,index){
@@ -57,6 +56,7 @@ export default {
       'Authorization': 'Bearer ' + this.accessToken}
     })
                  .then((res) => {
+                     this.statusMessage="Message removed successfully! "
                      //Perform Success Action
                      console.log(res.data);  
                       this.messages.splice(index, 1);

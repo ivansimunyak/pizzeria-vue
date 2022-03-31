@@ -101,8 +101,12 @@ export default {
         this.phone_number = response.data[0].phone_number;
         this.orderStatus = response.data[0].order_status;
         this.whenSent= new Date(response.data[0].when_sent)
+       const url5 = "http://localhost:3000/api/user/oneuser/"+this.employeeID;
+    axios.get(url5).then((response) => {
+        this.employeeName = response.data[0].user_name;
       });
-        const url4 = "http://localhost:3000/api/location/" + this.locationID;
+      });
+        const url4 = "http://localhost:3000/api/location/foruser/" + this.locationID;
     axios
       .get(url4, {
         headers: {
@@ -113,18 +117,9 @@ export default {
         console.log(response.data)
         this.locationName = response.data[0].locationName;
       });
-       const url5 = "http://localhost:3000/api/user/" + this.employeeID;
-    axios
-      .get(url5, {
-        headers: {
-          Authorization: "Bearer " + this.accessToken,
-        },
-      })
-      .then((response) => {
-        this.employeeName = response.data[0].name;
-      });
+       
        const url3 =
-      "http://localhost:3000/api/paymentMethod/" + this.paymentMethodID;
+      "http://localhost:3000/api/paymentMethod/forall/" + this.paymentMethodID;
     axios
       .get(url3, {
         headers: {

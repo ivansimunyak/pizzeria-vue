@@ -38,6 +38,7 @@ export default {
                      console.log(res.data);  
                     this.uniquePayKey++;
                     this.addingName='';
+                    alert('Method added!');
                  })
                  .catch((error) => {
                      // error.response.status Check status code

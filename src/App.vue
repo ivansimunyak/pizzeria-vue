@@ -1,5 +1,6 @@
 <template>
   <div id="navlist">
+    <router-link v-if="isAdmin" to="/admin"><font-awesome-icon :icon="['fas', 'user-gear']"/> Admin</router-link>
     <router-link v-if="isAdmin || isEmployee" to="/orders" ><font-awesome-icon :icon="['fas', 'list']"/> Orders</router-link>
     <router-link v-if="isAdmin" to="/messages"><font-awesome-icon :icon="['fas', 'inbox']"/> Messages</router-link>
     <router-link v-if="isAdmin"  to="/products"><font-awesome-icon :icon="['fas', 'list']"/> Products</router-link>
@@ -54,7 +55,7 @@ body{
     margin: 0;
     margin-bottom: 30px;
     padding: 0;
-    padding-left: 50px;
+    /* padding-left: 50px; */
     text-align: justify-all;
     background-color: #a80000;
     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;

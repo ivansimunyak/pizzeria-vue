@@ -57,30 +57,32 @@ export default {
       } );
     },methods:{
                 removeCategory(id,index){
+                    console.log("Id being sent is "+id)
             axios.post('http://localhost:3000/api/productCategory/removecategory/'+id,{headers: {
       'Authorization': 'Bearer ' + this.accessToken}
     })
                  .then((res) => {
                      //Perform Success Action
-                     console.log(res.data);  
+                     console.log(res);  
                         this.categories.splice(index, 1);
+                        alert('Category removed!');
                  })
                  .catch((error) => {
                      // error.response.status Check status code
-                     console.log( error.response.status)
+                     console.log( error)
                  });
                  
         
         }, editCategoryForm(){
             axios.post('http://localhost:3000/api/productCategory/editcategory', {name:this.editName,id:this.editID},{headers: {
       'Authorization': 'Bearer ' + this.accessToken}
-    })
-                 .then((res) => {
+    }).then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
-                     this.categories.splice(this.saveIndex,1,{name:this.editName,id:this.editID}) ;             
+                     this.categories.splice(this.saveIndex,1,{name:this.editName,id:this.editID});
+                      alert('Category edited successfully!');
+                     })
                      
-                 })
                  .catch((error) => {
                      // error.response.status Check status code
                      console.log( error.response.status)

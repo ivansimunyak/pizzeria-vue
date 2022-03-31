@@ -1,4 +1,5 @@
 <template>
+<h1>{{statusMsg}}</h1>
 <p class="error" v-if="error">{{error}}</p>
 <table class="table">
 
@@ -34,6 +35,7 @@ export default {
       headers:[ 'Name', 'Order Status','Adress','Phone'],
        error:'',
       checkDetails:true,
+      statusMsg:''
 
     };
   },
@@ -60,6 +62,7 @@ export default {
                  .then((res) => {
                      //Perform Success Action
                      console.log(res.data);  
+                    this.statusMsg="Order removed successfully!"
                       this.orders.splice(index, 1);
                  })
                  .catch((error) => {
