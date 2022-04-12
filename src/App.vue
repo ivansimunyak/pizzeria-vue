@@ -62,26 +62,6 @@ body{
     padding-bottom: 13px;
     padding-top: 13px;
 }
-#navlistmortal  
-{
-    border-bottom: 1px solid #a80000;
-    border-top: 1px solid #a80000;
-    margin: 0;
-    margin-bottom: 30px;
-    padding: 0;
-    text-align: justify-all;
-    background-color: #a80000;
-    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-    padding-bottom: 3px;
-    padding-top: 3px;
-}
-#navlistmortal a{
-  margin-left: 0.25%;
-}
-#navlistmortal li{
-  left: 1500px;
-  /* display: ; */
-}
 a:link,a:visited
 {
     border: 1px solid #a80000;
@@ -89,7 +69,7 @@ a:link,a:visited
     color: #ffffff;
     font-weight: bold;
     text-decoration: none;
-     font-size: 13px;
+     font-size: 11.5px;
 }
 a:hover, a:active, a:focus
 {
@@ -103,7 +83,7 @@ a:hover, a:active, a:focus
 {
     padding-right: 1px;
     display: inline;
-    font-size: 0.6em;
+    /* font-size: 0.6em; */
     text-align: center;
 }
 ul

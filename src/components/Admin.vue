@@ -90,7 +90,6 @@ export default {
   },
     },
     mounted(){
-        console.log("executed")
              axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.accessToken;
     const url='http://localhost:3000/api/user/';
      axios.get(url,{headers: {
@@ -108,9 +107,7 @@ export default {
     },
     methods:{
         setType(user_type_name,user,index){
-            // console.log("User type:"+user_type_name+" user id"+user_id+" index "+index)
             const record=this.userTypes.find(element=>element.name==user_type_name);
-            console.log(record.id)
   axios.post('http://localhost:3000/api/user/updateusertype', {user_id:user.user_id,user_type_id:record.id},{headers: {
       'Authorization': 'Bearer ' + this.accessToken}
     }).then((res) => {

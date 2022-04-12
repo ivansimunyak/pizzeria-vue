@@ -2,8 +2,8 @@ const mysql=require('mysql');
 
  const db=mysql.createPool({
 connectionLimit: 10,
-password:'finalwarning',
-user:'root',
+password:'',
+user:'',
 database:'pizzeriaproject',
 host:'localhost',
 port:'3306'
@@ -72,7 +72,7 @@ table.getAdmin=(user_type_id,user_id)=>{
         db.query("SELECT user_type.name FROM user LEFT JOIN user_type ON user.user_type_id=user_type.id WHERE user.user_type_id='"+user_type_id+"' AND user_type.name='Admin' AND user.id='"+user_id+"'",
        (err,results)=>{
             if(err){
-                console.log(err)
+                
                 return reject(err);
                 
             }else{
@@ -118,10 +118,8 @@ table.incrementProductQuantity=(quantity,product_id,user_id)=>{
     return new Promise((resolve,reject)=>{
         db.query("UPDATE orders_product SET quantity='"+quantity+"' WHERE product_id='"+product_id+"' AND order_id IN (SELECT id FROM orders WHERE user_id='"+user_id+"' AND adress IS NULL);",(err,results)=>{
             if(err){
-                console.log("error friend")
                 return reject(err);
             }else{
-                console.log("im EXECUTED")
                 return resolve(results);
             }
         });
@@ -467,7 +465,6 @@ table.editLocation=(name,id,city_id)=>{
 };
 table.editUser=(email,adress,name,phone_number,city_id,id)=>{
     return new Promise((resolve,reject)=>{
-        console.log("call db dbdbd")
         db.query("UPDATE user SET email=?,adress=?,name=?,phone_number=?,city_id=? WHERE id=?;",[email,adress,name,phone_number,city_id,id],
         (err,results)=>{
             if(err){
@@ -484,10 +481,8 @@ table.updateUserType=(user_id,user_type_id)=>{
     return new Promise((resolve,reject)=>{
         db.query("UPDATE user SET user_type_id=? WHERE id=?;",[user_type_id,user_id],(err,results)=>{
             if(err){
-                console.log("error friend")
                 return reject(err);
             }else{
-                console.log("im EXECUTED")
                 return resolve(results);
             }
         });

@@ -31,7 +31,6 @@ res.json(results);
     }
 });
 router.post('/addpaymentmethod',authenticateToken,async(req,res,next)=>{
-    console.log("insert payment method "+req.body.name);
     try{
 let results= db.insertPaymentMethod(req.body.name);
  res.json(results);
@@ -42,7 +41,6 @@ let results= db.insertPaymentMethod(req.body.name);
     }
 });
 router.post('/editpaymentmethod',authenticateToken,async(req,res,next)=>{
-    console.log("edit payment method "+req.body.id);
     try{
 let results= db.editPaymentMethod(req.body.name,req.body.id);
  res.json(results);
@@ -53,7 +51,6 @@ let results= db.editPaymentMethod(req.body.name,req.body.id);
     }
 });
 router.post('/removepaymentmethod/:id',authenticateToken,async(req,res,next)=>{
-    console.log("remove payment method "+req.params.id);
     try{
 let results= db.removePaymentMethod(req.params.id);
  res.json(results);
@@ -82,7 +79,6 @@ function authenticateEmployeeToken(req,res,next){
             jwt.verify(token,process.env.EMPLOYEE_ACCESS_TOKEN,(err,user)=>{
                 if(err) return res.sendStatus(401)
                 req.user=user
-                console.log("this is me"+user.username)
                 next()
             })
         }else{

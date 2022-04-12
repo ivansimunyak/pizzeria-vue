@@ -8,10 +8,7 @@
         </header>
         <section>
             <slot></slot>
-        </section>
-        <slot name="actions">
-            <!-- <slot></slot> -->
-        </slot>
+        </section>  
     </dialog>
 </template>
 <script>

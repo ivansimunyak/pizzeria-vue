@@ -1,6 +1,5 @@
 import { createStore } from "vuex";
 import createPersistedState from 'vuex-persistedstate'
-// import axios from 'axios'
 
 export default createStore({
   plugins: [createPersistedState({
@@ -28,7 +27,6 @@ export default createStore({
       state.user = user;
     },
     setToken(state, accessToken) {
-      console.log("this is being done"+accessToken)
       state.accessToken = accessToken;
     },
     setAdmin(state, isAdmin) {
@@ -48,7 +46,6 @@ export default createStore({
     addProduct: (state, product) => {
       const record = state.cart.find(element => element.id == product.id);
       if(record){
-        console.log("Hit hsisisis")
         record.quantity++
       }else{
         
@@ -56,7 +53,8 @@ export default createStore({
        state.cart.push(product);
      }
      state.cartCount++;
-    },removeCartItem(state, item) {
+    },
+    removeCartItem(state, item) {
       const record = state.cart.find(element => element.id == item.id);
       state.cart.splice(state.cart.indexOf(record), 1);
     },
@@ -73,22 +71,7 @@ export default createStore({
       record.quantity++;
     }
   },
-  actions: {
-    // REFRESH_TOKEN: (context) => {
-    //   return new Promise((resolve, reject) => {
-    //     axios
-    //       .post(`http://localhost:3000/api/user/token`)
-    //       .then(response => {
-    //         console.log("Response access token: "+response.data.accessToken)
-    //         context.commit('setToken',response.data.accessToken)
-    //         resolve(response);
-    //       })
-    //       .catch(error => {
-    //         reject(error);
-    //       });
-    //   });
-    // }
-  },
+  actions: {},
   modules: {},
     getters: {
       isLoggedIn(state) {

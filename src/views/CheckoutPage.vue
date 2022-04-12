@@ -124,11 +124,9 @@ axios
 
   .post('http://localhost:3000/api/orders/insertorder',{location_id:this.orderLocation,user_id:this.$store.getters.user.user_id,adress:this.userAdress,phone_number:this.userPhone,comments:this.userComments,payment_method_id:this.paymentMethod,name:this.userName})
   .then(response => {
-    console.log("this is meeee"+response.status)
     return axios.get('http://localhost:3000/api/orders/getlatestorder/' + this.$store.getters.user.user_id);
   })
    .then(response => {
-    console.log("this is was done"+response.status)
     this.orderID=response.data[0].id;
     this.products.forEach(product => {
  product['order_id'] = response.data[0].id;
@@ -147,7 +145,7 @@ if(response.status==200){
       this.$store.commit('resetCart')
 this.$router.push({ path: `/profileorder/${this.orderID}`})
     }
-console.log("Hello markusssgfeg")
+
   }).catch(error => console.log(error));
       }
       else{
@@ -158,11 +156,9 @@ axios
 
   .post('http://localhost:3000/api/orders/insertorder',{location_id:this.orderLocation,user_id:guestID,adress:this.userAdress,phone_number:this.userPhone,comments:this.userComments,payment_method_id:this.paymentMethod,name:this.userName})
   .then(response => {
-    console.log("this is meeee"+response.status)
     return axios.get('http://localhost:3000/api/orders/getlatestorder/' + guestID);
   })
    .then(response => {
-    console.log("this is was done"+response.status)
     this.orderID=response.data[0].id;
     this.products.forEach(product => {
  product['order_id'] = response.data[0].id;
@@ -181,7 +177,6 @@ if(response.status==200){
       this.$store.commit('resetCart')
 this.$router.push({ path: `/`})
     }
-console.log("Hello markusssgfeg")
   }).catch(error => console.log(error));
       }
       }

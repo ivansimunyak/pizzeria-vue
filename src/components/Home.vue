@@ -86,12 +86,10 @@ export default {
 
       },
       addToCart(product){
-        console.log('clicked'+product);
         this.addProduct(product);
         this.addedProduct=true;
       },
       closeDialog(){
-        console.log("im executed")
         this.addedProduct=false;
       },
       choiceMade(){

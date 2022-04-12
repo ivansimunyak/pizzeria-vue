@@ -156,7 +156,6 @@ export default {
         console.log(response.data)
         this.locationName = response.data[0].locationName;
       });
-        console.log("bitch"+this.employeeID)
     
     this.format_date(this.whenMade);
   },

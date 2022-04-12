@@ -148,7 +148,6 @@ export default {
           console.log(error.response.status);
         });
       }else{
-        console.log("hey babezz" + this.editID + this.editName)
       axios
         .post("http://localhost:3000/api/products/editproduct", {name:this.editName,id:this.editID,size:this.editSize,price:this.editPrice,product_category_id:this.editCategoryID},{headers: {
       'Authorization': 'Bearer ' + this.accessToken}

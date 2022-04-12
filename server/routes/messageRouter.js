@@ -6,7 +6,6 @@ const jwt=require('jsonwebtoken');
 router.get('/',authenticateToken,async(req,res,next)=>{
     try{
 let results=await db.message();
-console.log("working")
 res.json(results);
     }catch(e){
         console.log(e);
@@ -14,7 +13,6 @@ res.json(results);
     }
 });
 router.post('/sendmessage',async(req,res,next)=>{
-    console.log("message sent "+req.body.user_id);
     try{
 let results= db.sendMessage(req.body.content,req.body.user_id,req.body.email);
  res.json(results);
@@ -28,7 +26,6 @@ router.post('/removemessage/:id',authenticateToken,async(req,res,next)=>{
     try{
 let results= db.removeMessage(req.params.id);
  res.json(results);
-console.log("remove msg");
     }catch(e){
         console.log(e);
         res.sendStatus(500);

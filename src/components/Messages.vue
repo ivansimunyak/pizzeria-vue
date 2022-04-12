@@ -11,7 +11,6 @@
           <tr v-for="(message, index) in messages" :key="index">
               <td v-for="(column, indexColumn) in columns" :key="indexColumn">{{message[column]}}</td>
                <td v-if="checkDetails"><btn-styled @click="$router.push({ path: `/checkDetails/${order.id}`})">Check Details</btn-styled></td>
-                <!-- <td><btn-styled class="btnEdit" @click="$router.push({ path: `/editorder/${order.id}/${order.adress}/${order.name}/${order.phone}/${order.order_status}`})">Edit</btn-styled></td> -->
                  <td><btn-styled class="btnDelete" @click="removeMessage(message.id,index)">Remove</btn-styled></td>
           </tr>   
       </tbody>
@@ -40,14 +39,11 @@ export default {
    mounted(){
        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.accessToken;
     const url='http://localhost:3000/api/message/';
-     axios.get(url,{headers: {
-      'Authorization': 'Bearer ' + this.accessToken}
-    }).then((response) =>{
+     axios.get(url).then((response) =>{
           this.messages = response.data;
       } ).catch((error) => {
-                     // error.response.status Check status code
-                     console.log( error.response.status)
-                 });
+          console.log( error.response.status)
+        });
     },
     methods:{
            removeMessage(id,index){

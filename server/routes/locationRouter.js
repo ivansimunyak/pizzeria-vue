@@ -40,7 +40,6 @@ res.json(results);
     }
 });
 router.post('/addlocation',authenticateToken,async(req,res,next)=>{
-    console.log("insert location "+req.body.name);
     try{
 let results= db.insertLocation(req.body.name,req.body.city_id);
  res.json(results);
@@ -50,7 +49,6 @@ let results= db.insertLocation(req.body.name,req.body.city_id);
     }
 });
 router.post('/editlocation',authenticateToken,async(req,res,next)=>{
-    console.log("edit location "+req.body.name);
     try{
 let results= db.editLocation(req.body.name,req.body.id,req.body.city_id);
  res.json(results);
@@ -61,7 +59,6 @@ let results= db.editLocation(req.body.name,req.body.id,req.body.city_id);
     }
 });
 router.post('/removelocation/:id',authenticateToken,async(req,res,next)=>{
-    console.log("remove location "+req.params.id);
     try{
 let results= db.removeLocation(req.params.id);
  res.json(results);
@@ -92,12 +89,10 @@ function authenticateUserToken(req,res,next){
                     jwt.verify(token,process.env.EMPLOYEE_ACCESS_TOKEN,(err,user)=>{
                         if(err) return res.sendStatus(401)
                         req.user=user
-                        console.log("this is me"+user)
                         next()
                     })
                 }else{
                 req.user=user
-                console.log("this is me"+user)
                 next()
                 }
             })
@@ -116,7 +111,6 @@ function authenticateEmployeeToken(req,res,next){
             jwt.verify(token,process.env.EMPLOYEE_ACCESS_TOKEN,(err,user)=>{
                 if(err) return res.sendStatus(401)
                 req.user=user
-                console.log("this is me"+user)
                 next()
             })
         }else{

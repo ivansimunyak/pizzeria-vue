@@ -2,12 +2,6 @@
    <button class="button-3" role="button"><slot/></button>
 </template>
 
-<script>
-export default {
-    
-}
-</script>
-
 <style scoped>
 .button-3 {
   appearance: none;

@@ -42,7 +42,6 @@ res.json(results);
     } 
 });
 router.post('/addproduct',upload.single('productImage'),async(req,res,next)=>{
-    console.log("insert product "+req.body.name);
     try{
 let results= db.insertProduct(req.body.name,req.body.size,req.body.price,req.body.category_id,req.file.filename);
  res.json(results);
@@ -52,7 +51,6 @@ let results= db.insertProduct(req.body.name,req.body.size,req.body.price,req.bod
     }
 });
 router.post('/removeproduct/:id/:imgname',authenticateToken,async(req,res,next)=>{
-    console.log("remove product "+req.params.imgname);
     let path='src/assets/'+req.params.imgname;
     fs.unlinkSync(path)
     try{
@@ -65,7 +63,6 @@ let results= db.removeProduct(req.params.id);
     }
 });
 router.post('/editproductimg/:oldimg',authenticateToken,upload.single('productImage'),async(req,res,next)=>{
-    console.log("edit product bro "+req.body.name);
     try{
         let path='src/assets/'+req.params.oldimg;
     fs.unlinkSync(path)
@@ -79,7 +76,6 @@ let results= db.editProductWithImage(req.body.name,req.body.size,req.body.price,
 router.get('/:id',async(req,res,next)=>{
     try{
 let results=await db.productOne(req.params.id);
-console.log("get one product" + req.params.id)
 res.json(results);
     }catch(e){
         console.log(e);
@@ -87,7 +83,6 @@ res.json(results);
     }
 });
 router.post('/editproduct',authenticateToken,async(req,res,next)=>{
-    console.log("edit product "+req.body.name);
     try{
 let results= db.editProduct(req.body.name,req.body.size,req.body.price,req.body.product_category_id,req.body.id);
  res.json(results);

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-// @ is an alias to /src
+
 import Orders from '../components/Orders.vue';
 
 export default {

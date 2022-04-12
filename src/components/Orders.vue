@@ -43,8 +43,7 @@ export default {
    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.accessToken;
     const url='http://localhost:3000/api/orders/';
      axios.get(url).then((response) =>{
-          this.orders = response.data;
-          console.log("Im executed")     
+          this.orders = response.data;  
       } ).catch((error) => {
                      // error.response.status Check status code
                      console.log( error.response.status)             

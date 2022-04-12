@@ -7,15 +7,15 @@ const mysql=require('mysql');
 
 const db1=mysql.createPool({
     connectionLimit: 200,
-    password:'finalwarning',
-    user:'root',
+    password:'',
+    user:'',
     database:'pizzeriaproject',
     host:'localhost',
     port:'3306'
     });
 
 router.get('/',authenticateEmployeeToken,async(req,res,next)=>{
-    db1.query("SELECT * FROM orders",(err,results)=>{
+    db1.query("SELECT * FROM orders ORDER BY when_made ASC",(err,results)=>{
         if (err) {
             return res.status(400).send({
                 msg: err
@@ -30,7 +30,6 @@ router.get('/',authenticateEmployeeToken,async(req,res,next)=>{
 router.get('/:id',async(req,res,next)=>{
     try{
 let results=await db.ordersJoinProducts(req.params.id);
-console.log("orders join is happening");
 res.json(results);
     }catch(e){
         console.log(e);
@@ -40,7 +39,6 @@ res.json(results);
 router.get('/sum/:id',async(req,res,next)=>{
     try{
 let results=await db.getSumOrder(req.params.id);
-console.log("ITS SUM");
 res.json(results);
     }catch(e){
         console.log(e);
@@ -51,14 +49,12 @@ router.get('/details/:id',async(req,res,next)=>{
     try{
 let results=await db.ordersForDetails(req.params.id);
 res.json(results);
-console.log("Order for details is happening");
     }catch(e){
         console.log(e);
         res.sendStatus(500);
     }
 });
     router.post('/editorder',authenticateEmployeeToken, function (req, res) {
-        console.log("Insert "+req.body.name);
         try{
           
             let results=db.editOrders(req.body.name,req.body.adress,req.body.phone_number,req.body.order_status,req.body.id);
@@ -74,7 +70,6 @@ console.log("Order for details is happening");
         try{
     let results= db.removeOrder(req.params.id);
      res.json(results);
-    console.log("remove happening");
         }catch(e){
             console.log(e);
             res.sendStatus(500);
@@ -85,7 +80,6 @@ console.log("Order for details is happening");
         if(req.user.user_id!=req.params.id) return res.sendStatus(403)
     let results=await db.profileDetails(req.params.id);
     res.json(results);
-    console.log("Profile details is happening");
         }catch(e){
             console.log(e);
             res.sendStatus(500);
@@ -94,7 +88,6 @@ console.log("Order for details is happening");
     router.post('/addincompleteorder',async(req,res,next)=>{
         try{
     db.insertIncompleteOrder(req.body.id);
-    console.log("insert incomplete order"+req.body.id);
     res.sendStatus(200)
         }catch(e){
             console.log(e);
@@ -102,7 +95,6 @@ console.log("Order for details is happening");
         }
     });
    router.get('/getlatestorder/:id',async(req,res,next)=>{
-       console.log("latest order called")
     db1.query("SELECT id FROM orders WHERE order_status='Processing' AND user_id=? ORDER BY when_made DESC LIMIT 1;",[req.params.id],(err,results)=>{
         if (err) {
             return res.status(400).send({
@@ -120,7 +112,6 @@ console.log("Order for details is happening");
     });
    });
    router.post('/insertorder',async(req,res,next)=>{
-       console.log("insert order "+req.body.user_id)
     db1.query("INSERT INTO orders(location_id,user_id,when_made,order_status,adress,phone_number,comments,payment_method_id,name) VALUES (?,?,current_timestamp(),'Processing',?,?,?,?,?);",[req.body.location_id,req.body.user_id,req.body.adress,req.body.phone_number,req.body.comments,req.body.payment_method_id,req.body.name],(err,results)=>{
         if (err) {
             return res.status(400).send({
@@ -207,12 +198,10 @@ function authenticateUserToken(req,res,next){
                     jwt.verify(token,process.env.EMPLOYEE_ACCESS_TOKEN,(err,user)=>{
                         if(err) return res.sendStatus(401)
                         req.user=user
-                        console.log("this is me"+user)
                         next()
                     })
                 }else{
                 req.user=user
-                console.log("this is me"+user)
                 next()
                 }
             })
@@ -241,7 +230,6 @@ function authenticateUserToken(req,res,next){
                 jwt.verify(token,process.env.EMPLOYEE_ACCESS_TOKEN,(err,user)=>{
                     if(err) return res.sendStatus(401)
                     req.user=user
-                    console.log("this is me"+user)
                     next()
                 })
             }else{

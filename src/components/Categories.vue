@@ -57,7 +57,6 @@ export default {
       } );
     },methods:{
                 removeCategory(id,index){
-                    console.log("Id being sent is "+id)
             axios.post('http://localhost:3000/api/productCategory/removecategory/'+id,{headers: {
       'Authorization': 'Bearer ' + this.accessToken}
     })

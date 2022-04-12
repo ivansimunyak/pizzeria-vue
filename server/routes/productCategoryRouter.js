@@ -7,7 +7,6 @@ router.get('/',authenticateToken,async(req,res,next)=>{
     try{
 let results=await db.productCategory();
 res.json(results);
-console.log("All good g")
     }catch(e){
         console.log(e);
         res.sendStatus(500);
@@ -17,14 +16,13 @@ router.get('/foruser',async(req,res,next)=>{
     try{
 let results=await db.productCategory();
 res.json(results);
-// console.log("All good g")
+
     }catch(e){
         console.log(e);
         res.sendStatus(500);
     }
 });
 router.post('/addcategory',authenticateToken,async(req,res,next)=>{
-    console.log("insert category "+req.body.name);
     try{
 let results= db.insertCategory(req.body.name);
  res.json(results);
@@ -35,7 +33,6 @@ let results= db.insertCategory(req.body.name);
     }
 });
 router.post('/removecategory/:id',authenticateToken,async(req,res,next)=>{
-    console.log("remove category "+req.params.id);
     try{
 let results= db.removeCategory(req.params.id);
  res.json(results);
@@ -46,8 +43,7 @@ let results= db.removeCategory(req.params.id);
     }
 });
 router.post('/editcategory',authenticateToken,async(req,res,next)=>{
-    console.log("edit category "+req.body.id);
-    try{
+        try{
 let results= db.editCategory(req.body.name,req.body.id);
  res.json(results);
 
