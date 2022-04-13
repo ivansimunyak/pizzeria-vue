@@ -4,10 +4,10 @@ const router=express.Router();
 const db=require('../db');
 const jwt=require('jsonwebtoken');
 const mysql=require('mysql');
-
+// set connection below
 const db1=mysql.createPool({
     connectionLimit: 10,
-    password:'finalwarning',
+    password:'root',
     user:'root',
     database:'pizzeriaproject',
     host:'localhost',

@@ -1,24 +1,19 @@
 # pizzeria-vue
 
+Set up database from pizzeriadb.sql and run commands below
+
 ## Project setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Run frontend
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Run backend
 ```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
+npm run dev
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
