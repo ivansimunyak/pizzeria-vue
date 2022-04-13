@@ -344,10 +344,9 @@ ul{
   box-shadow: 5px;
 }
 .right-list ul {
-    margin-top: 1%;
+  margin-top: 1%;
   list-style-type: none;
-text-align: center;
-  font-size: 25px;
+  text-align: center;
 }
 li{
   border-bottom: 1px solid #a80000;
