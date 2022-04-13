@@ -124,6 +124,7 @@ axios
 
   .post('http://localhost:3000/api/orders/insertorder',{location_id:this.orderLocation,user_id:this.$store.getters.user.user_id,adress:this.userAdress,phone_number:this.userPhone,comments:this.userComments,payment_method_id:this.paymentMethod,name:this.userName})
   .then(response => {
+    console.log(response)
     return axios.get('http://localhost:3000/api/orders/getlatestorder/' + this.$store.getters.user.user_id);
   })
    .then(response => {
@@ -156,6 +157,7 @@ axios
 
   .post('http://localhost:3000/api/orders/insertorder',{location_id:this.orderLocation,user_id:guestID,adress:this.userAdress,phone_number:this.userPhone,comments:this.userComments,payment_method_id:this.paymentMethod,name:this.userName})
   .then(response => {
+    console.log(response)
     return axios.get('http://localhost:3000/api/orders/getlatestorder/' + guestID);
   })
    .then(response => {
