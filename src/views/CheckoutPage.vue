@@ -1,6 +1,6 @@
 <template>
 <div class="info-form">
-<h1>Checkout{{orderID}}</h1>
+<h1>Checkout</h1>
       <form @submit.prevent="submitForm">
       <div id="left-form">
       <input type="text" placeholder="Adress" v-model="userAdress" name="adress" maxlength="44"><br>

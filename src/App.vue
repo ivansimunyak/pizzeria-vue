@@ -83,7 +83,7 @@ a:hover, a:active, a:focus
 {
     padding-right: 1px;
     display: inline;
-    /* font-size: 0.6em; */
+    font-size: 0.6em;
     text-align: center;
 }
 ul

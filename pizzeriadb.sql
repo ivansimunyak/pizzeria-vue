@@ -35,7 +35,7 @@ CREATE TABLE `city` (
 
 LOCK TABLES `city` WRITE;
 /*!40000 ALTER TABLE `city` DISABLE KEYS */;
-INSERT INTO `city` VALUES (7,'Belgrade'),(10,'Banja Luka'),(18,'Sarajevo');
+INSERT INTO `city` VALUES (7,'Belgrade'),(10,'Novi Sad'),(18,'Zrenjanin');
 /*!40000 ALTER TABLE `city` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +62,7 @@ CREATE TABLE `location` (
 
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` VALUES (13,7,'Pizza Belgradee'),(24,10,'Pizza Serbia'),(25,7,'Big Pizza HQ');
+INSERT INTO `location` VALUES (13,7,'Pizza Zvezdara'),(24,10,'Pizza Novi Sad'),(25,7,'Big Pizza HQ');
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,7 +90,6 @@ CREATE TABLE `message` (
 
 LOCK TABLES `message` WRITE;
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
-INSERT INTO `message` VALUES (7,'12345\nff',38,'ja2008rocky@gmail.com'),(13,'ldall\n',38,'lili@gmail.com');
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,7 +120,7 @@ CREATE TABLE `orders` (
   CONSTRAINT `location_id` FOREIGN KEY (`location_id`) REFERENCES `location` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `payment_method_id` FOREIGN KEY (`payment_method_id`) REFERENCES `payment_method` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +129,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (162,13,37,'2022-04-01 00:34:35','Delivered','Miki milane',649704667,'2022-04-01 00:34:50','fff',12,'Ivan',37),(163,13,NULL,'2022-04-01 00:35:47','Canceled','fasfas',12344,'2022-04-01 00:36:13','ddd',12,'ffffff',37),(165,24,9999,'2022-04-01 01:01:37','Processing','ddda2',1241425,NULL,'fff',12,'aaaaa',NULL);
+INSERT INTO `orders` VALUES (165,24,9999,'2022-04-01 01:01:37','Canceled','Abby Park Street 13',66123444,'2022-04-13 14:40:08','fff',12,'Marcus',38),(167,25,37,'2022-04-13 14:37:02','Delivered','Beatles Avenue 13',64983132,'2022-04-13 14:37:11','',12,'Saul',37),(168,13,38,'2022-04-13 14:39:44','Processing','Mandarin Park Lane 13',67999355,'2022-04-13 14:40:12','',14,'John',38);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -158,7 +157,7 @@ CREATE TABLE `orders_product` (
 
 LOCK TABLES `orders_product` WRITE;
 /*!40000 ALTER TABLE `orders_product` DISABLE KEYS */;
-INSERT INTO `orders_product` VALUES (162,85,4),(165,85,1);
+INSERT INTO `orders_product` VALUES (167,100,1),(167,101,3),(167,103,1),(167,102,1),(168,100,3);
 /*!40000 ALTER TABLE `orders_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,7 +203,7 @@ CREATE TABLE `product` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `foodCategoryID_idx` (`product_category_id`),
   CONSTRAINT `product_category_id` FOREIGN KEY (`product_category_id`) REFERENCES `product_category` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -213,7 +212,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (85,'Cappricosa','Large',550,8,'2022-03-29T12:10:05.552Zexternal-content.duckduckgo.com.jpeg'),(86,'Margarita','Large',350,8,'2022-03-29T12:10:07.580Zexternal-content.duckduckgo.com.jpeg');
+INSERT INTO `product` VALUES (100,'Cappricosa','Large',600,8,'1649853093570external-content.duckduckgo.com.jpeg'),(101,'Coca Cola','Large',14,9,'1649853122706kola-content.duckduckgo.com.jpeg'),(102,'Pasta','Small',400,13,'1649853187108pasta.jpg'),(103,'Beer','Medium',80,19,'1649853235674beer.jpeg');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,7 +271,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (37,'ivanivan','1234','newmailwhodis@mail.com','Miki milane','Ivan',649704667,5,7),(38,'1245','1111','email@gmail.com','Normal 166','Milan',12345,8,18),(43,'ivan12','12345678','ja2008rocky@gmail.com','Jedinaest','Ivan',649999999,8,7),(44,'dfas13','simunjak','ivan@gmail.com','ivan 13','ivan',124,6,7),(9999,'Guest','45555','3251','124','f',121,NULL,NULL);
+INSERT INTO `user` VALUES (37,'admin','admin','saulgoodman@gmail.com','Beatles Avenue 13','Saul',64983132,5,7),(38,'employee','employee','johnjohnson@gmail.com','Mandarin Park Lane 13','John',67999355,8,10),(44,'customer','customer','nick77@hotmail.com','Vienna Street 66','Nick',63989344,6,18),(9999,'Guest','926uY4e%NDXo8&,','guest','guest','guest',121,NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -309,4 +308,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-12 22:14:08
+-- Dump completed on 2022-04-13 14:48:13
