@@ -2,8 +2,8 @@ const mysql=require('mysql');
 
  const db=mysql.createPool({
 connectionLimit: 10,
-password:'',
-user:'',
+password:'finalwarning',
+user:'root',
 database:'pizzeriaproject',
 host:'localhost',
 port:'3306'

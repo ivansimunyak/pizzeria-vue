@@ -6,13 +6,14 @@ const jwt=require('jsonwebtoken');
 const mysql=require('mysql');
 
 const db1=mysql.createPool({
-connectionLimit: 10,
-password:'',
-user:'',
-database:'pizzeriaproject',
-host:'localhost',
-port:'3306'
-});
+    connectionLimit: 10,
+    password:'finalwarning',
+    user:'root',
+    database:'pizzeriaproject',
+    host:'localhost',
+    port:'3306'
+    });
+    
 
 router.get('/',authenticateToken,async(req,res,next)=>{
     try{
