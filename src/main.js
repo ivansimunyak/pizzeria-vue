@@ -31,16 +31,13 @@ axios.interceptors.response.use(
     } = err;
 
     const originalRequest = config;
-    console.log(originalRequest.url)
     if (status === 403) {
-        console.log("This is mission apolon")
         store.commit('logout')
       router.push({ name: "Login" });
       return Promise.reject(false);
     }
 
     if (originalRequest.url.includes("http://localhost:3000/api/user/login")) {
-      console.log("being executed hihih uwu")
       return Promise.reject(err);
     }
     if (status === 401) {
@@ -50,8 +47,4 @@ axios.interceptors.response.use(
   })
 
 app.mount('#app');
-
-
-// createApp(App).component("font-awesome-icon",FontAwesomeIcon).use(store).use(router).mount("#app");
-
 
