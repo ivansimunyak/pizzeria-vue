@@ -96,7 +96,6 @@ body {
   margin: 0;
   margin-bottom: 30px;
   padding: 0;
-  /* padding-left: 50px; */
   text-align: justify-all;
   background-color: #a80000;
   font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
