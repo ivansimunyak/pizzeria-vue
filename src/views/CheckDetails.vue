@@ -1,12 +1,12 @@
 <template>
-<check-order-details :orderID="this.$route.params.id"></check-order-details>
+  <check-order-details :orderID="this.$route.params.id"></check-order-details>
 </template>
 <script>
-import CheckOrderDetails from '../components/CheckOrderDetails.vue'; 
+import CheckOrderDetails from "../components/CheckOrderDetails.vue";
 export default {
-    name:"Check Details",
-      components: {
+  name: "Check Details",
+  components: {
     CheckOrderDetails,
-  }
-}
+  },
+};
 </script>

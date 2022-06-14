@@ -17,8 +17,8 @@ import ProfilePage from "../views/ProfilePage.vue";
 import ProfileOrderDetails from "../components/ProfileOrderDetails.vue";
 import Logout from "../components/Logout.vue";
 import Cart from "../components/Cart.vue";
-import CheckoutPage from "../views/CheckoutPage.vue"
-import AdminPage from "../views/AdminPage.vue"
+import CheckoutPage from "../views/CheckoutPage.vue";
+import AdminPage from "../views/AdminPage.vue";
 // import axios from "axios";
 // import store from '../store/index.js';
 
@@ -34,9 +34,9 @@ const routes = [
     component: ProductsPage,
   },
   {
-    path:"/checkdetails/:id",
-    name:"Check Details",
-    component:CheckDetails,
+    path: "/checkdetails/:id",
+    name: "Check Details",
+    component: CheckDetails,
   },
   {
     path: "/about",
@@ -48,9 +48,9 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
   {
-    path:"/editorder/:id/:adress/:name/:phone/:orderStatus",
-    name:"Edit Order",
-    component:EditOneOrder,
+    path: "/editorder/:id/:adress/:name/:phone/:orderStatus",
+    name: "Edit Order",
+    component: EditOneOrder,
   },
   {
     path: "/messages",
@@ -66,7 +66,7 @@ const routes = [
     path: "/usertypes",
     name: "User Types",
     component: UserTypePage,
-  }, 
+  },
   {
     path: "/locations",
     name: "Locations Page",
@@ -81,57 +81,57 @@ const routes = [
     path: "/paymentmethods",
     name: "Payment Methods Page",
     component: PaymentMethodPage,
-  }, 
+  },
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
   },
   {
-    path:"/login",
-    name:"Login",
-    component:LoginPage
+    path: "/login",
+    name: "Login",
+    component: LoginPage,
   },
   {
-  path:"/register",
-  name:"Register",
-  component:RegisterPage
+    path: "/register",
+    name: "Register",
+    component: RegisterPage,
   },
   {
-    path:"/messageus",
-    name:"Message Us",
-    component:MessageUsPage
-    }, {
-      path:"/profile",
-      name:"Profile",
-      component:ProfilePage
-      },
-      {
-        path:"/profileorder/:id",
-        name:"Profile Order Details",
-        component:ProfileOrderDetails,
-    
-      },
-      {
-      path:"/logout",
-      name:"Logout",
-      component:Logout
-    },
-    {
-    path:"/cart",
-    name:"Cart",
-    component:Cart
-    },
-    {
-      path:"/checkout",
-      name:"Checkout",
-      component:CheckoutPage
-      },
-       {
-        path:"/admin",
-        name:"Admin Page",
-        component:AdminPage
-        },
+    path: "/messageus",
+    name: "Message Us",
+    component: MessageUsPage,
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: ProfilePage,
+  },
+  {
+    path: "/profileorder/:id",
+    name: "Profile Order Details",
+    component: ProfileOrderDetails,
+  },
+  {
+    path: "/logout",
+    name: "Logout",
+    component: Logout,
+  },
+  {
+    path: "/cart",
+    name: "Cart",
+    component: Cart,
+  },
+  {
+    path: "/checkout",
+    name: "Checkout",
+    component: CheckoutPage,
+  },
+  {
+    path: "/admin",
+    name: "Admin Page",
+    component: AdminPage,
+  },
 ];
 
 const router = createRouter({

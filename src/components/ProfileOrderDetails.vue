@@ -2,9 +2,9 @@
   <div id="wrapper">
     <div id="header">
       <h1>Order Details</h1>
-      <h2>Order ID {{this.$route.params.id}} </h2>
+      <h2>Order ID {{ this.$route.params.id }}</h2>
     </div>
-   
+
     <btn-styled class="btnBack" @click="$router.push({ path: `/profile` })"
       >Back to profile</btn-styled
     >
@@ -26,7 +26,7 @@
         <li>Order Received: {{ this.format_date(this.whenMade) }}</li>
         <br />
         <li>Order Sent: {{ this.format_date(this.whenSent) }}</li>
-        <br>
+        <br />
         <li>Order Status: {{ item.order_status }}</li>
         <br />
         <li>Employee:{{ employeeName }}</li>
@@ -34,15 +34,14 @@
         <li>Comments: {{ item.comments }}</li>
       </ul>
     </div>
-    
-      <table-orders
-        id="table"
-        :columns="this.columns"
-        :headers="this.headers"
-        :items="orderProducts"
-        :columnsX="this.columnsX"
-      ></table-orders>
-    
+
+    <table-orders
+      id="table"
+      :columns="this.columns"
+      :headers="this.headers"
+      :items="orderProducts"
+      :columnsX="this.columnsX"
+    ></table-orders>
   </div>
 </template>
 <script>
@@ -51,9 +50,9 @@ import axios from "axios";
 import BtnStyled from "./BtnStyled.vue";
 import moment from "moment";
 export default {
-      components: { TableOrders, BtnStyled },
-    data(){
-          return {
+  components: { TableOrders, BtnStyled },
+  data() {
+    return {
       columns: ["name", "size", "quantity", "price"],
       headers: ["Product Name", "Product Size", "Quantity", "Price"],
       columnsX: ["quantity", "price"],
@@ -67,14 +66,16 @@ export default {
       employeeID: "",
       employeeName: "",
       whenMade: 0,
-      whenSent:"",
-      orderID:0
-    }
-    },  computed: {
+      whenSent: "",
+      orderID: 0,
+    };
+  },
+  computed: {
     accessToken() {
       return this.$store.getters.accessToken;
     },
-  },  methods: {
+  },
+  methods: {
     format_date(value) {
       if (value) {
         return moment(String(value)).format("MMMM Do YYYY, h:mm:ss a");
@@ -82,7 +83,7 @@ export default {
     },
   },
   mounted() {
-     this.orderID=this.$route.params.id
+    this.orderID = this.$route.params.id;
     const url1 = "http://localhost:3000/api/orders/details/" + this.orderID;
     axios
       .get(url1, {
@@ -100,13 +101,15 @@ export default {
         this.name = response.data[0].name;
         this.phone_number = response.data[0].phone_number;
         this.orderStatus = response.data[0].order_status;
-        this.whenSent= new Date(response.data[0].when_sent)
-       const url5 = "http://localhost:3000/api/user/oneuser/"+this.employeeID;
-    axios.get(url5).then((response) => {
-        this.employeeName = response.data[0].user_name;
+        this.whenSent = new Date(response.data[0].when_sent);
+        const url5 =
+          "http://localhost:3000/api/user/oneuser/" + this.employeeID;
+        axios.get(url5).then((response) => {
+          this.employeeName = response.data[0].user_name;
+        });
       });
-      });
-        const url4 = "http://localhost:3000/api/location/foruser/" + this.locationID;
+    const url4 =
+      "http://localhost:3000/api/location/foruser/" + this.locationID;
     axios
       .get(url4, {
         headers: {
@@ -114,11 +117,11 @@ export default {
         },
       })
       .then((response) => {
-        console.log(response.data)
+        console.log(response.data);
         this.locationName = response.data[0].locationName;
       });
-       
-       const url3 =
+
+    const url3 =
       "http://localhost:3000/api/paymentMethod/forall/" + this.paymentMethodID;
     axios
       .get(url3, {
@@ -129,7 +132,7 @@ export default {
       .then((response) => {
         this.paymentMethodName = response.data[0].name;
       });
-       const url = "http://localhost:3000/api/orders/" + this.orderID;
+    const url = "http://localhost:3000/api/orders/" + this.orderID;
     axios
       .get(url, {
         headers: {
@@ -139,8 +142,8 @@ export default {
       .then((response) => {
         this.orderProducts = response.data;
       });
-  }
-}
+  },
+};
 </script>
 <style scoped>
 #header {
@@ -188,8 +191,8 @@ export default {
   top: 65%;
   left: -1%;
 }
-ul{
-    font-weight:300;
+ul {
+  font-weight: 300;
 }
 #table {
   width: 76%;
@@ -201,17 +204,16 @@ ul{
   height: 18%;
   width: 40%;
   top: 35%;
-  left:5%;
+  left: 5%;
   position: absolute;
   border-style: ridge;
   border-color: #a80000;
   background-color: white;
   overflow: hidden;
-   padding:5px;
-  margin:5px 0;
-  border-radius:15px;
+  padding: 5px;
+  margin: 5px 0;
+  border-radius: 15px;
   box-shadow: 5px;
-  
 }
 
 .left-list ul {
@@ -225,22 +227,22 @@ ul{
   right: 5%;
   position: absolute;
   background-color: white;
-   height: 18%;
+  height: 18%;
   width: 40%;
   border-style: ridge;
   border-color: #a80000;
-   padding:5px;
-  margin:5px 0;
-  border-radius:15px;
+  padding: 5px;
+  margin: 5px 0;
+  border-radius: 15px;
   box-shadow: 5px;
 }
 .right-list ul {
-    margin-top: 1%;
+  margin-top: 1%;
   list-style-type: none;
-text-align: center;
+  text-align: center;
   font-size: 25px;
 }
-li{
+li {
   border-bottom: 1px solid #a80000;
 }
 </style>

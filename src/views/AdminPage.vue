@@ -1,14 +1,14 @@
 <template>
-<div id="wrapper">
+  <div id="wrapper">
     <h1>Admin</h1>
-    <admin/>
-    </div>
+    <admin />
+  </div>
 </template>
 <script>
-import Admin from "../components/Admin.vue"
+import Admin from "../components/Admin.vue";
 export default {
-    components:{Admin}
-}
+  components: { Admin },
+};
 </script>
 <style scoped>
 #wrapper {
@@ -22,5 +22,4 @@ export default {
   border-style: outset;
   border-color: #a80000;
 }
-
 </style>

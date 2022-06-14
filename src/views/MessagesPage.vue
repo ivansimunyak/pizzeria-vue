@@ -1,44 +1,37 @@
 <template>
-
   <div class="messages">
-      <messages></messages>
+    <messages></messages>
   </div>
-
-  
 </template>
 
 <script>
-import Messages from "../components/Messages.vue"
-
+import Messages from "../components/Messages.vue";
 
 export default {
   name: "MessagesPage",
   components: {
-    Messages
+    Messages,
   },
-  data(){
-    return{
-     msgRemoved:this.$route.params.removeSuccess,
-    
-    }
-  }, computed: {
+  data() {
+    return {
+      msgRemoved: this.$route.params.removeSuccess,
+    };
+  },
+  computed: {
     accessToken() {
-    return this.$store.getters.accessToken
+      return this.$store.getters.accessToken;
+    },
   },
-  },
-  methods:{
-    update(){
+  methods: {
+    update() {
       this.$forceUpdate;
-    }
-  }
-
-  
+    },
+  },
 };
 </script>
 <style scoped>
-h1{
-  font-family: 'Times New Roman', Times, serif;
-color: black;
+h1 {
+  font-family: "Times New Roman", Times, serif;
+  color: black;
 }
-
 </style>

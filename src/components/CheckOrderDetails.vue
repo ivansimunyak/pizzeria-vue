@@ -5,12 +5,28 @@
       <h2>Order ID {{ orderID }}</h2>
     </div>
     <btn-styled class="btnDelete" @click="removeOrder">Delete Order</btn-styled>
-    <btn-styled class="btnEdit" @click="$router.push({path: `/editorder/${orderID}/${this.adress}/${this.name}/${this.phone_number}/${this.orderStatus}`,})">
-    Edit Order</btn-styled>
-    <btn-styled class="btnBack" @click="$router.push({ path: `/orders` })">Back to orders</btn-styled>
-    <btn-styled id="btnCancel" @click="setToCanceled">Set to canceled</btn-styled>
-    <btn-styled id="btnProcessing" @click="setToProcessing">Set to processing</btn-styled>
-    <btn-styled id="btnDelivered" @click="setToDelivered">Set to delivered</btn-styled>
+    <btn-styled
+      class="btnEdit"
+      @click="
+        $router.push({
+          path: `/editorder/${orderID}/${this.adress}/${this.name}/${this.phone_number}/${this.orderStatus}`,
+        })
+      "
+    >
+      Edit Order</btn-styled
+    >
+    <btn-styled class="btnBack" @click="$router.push({ path: `/orders` })"
+      >Back to orders</btn-styled
+    >
+    <btn-styled id="btnCancel" @click="setToCanceled"
+      >Set to canceled</btn-styled
+    >
+    <btn-styled id="btnProcessing" @click="setToProcessing"
+      >Set to processing</btn-styled
+    >
+    <btn-styled id="btnDelivered" @click="setToDelivered"
+      >Set to delivered</btn-styled
+    >
     <div class="left-list">
       <ul v-for="item in orderDetails" :key="item.id">
         <li>Name: {{ item.name }}</li>
@@ -29,7 +45,7 @@
         <li>Order Received: {{ this.format_date(this.whenMade) }}</li>
         <br />
         <li>Order Sent: {{ this.format_date(this.whenSent) }}</li>
-        <br>
+        <br />
         <li>Order Status: {{ item.order_status }}</li>
         <br />
         <li>Employee:{{ employeeName }}</li>
@@ -37,15 +53,14 @@
         <li>Comments: {{ item.comments }}</li>
       </ul>
     </div>
-   
-      <table-orders
-        id="table"
-        :columns="this.columns"
-        :headers="this.headers"
-        :items="orderProducts"
-        :columnsX="this.columnsX"
-      ></table-orders>
-    
+
+    <table-orders
+      id="table"
+      :columns="this.columns"
+      :headers="this.headers"
+      :items="orderProducts"
+      :columnsX="this.columnsX"
+    ></table-orders>
   </div>
 </template>
 
@@ -76,16 +91,16 @@ export default {
       name: "",
       phone_number: "",
       orderStatus: "",
-      whenSent:""
+      whenSent: "",
     };
   },
   computed: {
     accessToken() {
       return this.$store.getters.accessToken;
     },
-    user(){
+    user() {
       return this.$store.getters.user;
-    }
+    },
   },
   mounted() {
     axios.defaults.headers.common["Authorization"] =
@@ -117,12 +132,12 @@ export default {
         this.name = response.data[0].name;
         this.phone_number = response.data[0].phone_number;
         this.orderStatus = response.data[0].order_status;
-        this.whenSent= new Date(response.data[0].when_sent)
-        const url5 = "http://localhost:3000/api/user/oneuser/"+this.employeeID;
-    axios.get(url5).then((response) => {
-        this.employeeName = response.data[0].user_name;
-      });
-      
+        this.whenSent = new Date(response.data[0].when_sent);
+        const url5 =
+          "http://localhost:3000/api/user/oneuser/" + this.employeeID;
+        axios.get(url5).then((response) => {
+          this.employeeName = response.data[0].user_name;
+        });
       });
     const url2 = "http://localhost:3000/api/orders/sum/" + this.orderID;
     axios
@@ -153,10 +168,10 @@ export default {
         },
       })
       .then((response) => {
-        console.log(response.data)
+        console.log(response.data);
         this.locationName = response.data[0].locationName;
       });
-    
+
     this.format_date(this.whenMade);
   },
   methods: {
@@ -171,60 +186,71 @@ export default {
         .then((res) => {
           //Perform Success Action
           console.log(res.data);
-          alert('Order removed successfully! ')
-         this.$router.push('/orders')
+          alert("Order removed successfully! ");
+          this.$router.push("/orders");
         })
         .catch((error) => {
           // error.response.status Check status code
           console.log(error);
         });
-    },setToDelivered(){
- axios
-        .post("http://localhost:3000/api/orders/setorderdelivered/",{id:this.orderID,user_id:this.user.user_id})
+    },
+    setToDelivered() {
+      axios
+        .post("http://localhost:3000/api/orders/setorderdelivered/", {
+          id: this.orderID,
+          user_id: this.user.user_id,
+        })
         .then((res) => {
           //Perform Success Action
           console.log(res.data);
           this.$router.push({
             name: "Order Page",
-            statusEdited:true
+            statusEdited: true,
           });
         })
         .catch((error) => {
           // error.response.status Check status code
           console.log(error);
         });
-
-    },setToCanceled(){
-axios
-        .post("http://localhost:3000/api/orders/setordercanceled/",{id:this.orderID,user_id:this.user.user_id})
+    },
+    setToCanceled() {
+      axios
+        .post("http://localhost:3000/api/orders/setordercanceled/", {
+          id: this.orderID,
+          user_id: this.user.user_id,
+        })
         .then((res) => {
           //Perform Success Action
           console.log(res.data);
           this.$router.push({
             name: "Order Page",
-            statusEdited:true
+            statusEdited: true,
           });
         })
         .catch((error) => {
           // error.response.status Check status code
           console.log(error);
         });
-    },setToProcessing(){
-axios
-        .post("http://localhost:3000/api/orders/setorderprocessing/",{id:this.orderID,user_id:this.user.user_id})
+    },
+    setToProcessing() {
+      axios
+        .post("http://localhost:3000/api/orders/setorderprocessing/", {
+          id: this.orderID,
+          user_id: this.user.user_id,
+        })
         .then((res) => {
           //Perform Success Action
           console.log(res.data);
           this.$router.push({
             name: "Order Page",
-            statusEdited:true
+            statusEdited: true,
           });
         })
         .catch((error) => {
           // error.response.status Check status code
           console.log(error);
         });
-    }
+    },
   },
 };
 </script>
@@ -239,28 +265,27 @@ axios
   top: 1%;
   background-color: rgb(255, 255, 255);
 }
-#btnDelivered{
-  position:absolute;
+#btnDelivered {
+  position: absolute;
   top: 5.5%;
-  right:10%;
+  right: 10%;
   width: 15%;
   height: 5%;
 }
-#btnProcessing{
-  position:absolute;
+#btnProcessing {
+  position: absolute;
   top: 12%;
-  right:10%;
+  right: 10%;
   width: 15%;
   height: 5%;
 }
-#btnCancel{
-  position:absolute;
+#btnCancel {
+  position: absolute;
   top: 18%;
-  right:10%;
+  right: 10%;
   width: 15%;
   height: 5%;
 }
-
 
 .btnBack {
   position: absolute;
@@ -297,8 +322,8 @@ axios
   top: 65%;
   left: -1%;
 }
-ul{
-    font-weight:300;
+ul {
+  font-weight: 300;
 }
 #table {
   width: 76%;
@@ -316,11 +341,10 @@ ul{
   border-color: #a80000;
   background-color: white;
   overflow: hidden;
-   padding:5px;
-  margin:5px 0;
-  border-radius:15px;
+  padding: 5px;
+  margin: 5px 0;
+  border-radius: 15px;
   box-shadow: 5px;
-  
 }
 
 .left-list ul {
@@ -338,9 +362,9 @@ ul{
   border-style: ridge;
   border-color: #a80000;
   height: 18%;
-   padding:5px;
-  margin:5px 0;
-  border-radius:15px;
+  padding: 5px;
+  margin: 5px 0;
+  border-radius: 15px;
   box-shadow: 5px;
 }
 .right-list ul {
@@ -348,7 +372,7 @@ ul{
   list-style-type: none;
   text-align: center;
 }
-li{
+li {
   border-bottom: 1px solid #a80000;
 }
 </style>

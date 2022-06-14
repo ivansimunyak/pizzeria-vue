@@ -6,31 +6,19 @@
     <div class="addProductForm">
       <form class="form" @submit.prevent="submitForm">
         <label>Name:</label><br />
-        <input
-          type="text"
-          required
-          v-model="addingName"
-        /><br />
+        <input type="text" required v-model="addingName" /><br />
         <label>Size:</label><br />
-        <select
-          v-model="addingSize"
-        >
+        <select v-model="addingSize">
           <option disabled value="">Select size...</option>
           <option value="Large">Large</option>
           <option value="Medium">Medium</option>
-          <option value="Small">Small</option></select>
-          <br/><br/>
+          <option value="Small">Small</option>
+        </select>
+        <br /><br />
         <label for="price">Price:</label><br />
-        <input
-          type="number"
-          required
-          v-model="addingPrice"
-        /><br />
+        <input type="number" required v-model="addingPrice" /><br />
         <label>Category:</label><br />
-        <select
-          required
-          v-model="addingCategoryID"
-        >
+        <select required v-model="addingCategoryID">
           <option disabled value="">Select a category...</option>
           <option
             v-for="category in categories"
@@ -38,8 +26,9 @@
             :value="category.id"
           >
             {{ category.name }}
-          </option></select>
-          <br /><br />
+          </option>
+        </select>
+        <br /><br />
         <label for="image">Image:</label><br />
         <input required type="file" name="image" @change="handleFileUpload" />
         <br />
@@ -67,10 +56,11 @@ export default {
       addingImage: null,
       categories: [],
     };
-  }, computed: {
-    accessToken() {
-    return this.$store.getters.accessToken
   },
+  computed: {
+    accessToken() {
+      return this.$store.getters.accessToken;
+    },
   },
   methods: {
     submitForm() {
@@ -81,15 +71,17 @@ export default {
       fd.append("category_id", this.addingCategoryID);
       fd.append("productImage", this.addingImage);
       axios
-        .post("http://localhost:3000/api/products/addproduct", fd,{headers: {
-      'Authorization': 'Bearer ' + this.accessToken}
-    })
+        .post("http://localhost:3000/api/products/addproduct", fd, {
+          headers: {
+            Authorization: "Bearer " + this.accessToken,
+          },
+        })
         .then((res) => {
           //Perform Success Action
           console.log(res.data);
           this.uniqueProductKey++;
-          this.$store.commit('increment');
-          alert('Product added!');
+          this.$store.commit("increment");
+          alert("Product added!");
         })
         .catch((error) => {
           // error.response.status Check status code
@@ -102,11 +94,15 @@ export default {
   },
   mounted() {
     const url = "http://localhost:3000/api/productCategory/";
-    axios.get(url,{headers: {
-      'Authorization': 'Bearer ' + this.accessToken}
-    }).then((response) => {
-      this.categories = response.data;
-    });
+    axios
+      .get(url, {
+        headers: {
+          Authorization: "Bearer " + this.accessToken,
+        },
+      })
+      .then((response) => {
+        this.categories = response.data;
+      });
   },
 };
 </script>
@@ -156,8 +152,8 @@ input {
   border-width: 1px;
   margin-bottom: 1%;
 }
-select{
-    padding: 5px;
+select {
+  padding: 5px;
   margin: 5px 0;
   border-radius: 10px;
   box-shadow: 5px;
