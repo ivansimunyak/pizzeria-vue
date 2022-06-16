@@ -12,9 +12,11 @@ This project is a multi location pizzeria, with stores across multiple cities an
 
 ## Project setup
 
-Set up database from pizzeriadb.sql and run commands below to start
-At login use username admin and password admin
-or combination (username,password) customer customer or employee employee
+Set up database from pizzeriadb.sql and run commands below to start.
+At login you can use any of the following three combinations to see different interfaces:
+1. username: admin password: admin
+2. username: employee password: employee
+3. username: customer password: customer
 
 
 
