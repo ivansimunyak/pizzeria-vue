@@ -17,6 +17,7 @@ For the backend to work set up your credentials at:
 * server/db/index.js
 * server/routes/ordersRouter.js
 * server/routes/userRouter.js
+
 At login you can use any of the following three combinations to see different interfaces:
 1. username: admin password: admin
 2. username: employee password: employee
