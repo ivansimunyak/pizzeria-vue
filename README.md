@@ -19,11 +19,16 @@ or combination (username,password) customer customer or employee employee
 
 
 ```
+## Install project
+
 npm install
-## Run frontend
+
+## Frontend
+
 npm run serve
 
-## Run backend
+## Backend
+
 npm run dev
 ```
 
